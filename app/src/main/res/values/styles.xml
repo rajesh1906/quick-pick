@@ -1,0 +1,209 @@
+<resources>
+
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light" />
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- to remove the default action -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <!-- <item name="numberPickerStyle">@style/NPWidget.Holo.Light.NumberPicker</item>-->
+        <!-- For 2.x version -->
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="android:editTextStyle">@style/EditTextAppTheme</item>
+    </style>
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        &lt;!&ndash; Customize your theme here. &ndash;&gt;
+        <item name="android:editTextStyle">@style/EditTextAppTheme</item>
+    </style>-->
+    <style name="small_btn_style">
+        <item name="android:layout_height">@dimen/dialog_btn_height</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:background">@drawable/btn_selection</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_marginLeft">@dimen/layout_margins</item>
+        <item name="android:layout_marginRight">@dimen/layout_margins</item>
+        <item name="android:layout_marginTop">@dimen/lay_margin_top</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="edit_text_style">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">@dimen/edit_text_size</item>
+    </style>
+
+    <style name="Theme.App.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlNormal">#c5c5c5</item>
+        <item name="colorControlActivated">@color/red</item>
+        <item name="colorControlHighlight">@color/black</item>
+    </style>
+    <style name="callerId" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+    </style>
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/left_slide_in</item>
+        <item name="android:windowExitAnimation">@anim/left_slide_out</item>
+    </style>
+
+    <style name="textView_style">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="selectable_button_style">
+        <item name="android:layout_height">@dimen/selectable_btn_height</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/btn_selection</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="Theme_CustomDialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowBackground">@color/transparent_color</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+    </style>
+
+    <style name="txt_font_style">
+        <item name="android:textColor">#000000</item>
+        <item name="android:typeface">normal</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:paddingLeft">5dp</item>
+    </style>
+
+    <style name="imageView_style">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_alignParentRight">true</item>
+    </style>
+
+    <style name="MyRadioButtonStyle" parent="@android:style/Widget.CompoundButton.RadioButton">
+
+    </style>
+
+    <style name="Base.Widget.Design.TabLayout" parent="android:Widget">
+        <!--<item name="tabMaxWidth">@dimen/tab_max_width</item>-->
+        <item name="tabIndicatorColor">@color/black</item>
+        <item name="tabIndicatorHeight">4dp</item>
+        <item name="tabPaddingStart">10dp</item>
+        <item name="tabPaddingEnd">5dp</item>
+        <item name="tabBackground">?attr/selectableItemBackground</item>
+        <item name="tabTextAppearance">@style/TextAppearance.AppCompat.Caption</item>
+        <item name="tabSelectedTextColor">?android:textColorPrimary</item>
+    </style>
+
+    <style name="button_normal">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:typeface">normal</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:paddingLeft">5dp</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="MyCustomTabLayout" parent="Theme.AppCompat">
+        <item name="tabIndicatorColor">@color/black</item>
+        <item name="tabIndicatorHeight">3dp</item>
+        <item name="tabPaddingStart">10dp</item>
+        <item name="tabPaddingEnd">10dp</item>
+        <item name="tabBackground">@color/gray</item>
+        <item name="tabTextAppearance">@style/MyCustomTabTextAppearance</item>
+        <item name="tabSelectedTextColor">@color/black</item>
+    </style>
+    <style name="MyCustomTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="textAllCaps">true</item>
+    </style>
+    <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/rate_text</item>
+        <item name="android:textSize">12sp</item>
+        <item name="colorPrimary">@color/light_gray_text</item>
+        <item name="colorPrimaryDark">@color/light_gray_text</item>
+        <item name="colorAccent">@color/light_gray_text
+        </item>
+    </style>
+    <style name="edit_text_pay_req_form">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:prompt">@string/prompt</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColorHint">@color/gray</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">12sp</item>
+
+        <item name="android:background">@drawable/edittext_bg</item>
+    </style>
+
+    <style name="spinner_style_black">
+
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:prompt">@string/prompt</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColorHint">@color/gray</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="ThemeDialogCustom">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
+        <item name="android:windowBackground">@color/transparent_color</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+    </style>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@color/black</item>
+    </style>
+    <style name="listViewscrollStyle">
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:scrollbars">none</item>
+        <item name="android:scrollX">0dp</item>
+        <item name="android:scrollY">0dp</item>
+        <item name="android:scrollingCache">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:divider">@null</item>
+    </style>
+
+    <style name="CircularProgress" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/bikewale_color</item>
+    </style>
+</resources>

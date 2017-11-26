@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--live-->
+    <!--<string name="host_name">http://finance.cartradeexchange.com/mobile_api_json/</string>
+    <string name="base_host_name">http://finance.cartradeexchange.com</string>-->
+   <!-- <string name="base_host__testname">http://testfinance.cartradeexchange.com</string>-->
+    <!--test-->
+    <string name="host_name">http://testbikefinance.cartradeexchange.com/mobile_api_json/</string>
+    <string name="base_host_name">http://testbikefinance.cartradeexchange.com</string>
+    <!--http://testbikefinance.cartradeexchange.com/mobile_api_json/?go=authenticate-->
+   <!-- <string name="api_id">fm2015v1.1</string>-->
+    <string name="api_id">bw2017v1.0</string>
+    <string name="app_code">Android</string>
+    <string name="authenticate">authenticate</string>
+    <string name="finlead_apinew">loadallfinanceleads_v4</string>
+    <string name="loadallfinanceleads">loadallfinanceleads</string>
+    <string name="bw_finance_makes">bw_finance_makes</string>
+    <string name="fm_pincodes">fm_pincodes</string>
+    <string name="manage_finance_lead">manage_finance_lead</string>
+    <string name="get_dlr_details">get_dlr_details</string>
+    <string name="get_lead_dtls">get_lead_dtls_v5</string>
+    <string name="sanction_api">fm_sanction_block_api</string>
+    <string name="doc_info">doc_info</string>
+    <string name="doc_info_v2">doc_info_v2</string>
+    <string name="docs_upload">docs_upload</string>
+    <string name="docs_delete">docs_delete</string>
+    <string name="homeapi">homeapi</string>
+</resources>

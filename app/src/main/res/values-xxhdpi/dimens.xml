@@ -1,0 +1,8 @@
+<resources>
+
+    <dimen name="dealer_edit">8dp</dimen>
+    <dimen name="newcarleads_popup_width">230dp</dimen>
+    <dimen name="action_bar_default_height_material">44dp</dimen>
+    <dimen name="titlesize">17sp</dimen>
+    <dimen name="tabtxtsize">13sp</dimen>
+</resources>

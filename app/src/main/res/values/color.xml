@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="transparent_color">#00000000</color>
+    <color name="red">#ff0000</color>
+    <color name="ct_red">#d11900</color>
+    <color name="green">#00ff00</color>
+    <color name="green_dark">#00ac4e</color>
+    <color name="blue">#1D20DD</color>
+    <color name="title_color">#F80909</color>
+    <color name="text_red_color">#D31900</color>
+    <color name="inventory_item_border">#c2c3c8</color>
+    <color name="orange_list">#fff05a28</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="textColor">#000000</color>
+    <color name="blackk">#000000</color>
+    <color name="urlblue">#0000FF</color>
+    <color name="green_light">#2c6700</color>
+    <color name="gray">#d3d3d3</color>
+    <color name="tabback">#999999</color>
+    <color name="filter_item">#292929</color>
+    <color name="filter_subheader">#212121</color>
+    <color name="filter_textcolor">#a8a8a8</color>
+    <color name="light_gray">#b3b3b3</color>
+    <color name="rate_text">#424242</color>
+    <color name="light_gray_text">#B8B8B8</color>
+    <color name="dark_grey">#606060</color>
+    <color name="cte_color">#CC0000</color>
+    <color name="cte_ripple_color">#CC0000</color>
+    <color name="bikewale_color">#FFFF66</color>
+</resources>

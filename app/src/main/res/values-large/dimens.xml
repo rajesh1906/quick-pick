@@ -1,0 +1,11 @@
+<resources>
+
+    <dimen name="edit_text_size">16sp</dimen>
+    <dimen name="dialog_btn_height">40dp</dimen>
+    <dimen name="newcarleads_popup_width">420dp</dimen>
+    <dimen name="leads_popup_width">240dp</dimen>
+    <dimen name="newcarleads_archived_width">125dp</dimen>
+    <dimen name="titlesize">18sp</dimen>
+    <dimen name="tabtxtsize">14sp</dimen>
+    <dimen name="maintabtxtsize">16sp</dimen>
+</resources>

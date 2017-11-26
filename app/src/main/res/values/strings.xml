@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Quick pick</string>
+    <string name="prompt">Quick pick</string>
+    <string name="open_drawer">open drawer</string>
+    <string name="close_drawer">close drawer</string>
+    <string-array name="dashboard_items_menu">
+        <item>Home</item>
+        <item>Favorites</item>
+        <item>Order</item>
+        <item>Cart</item>
+        <item>Offers</item>
+        <item>Sign out</item>
+    </string-array>
+    <string-array name="food_types">
+        <item>South Indian</item>
+        <item>Andra Style</item>
+        <item>North Indian</item>
+        <item>Chinese Food</item>
+        <item> Cajun Food</item>
+        <item>Thai Food</item>
+        <item>Greek Cuisine</item>
+    </string-array>
+    <string-array name="apptizers">
+        <item>Apptizer1</item>
+        <item>Apptizer2</item>
+        <item>Apptizer3</item>
+        <item>Apptizer4</item>
+        <item>Apptizer5</item>
+        <item>Apptizer6</item>
+        <item>Apptizer7</item>
+        <item>Apptizer8</item>
+        <item>Apptizer9</item>
+    </string-array>
+</resources>
