@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--live-->
-    <!--<string name="host_name">http://finance.cartradeexchange.com/mobile_api_json/</string>
-    <string name="base_host_name">http://finance.cartradeexchange.com</string>-->
-   <!-- <string name="base_host__testname">http://testfinance.cartradeexchange.com</string>-->
-    <!--test-->
-    <string name="host_name">http://testbikefinance.cartradeexchange.com/mobile_api_json/</string>
-    <string name="base_host_name">http://testbikefinance.cartradeexchange.com</string>
-    <!--http://testbikefinance.cartradeexchange.com/mobile_api_json/?go=authenticate-->
-   <!-- <string name="api_id">fm2015v1.1</string>-->
+
+
+    <string name="base_host_name">http://www.jklogistics.in</string>
+
     <string name="api_id">bw2017v1.0</string>
     <string name="app_code">Android</string>
     <string name="authenticate">authenticate</string>

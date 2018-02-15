@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.quick_pick.Presenter.services.Network.APIResponse;
+import com.quick_pick.Presenter.services.Network.RetrofitClient;
 import com.quick_pick.R;
 import com.quick_pick.View.adapters.ShowRestaurant_Adapter;
 
@@ -32,6 +34,21 @@ public class Restaurant_fragment extends Fragment {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(mLayoutManager);
         recyclerview.setAdapter(new ShowRestaurant_Adapter(getActivity()));
+        fetchRestaurent();
         return view;
+    }
+
+    private void fetchRestaurent(){
+        RetrofitClient.getInstance().doBackProcess(getActivity(), null, "", new APIResponse() {
+            @Override
+            public void onSuccess(String res) {
+
+            }
+
+            @Override
+            public void onFailure(String res) {
+
+            }
+        });
     }
 }
