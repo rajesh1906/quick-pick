@@ -1,6 +1,5 @@
 package com.quick_pick.View.ui.dashboard;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -8,18 +7,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -27,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.quick_pick.Model.Cities;
 import com.quick_pick.Presenter.services.Network.APIResponse;
 import com.quick_pick.Presenter.services.Network.RetrofitClient;
 import com.quick_pick.R;
@@ -74,6 +69,8 @@ public class DashBoardActivity extends BaseActivity {
     AutoCompleteTextView edtSearch;
     @Bind(R.id.img_delete)
     ImageView img_delete;
+    ArrayList<String > city_items = new ArrayList<>();
+
 
     @Override
     protected int getLayoutResourceId() {
@@ -152,8 +149,6 @@ public class DashBoardActivity extends BaseActivity {
                 img_delete.setVisibility(View.GONE);
             }
         });
-        getCities();
-
     }
 
     private void init() {
@@ -177,10 +172,10 @@ public class DashBoardActivity extends BaseActivity {
 
             }
         });
-        String[] temp_items = getResources().getStringArray(R.array.food_types);
 
-        ArrayAdapter<String > adapter = new ArrayAdapter<String>(this,R.layout.adapter_item,R.id.txt_item,temp_items);
-        edtSearch.setAdapter(adapter);
+
+
+        fetchLisiner();
 
     }
 
@@ -209,9 +204,9 @@ public class DashBoardActivity extends BaseActivity {
             switch (view.getId()) {
 
                 case R.id.edtSearch:
-                    if (edtSearch.getText().length() >= 2) {
+                    if (edtSearch.getText().length() >= 1) {
 
-
+                        getCities();
                     }
                     break;
 
@@ -258,6 +253,18 @@ public class DashBoardActivity extends BaseActivity {
             @Override
             public void onSuccess(String res) {
                 Log.e("resultent cities is ","<><>"+res);
+                if(city_items.size()!=0)
+                    city_items.clear();
+                Cities cities = new Gson().fromJson(res,Cities.class);
+                if(cities.getStatus().equalsIgnoreCase("successfully")){
+                    for(int i =0;i<cities.getRestaurantData().size();i++){
+                        city_items.add(cities.getRestaurantData().get(i).getCityName());
+                        Log.e("city data is ","<><>"+cities.getRestaurantData().get(i).getCityName());
+                    }
+                    ArrayAdapter<String > adapter = new ArrayAdapter<String>(DashBoardActivity.this,R.layout.adapter_item,R.id.txt_item,city_items.toArray(new String[city_items.size()]));
+                    edtSearch.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
 
             }
 
@@ -269,7 +276,7 @@ public class DashBoardActivity extends BaseActivity {
     }
     private Map<String ,String > getParams(){
         Map<String ,String > params = new HashMap<>();
-        params.put("Text","");
+        params.put("Text",edtSearch.getText().toString());
         params.put("FlagSlNo","0");
         params.put("action",getResources().getString(R.string.getCities));
         return params;

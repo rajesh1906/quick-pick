@@ -68,7 +68,7 @@ public class RetrofitClient extends AppCompatActivity implements ConnectApiServi
         if(endPoint==null){
             endPoint = new EndPoint(context);
         }
-        showProgressDialog(context);
+//        showProgressDialog(context);
         return endPoint;
     }
 
