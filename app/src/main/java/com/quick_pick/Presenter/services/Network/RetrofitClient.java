@@ -25,16 +25,16 @@ import retrofit2.Retrofit;
  * Created by Rajesh kumar on 13-07-2017.
  */
 
-public class RetrofitClient extends AppCompatActivity {
+public class RetrofitClient extends AppCompatActivity implements ConnectApiService {
     private static Retrofit retrofit = null;
     private static RetrofitClient uniqInstance;
     Context ctx;
-    private String TAG = "<><>Retrofit<><>";
+    public final static String action = "<><>Retrofit<><>";
     private RecyclerView.Adapter adapter;
     private APIResponse api_res;
     private ApiService apiService;
     public static SharedPreferences preferences;
-
+    EndPoint endPoint = null;
    public static ProgressDialog progressDialog;
     public static RetrofitClient getInstance() {
         if (uniqInstance == null) {
@@ -60,66 +60,43 @@ public class RetrofitClient extends AppCompatActivity {
 
 
     //RetrofitCallBack
-    public void doBackProcess(final Context context, final Map<String, String> postParams,
-                              final String from, final APIResponse api_res) {
+
+
+
+    public EndPoint getEndPoint(Context context){
         this.ctx = context;
-        if (preferences == null)
-            preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        apiService = RetrofitClient.getClient(context.getResources().getString(R.string.base_host_name)).create(ApiService.class);
-        if (from.length() == 0) {
-                try {
-                    if(null==progressDialog)
-                        progressDialog = new ProgressDialog((Activity) context);
-                        progressDialog.show();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+        if(endPoint==null){
+            endPoint = new EndPoint(context);
         }
-
-        apiService.doGetRestaurants("M","16.9890648","82.2476477").enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()) {
-                    try {
-                        Log.e("response is ","<><>"+response.body());
-//                        api_res.onSuccess(response.body());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        try {
-                            api_res.onFailure(call.toString());
-                        } catch (Exception ee) {
-                            ee.printStackTrace();
-                        }
-                    } finally {
-                        if (null != progressDialog && progressDialog.isShowing()) {
-                            progressDialog.dismiss();
-                            progressDialog=null;
-                        }
-                    }
-
-                } else {
-                    if (from.length() == 0) {
-                        if (null != progressDialog && progressDialog.isShowing()) {
-                            progressDialog.dismiss();
-                            progressDialog=null;
-                        }
-                    }
-                    api_res.onFailure("Data validation Error");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-            }
-        });
-
-
+        showProgressDialog(context);
+        return endPoint;
     }
 
 
 
-    public void getRestaurants(String input_type){
+    private void showProgressDialog(Context context){
+        try {
+            if(null==progressDialog)
+                progressDialog = new ProgressDialog((Activity) context);
+            progressDialog.show();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
+    public void hideProgressDialog(){
+        if (null != progressDialog && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+            progressDialog=null;
+        }
+    }
+
+
+
+
+
+    @Override
+    public ApiService getApiService() {
+        return  RetrofitClient.getClient(ctx.getResources().getString(R.string.base_host_name)).create(ApiService.class);
     }
 }

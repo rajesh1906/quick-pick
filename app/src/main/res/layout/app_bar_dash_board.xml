@@ -38,6 +38,29 @@
                     android:background="@drawable/icon_filter"
                     android:layout_toLeftOf="@+id/img_search"
                     android:visibility="gone"/>
+
+                <AutoCompleteTextView
+                    android:id="@+id/edtSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:visibility="gone"
+                    android:singleLine="true"
+                    android:hint="Search City"
+                    android:textColorHint="@color/black"
+                    android:textColor="@color/black"
+                    android:layout_toLeftOf="@+id/img_delete"
+                    android:imeOptions="actionSearch" />
+                <ImageView
+                    android:id="@+id/img_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:visibility="gone"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/delete_edit"/>
+
                 <ImageView
                     android:id="@+id/img_search"
                     android:layout_width="25dp"

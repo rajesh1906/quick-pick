@@ -5,4 +5,6 @@ package com.quick_pick.Presenter.services.Network;
  */
 
 public interface ConnectApiService {
+
+   public ApiService getApiService();
 }

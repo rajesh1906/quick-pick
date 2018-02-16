@@ -12,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -35,7 +37,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     ActionBarDrawerToggle drawerToggle;
     ListView mainlist;
     ItemAdapter adapter;
-    protected ImageView search_icon, filters_icon, close_icon;
+    protected ImageView search_icon, filters_icon, close_icon,img_delete;
+   protected AutoCompleteTextView edtSearch;
     Button btn_date;
 
     @Override
@@ -50,6 +53,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         filters_icon = (ImageView) findViewById(R.id.filters_icon);
         close_icon = (ImageView) findViewById(R.id.close_icon);
         btn_date = (Button) findViewById(R.id.btn_date);
+        edtSearch = (AutoCompleteTextView) findViewById(R.id.edtSearch);
+        img_delete = (ImageView) findViewById(R.id.img_delete);
 
         drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 mToolbar, R.string.open_drawer, R.string.close_drawer) {
