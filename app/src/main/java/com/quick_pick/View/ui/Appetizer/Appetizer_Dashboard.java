@@ -14,6 +14,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.quick_pick.Model.Appetizer.Appetizer;
+import com.quick_pick.Model.Appetizer.Items;
 import com.quick_pick.Presenter.services.Network.APIResponse;
 import com.quick_pick.Presenter.services.Network.RetrofitClient;
 import com.quick_pick.R;
@@ -52,7 +55,13 @@ public class Appetizer_Dashboard extends BaseActivity {
     @Bind(R.id.recyclerview)
     RecyclerView recyclerview;
     String menu_id="";
+    ArrayList<Items> dataList = new ArrayList<>();
+    Appetizer appetizer, temp_pojo;
+    int spage = 1, no_records = 0;
+    private boolean loading;
+    private boolean scrollflag = true;
 
+    Appetizer_Adapter adapter;
     @Override
     protected int getLayoutResourceId() {
         return R.layout.apptizerdashboard;
@@ -149,6 +158,25 @@ public class Appetizer_Dashboard extends BaseActivity {
             @Override
             public void onSuccess(String res) {
                 Log.e("response is ","<><>"+res);
+                 appetizer =new Gson().fromJson(res,Appetizer.class);
+                if(appetizer.getStatus().equalsIgnoreCase("successfully")){
+                    if (spage == 1) {
+                        temp_pojo = appetizer;
+                    } else {
+                        dataList = (ArrayList<Items>) temp_pojo.getItems();
+                        dataList.addAll(appetizer.getItems());
+                        temp_pojo.setItems(dataList);
+                        loading = false;
+                    }
+                    if(spage==1){
+                        adapter=    new Appetizer_Adapter(Appetizer_Dashboard.this,temp_pojo.getItems());
+                        recyclerview.setAdapter(adapter);
+                    }else{
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+
+
             }
 
             @Override
