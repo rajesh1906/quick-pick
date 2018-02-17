@@ -1,4 +1,4 @@
-package com.quick_pick.View.adapters;
+package com.quick_pick.View.ui.Appetizer;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,42 +7,40 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.quick_pick.Model.menu.Menu;
 import com.quick_pick.R;
-import com.quick_pick.View.ui.Appetizer.Appetizer_Dashboard;
-import com.quick_pick.View.ui.Restarunt.RestaruntActivity;
+import com.quick_pick.View.adapters.Restaurant_menu_item_Adapter;
 
 import java.util.ArrayList;
 
 /**
- * Created by Rajesh Kumar on 20-11-2017.
+ * Created by Rajesh Kumar on 17-02-2018.
  */
 
-public class Restaurant_menu_item_Adapter  extends RecyclerView.Adapter<Restaurant_menu_item_Adapter.MyViewHolder> {
-    private MyViewHolder holder;
-    View root;
-    Context context;
-    ArrayList<Menu> dataList;
-    String Res_name="";
-    public Restaurant_menu_item_Adapter(Context context,ArrayList<Menu> dataList,String Res_name){
+public class Appetizer_Adapter  extends RecyclerView.Adapter<Appetizer_Adapter.MyViewHolder> {
+private MyViewHolder holder;
+        View root;
+        Context context;
+        ArrayList<Menu> dataList;
+        String Res_name="";
+public Appetizer_Adapter(Context context, ArrayList<Menu> dataList, String Res_name){
         this.context=context;
         this.dataList=dataList;
         this.Res_name = Res_name;
-    }
-
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
-        ImageView imageView;
-        public MyViewHolder(View view) {
-            super(view);
-            textView = (TextView)view.findViewById(R.id.txt_item);
-            imageView = (ImageView)view.findViewById(R.id.img_item);
-
         }
+
+public class MyViewHolder extends RecyclerView.ViewHolder {
+    TextView textView;
+    ImageView imageView;
+    public MyViewHolder(View view) {
+        super(view);
+        textView = (TextView)view.findViewById(R.id.txt_item);
+        imageView = (ImageView)view.findViewById(R.id.img_item);
+
     }
+}
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
