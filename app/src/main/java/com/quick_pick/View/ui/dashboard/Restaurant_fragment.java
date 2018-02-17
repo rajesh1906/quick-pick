@@ -45,12 +45,14 @@ public class Restaurant_fragment extends Fragment {
     int spage = 1, no_records = 0;
     private boolean loading;
     private boolean scrollflag = true;
+    ShowRestaurant_Adapter adapter;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.resatarunt_list_fragment,container,false);
         ButterKnife.bind(this,view);
+        spage = 1;
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(mLayoutManager);
         recyclerview.addOnScrollListener(new EndlessScrollListener(recyclerview));
@@ -63,6 +65,7 @@ public class Restaurant_fragment extends Fragment {
         if (isVisibleToUser) {
             bundle = this.getArguments();
             from = bundle.getInt("from", 0);
+            spage = 1;
             fetchRestaurent(0);
             Log.e("from", "from:" + from);
         }
@@ -81,17 +84,23 @@ public class Restaurant_fragment extends Fragment {
                         dataList = (ArrayList<RestaurantData>) temp_pojo.getRestaurantData();
                         dataList.addAll(restaurant_name.getRestaurantData());
                         temp_pojo.setRestaurantData(dataList);
+                        loading = false;
+                    }
+                    if(spage==1){
+                         adapter=    new ShowRestaurant_Adapter(getActivity(),temp_pojo.getRestaurantData());
+                        recyclerview.setAdapter(adapter);
+                    }else{
+                        adapter.notifyDataSetChanged();
                     }
 
-                    recyclerview.setAdapter(new ShowRestaurant_Adapter(getActivity(),restaurant_name.getRestaurantData()));
-                    if(restaurant_name.getRestaurantData().size()==0){
+                    if(restaurant_name.getRestaurantData().size()==0&&spage==1){
                         txt_no_res.setVisibility(View.VISIBLE);
                     }
 
 
-                    if (restaurant_name.getRestaurantData().size() < 20) {
+                  /*  if (restaurant_name.getRestaurantData().size() < 2) {
                         scrollflag = false;
-                    }
+                    }*/
 
                 }else{
                     Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
@@ -141,8 +150,14 @@ public class Restaurant_fragment extends Fragment {
                         loading = true;
                         spage += 1;
                         no_records += 20;
-                        fetchRestaurent(no_records);
-//                            getOnlineData(from, getparams(from, no_records, keywordtofind), "leads");
+                        if (restaurant_name.getRestaurantData() != null && !restaurant_name.getRestaurantData().isEmpty()) {
+                            RestaurantData  item = restaurant_name.getRestaurantData().get(restaurant_name.getRestaurantData().size()-1);
+                            Log.e(" last id is","<><>"+item.getSl_no());
+                            fetchRestaurent(Integer.parseInt(item.getSl_no()));
+
+                        }
+
+//
 
                     }
                 }
