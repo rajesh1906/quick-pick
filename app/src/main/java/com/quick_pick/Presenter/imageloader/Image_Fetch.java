@@ -15,7 +15,7 @@ public final class Image_Fetch {
         }
         return instance;
     }
-//    testing test a
+//    testing test as
 
     public void LoadImage(Context context, ImageView imgview, String source) {
         Glide.with(context)
