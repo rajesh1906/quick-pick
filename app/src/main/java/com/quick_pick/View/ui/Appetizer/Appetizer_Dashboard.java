@@ -7,10 +7,15 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.quick_pick.Presenter.services.Network.APIResponse;
+import com.quick_pick.Presenter.services.Network.RetrofitClient;
 import com.quick_pick.R;
 import com.quick_pick.View.adapters.PagerAdapter;
 import com.quick_pick.View.adapters.SlidingImage_Adapter;
@@ -18,7 +23,9 @@ import com.quick_pick.View.customviews.CustomViewPager;
 import com.quick_pick.View.ui.BaseActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import butterknife.Bind;
@@ -42,6 +49,9 @@ public class Appetizer_Dashboard extends BaseActivity {
     private PagerAdapter mPagerAdapter;
     ArrayList<TextView> tvList = new ArrayList<>();
     List<Fragment> fragments = new Vector<Fragment>();
+    @Bind(R.id.recyclerview)
+    RecyclerView recyclerview;
+    String menu_id="";
 
     @Override
     protected int getLayoutResourceId() {
@@ -52,13 +62,18 @@ public class Appetizer_Dashboard extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        txt_header.setText("Restaurant");
+        drawerToggle.setDrawerIndicatorEnabled(false);
+        Bundle bundle1 = getIntent().getExtras();
+        menu_id = bundle1.getString("menu_id");
+        txt_header.setText(bundle1.getString("res_name"));
         img_filter.setVisibility(View.VISIBLE);
         img_search.setVisibility(View.VISIBLE);
 //        tabLayout.setBackgroundColor(Color.parseColor("FFFFFF"));
                 TITLES = getResources().getStringArray(R.array.apptizers);
         Appetizer_Fragment appetizer_fragment = new Appetizer_Fragment();
-        for (int i = 0; i < TITLES.length; i++) {
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        recyclerview.setLayoutManager(mLayoutManager);
+       /* for (int i = 0; i < TITLES.length; i++) {
             Bundle bundle = new Bundle();
             bundle.putInt("from", i);
             fragments.add(Fragment.instantiate(this, appetizer_fragment.getClass().getName(), bundle));
@@ -99,7 +114,20 @@ public class Appetizer_Dashboard extends BaseActivity {
             public void onTabReselected(TabLayout.Tab tab) {
 
             }
+        });*/
+
+
+
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener()
+
+        {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
         });
+
+        getAppetizerData();
 
     }
 
@@ -113,5 +141,32 @@ public class Appetizer_Dashboard extends BaseActivity {
         }
         tvList.add(txt_tilte);
         tabLayout.getTabAt(tabPos).setCustomView(tabview);
+    }
+
+
+    private void getAppetizerData(){
+        RetrofitClient.getInstance().getEndPoint(this,"show_progress").getResult(getParams(), new APIResponse() {
+            @Override
+            public void onSuccess(String res) {
+                Log.e("response is ","<><>"+res);
+            }
+
+            @Override
+            public void onFailure(String res) {
+
+            }
+        });
+
+    }
+
+    private Map<String ,String> getParams(){
+        Map<String ,String > params = new HashMap<>();
+
+        params.put("action",getResources().getString(R.string.getDisplayItems));
+        params.put("MunuId",menu_id);
+        params.put("Text","");
+        params.put("FlagSlNo","0");
+
+        return params;
     }
 }

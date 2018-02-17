@@ -23,5 +23,11 @@
         android:typeface="serif"
         android:textStyle="bold"
         />
-<include layout="@layout/tabviews"/>
+<include layout="@layout/tabviews"
+    android:visibility="gone"
+    />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 </LinearLayout>

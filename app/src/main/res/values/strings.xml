@@ -31,4 +31,5 @@
         <item>Apptizer8</item>
         <item>Apptizer9</item>
     </string-array>
+    <string name="search">Search</string>
 </resources>

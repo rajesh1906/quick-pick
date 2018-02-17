@@ -59,6 +59,17 @@
           android:layout_marginLeft="20dp"
           android:background="@color/white"
           android:layout_width="match_parent"
+          android:visibility="visible"
           android:layout_height="match_parent"/>
+      <TextView
+          android:id="@+id/txt_no_items"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:textColor="@color/red"
+          android:text="No Menu Items found"
+          android:textSize="16sp"
+          android:gravity="center"
+          android:layout_gravity="center_horizontal"
+          android:visibility="gone"/>
    </LinearLayout>
 </LinearLayout>
