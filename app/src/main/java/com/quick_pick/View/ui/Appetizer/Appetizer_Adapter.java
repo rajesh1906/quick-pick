@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.quick_pick.Model.Appetizer.Appetizer;
+import com.quick_pick.Model.Appetizer.Items;
 import com.quick_pick.Model.menu.Menu;
 import com.quick_pick.R;
 import com.quick_pick.View.adapters.Restaurant_menu_item_Adapter;
@@ -23,28 +25,29 @@ public class Appetizer_Adapter  extends RecyclerView.Adapter<Appetizer_Adapter.M
 private MyViewHolder holder;
         View root;
         Context context;
-        ArrayList<Menu> dataList;
+        ArrayList<Items> dataList;
         String Res_name="";
-public Appetizer_Adapter(Context context, ArrayList<Menu> dataList, String Res_name){
+public Appetizer_Adapter(Context context, ArrayList<Items> dataList){
         this.context=context;
         this.dataList=dataList;
-        this.Res_name = Res_name;
+
         }
 
 public class MyViewHolder extends RecyclerView.ViewHolder {
-    TextView textView;
-    ImageView imageView;
+    TextView item_name,item_amount;
+
     public MyViewHolder(View view) {
         super(view);
-        textView = (TextView)view.findViewById(R.id.txt_item);
-        imageView = (ImageView)view.findViewById(R.id.img_item);
+        item_name = (TextView)view.findViewById(R.id.item_name);
+        item_amount = (TextView)view.findViewById(R.id.item_amount);
+
 
     }
 }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        root = LayoutInflater.from(parent.getContext()).inflate(R.layout.show_rest_menu_items, parent, false);
+        root = LayoutInflater.from(parent.getContext()).inflate(R.layout.restaurant_menu_fragment, parent, false);
         holder = new MyViewHolder(root);
         return holder;
     }
@@ -52,16 +55,8 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
-        holder.textView.setText(dataList.get(position).getMenuName());
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, Appetizer_Dashboard.class);
-                intent.putExtra("res_name",Res_name);
-                intent.putExtra("menu_id",dataList.get(position).getMenuId());
-                context.startActivity(intent);
-            }
-        });
+            holder.item_name.setText(dataList.get(position).getItemName());
+            holder.item_amount.setText(" ₹"+dataList.get(position).getAmount()+".00");
 
     }
 
