@@ -9,4 +9,5 @@
    <string name="getCategory">GettingCateogry</string>
    <string name="getRestaurant_id">gettingRestaurantId</string>
    <string name="getDisplayItems">displayItemsData</string>
+   <string name="displayMenusData">displayMenusData</string>
 </resources>

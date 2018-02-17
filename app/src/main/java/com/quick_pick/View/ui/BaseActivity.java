@@ -1,5 +1,6 @@
 package com.quick_pick.View.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -152,5 +153,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                     InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
+
+
 
 }

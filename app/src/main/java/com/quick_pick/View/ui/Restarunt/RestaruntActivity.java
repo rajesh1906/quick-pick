@@ -6,17 +6,29 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewParent;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import com.google.gson.Gson;
+import com.quick_pick.Model.menu.Menu;
+import com.quick_pick.Model.menu.Menu_Items;
+import com.quick_pick.Presenter.services.Network.APIResponse;
+import com.quick_pick.Presenter.services.Network.RetrofitClient;
 import com.quick_pick.R;
 import com.quick_pick.View.adapters.Restaurant_menu_item_Adapter;
 import com.quick_pick.View.adapters.ShowRestaurant_Adapter;
 import com.quick_pick.View.adapters.SlidingImage_Adapter;
 import com.quick_pick.View.ui.BaseActivity;
 import com.quick_pick.View.ui.dashboard.DashBoardActivity;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,8 +46,15 @@ public class RestaruntActivity extends BaseActivity {
     LinearLayout ll_dots;
     @Bind(R.id.txt_header)
     TextView txt_header;
+    @Bind(R.id.txt_no_items)
+    TextView txt_no_items;
+
     SlidingImage_Adapter adapter;
     int tab_position = 0;
+    String Res_id = "";
+    ArrayList<Menu> dataList = new ArrayList<>();
+    Menu_Items menu_items, temp_pojo;
+    int spage = 1, no_records = 0;
     private static final Integer[] IMAGES = {R.drawable.img_one, R.drawable.img_two, R.drawable.img_three, R.drawable.img_four};
 
     @Override
@@ -47,13 +66,19 @@ public class RestaruntActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        txt_header.setText("Restaurant");
+
+        Bundle bundle = getIntent().getExtras();
+        String name = bundle.getString("res_name");
+        txt_header.setText(name);
+        Res_id = bundle.getString("menu_id");
+
         addBottomDots(0);
         adapter = new SlidingImage_Adapter(RestaruntActivity.this, IMAGES);
         init();
         GridLayoutManager grid_layout = new GridLayoutManager(this, 2);
         recyclerview.setLayoutManager(grid_layout);
-        recyclerview.setAdapter(new Restaurant_menu_item_Adapter(this));
+
+        getMenuItmes();
     }
 
     private void init() {
@@ -91,5 +116,49 @@ public class RestaruntActivity extends BaseActivity {
         }
         if (dots.length > 0)
             dots[currentPage].setTextColor(Color.parseColor("#FF0000"));
+    }
+
+    private void getMenuItmes() {
+        RetrofitClient.getInstance().getEndPoint(this, "show_progress").getResult(getParams(), new APIResponse() {
+            @Override
+            public void onSuccess(String res) {
+                Log.e("response ", "<><" + res);
+                menu_items = new Gson().fromJson(res, Menu_Items.class);
+                if (menu_items.getStatus().equalsIgnoreCase("successfully")) {
+                    if (spage == 1) {
+                        temp_pojo = menu_items;
+                    } else {
+                        dataList = (ArrayList<Menu>) temp_pojo.getMenu();
+                        dataList.addAll(menu_items.getMenu());
+                        temp_pojo.setMenu(dataList);
+                    }
+                    recyclerview.setAdapter(new Restaurant_menu_item_Adapter(RestaruntActivity.this, menu_items.getMenu()));
+                    if(menu_items.getMenu().size()==0)
+                    {
+                        txt_no_items.setVisibility(View.VISIBLE);
+                        recyclerview.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(String res) {
+
+            }
+        });
+
+    }
+
+
+    private Map<String, String> getParams() {
+        Map<String, String> params = new HashMap<>();
+        params.put("action", getResources().getString(R.string.displayMenusData));
+        params.put("gettingRestaurantId", Res_id);
+        params.put("Text", "");
+        params.put("FlagSlNo", "0");
+
+
+        return params;
+
     }
 }

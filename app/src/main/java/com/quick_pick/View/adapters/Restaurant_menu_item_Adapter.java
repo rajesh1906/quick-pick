@@ -10,9 +10,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.quick_pick.Model.menu.Menu;
 import com.quick_pick.R;
 import com.quick_pick.View.ui.Appetizer.Appetizer_Dashboard;
 import com.quick_pick.View.ui.Restarunt.RestaruntActivity;
+
+import java.util.ArrayList;
 
 /**
  * Created by Rajesh Kumar on 20-11-2017.
@@ -22,8 +25,10 @@ public class Restaurant_menu_item_Adapter  extends RecyclerView.Adapter<Restaura
     private MyViewHolder holder;
     View root;
     Context context;
-    public Restaurant_menu_item_Adapter(Context context){
+    ArrayList<Menu> dataList;
+    public Restaurant_menu_item_Adapter(Context context,ArrayList<Menu> dataList){
         this.context=context;
+        this.dataList=dataList;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -47,7 +52,7 @@ public class Restaurant_menu_item_Adapter  extends RecyclerView.Adapter<Restaura
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
-        holder.textView.setText("Item "+(position+1));
+        holder.textView.setText(dataList.get(position).getMenuName());
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,7 +64,7 @@ public class Restaurant_menu_item_Adapter  extends RecyclerView.Adapter<Restaura
 
     @Override
     public int getItemCount() {
-        return 20;
+        return dataList.size();
     }
 
     @Override

@@ -9,8 +9,11 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.quick_pick.Model.restaurant_category.RestaurantData;
 import com.quick_pick.R;
 import com.quick_pick.View.ui.Restarunt.RestaruntActivity;
+
+import java.util.ArrayList;
 
 /**
  * Created by Rajesh Kumar on 05-09-2017.
@@ -20,8 +23,10 @@ public class ShowRestaurant_Adapter extends RecyclerView.Adapter<ShowRestaurant_
     private MyViewHolder holder;
     View root;
     Context context;
-    public ShowRestaurant_Adapter(Context context){
+    ArrayList<RestaurantData> dataList;
+    public ShowRestaurant_Adapter(Context context,ArrayList<RestaurantData> dataList){
         this.context=context;
+        this.dataList = dataList;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -44,18 +49,22 @@ public class ShowRestaurant_Adapter extends RecyclerView.Adapter<ShowRestaurant_
     @Override
     public void onBindViewHolder(final MyViewHolder holder,final int position) {
 
-        holder.textView.setText("Restaurant "+(position+1));
+        holder.textView.setText( dataList.get(position).getRes_Name());
         holder.rel_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, RestaruntActivity.class));
+
+                Intent intent = new Intent(context, RestaruntActivity.class);
+                intent.putExtra("menu_id",dataList.get(position).getRes_id());
+                intent.putExtra("res_name",dataList.get(position).getRes_Name());
+                context.startActivity(intent);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return 20;
+        return dataList.size();
     }
 
     @Override

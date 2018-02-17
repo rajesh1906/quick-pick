@@ -47,11 +47,11 @@ public class EndPoint  {
                             ee.printStackTrace();
                         }
                     } finally {
-//                        RetrofitClient.getInstance().hideProgressDialog();
+                        RetrofitClient.getInstance().hideProgressDialog();
                     }
 
                 } else {
-//                    RetrofitClient.getInstance().hideProgressDialog();
+                    RetrofitClient.getInstance().hideProgressDialog();
                     api_res.onFailure("Data validation Error");
                 }
             }
