@@ -52,7 +52,10 @@ public class Appetizer_Dashboard extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        txt_header.setText("Restaurant");
+        drawerToggle.setDrawerIndicatorEnabled(false);
+        Bundle bundle1 = getIntent().getExtras();
+
+        txt_header.setText(bundle1.getString("res_name"));
         img_filter.setVisibility(View.VISIBLE);
         img_search.setVisibility(View.VISIBLE);
 //        tabLayout.setBackgroundColor(Color.parseColor("FFFFFF"));
@@ -98,6 +101,14 @@ public class Appetizer_Dashboard extends BaseActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
+            }
+        });
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener()
+
+        {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

@@ -35,7 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private String app_title;
     protected Toolbar mToolbar;
     public CustomDrawerLayout mDrawerLayout;
-    ActionBarDrawerToggle drawerToggle;
+   protected ActionBarDrawerToggle drawerToggle;
     ListView mainlist;
     ItemAdapter adapter;
     protected ImageView search_icon, filters_icon, close_icon,img_delete;
@@ -82,7 +82,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             setSupportActionBar(mToolbar);
         }
         app_title_txt = (TextView) findViewById(R.id.btn_logo);
-        app_title = "Finance Manager";
+        app_title = "Quick Pick";
         app_title_txt.setText(app_title);
 
         mDrawerLayout.setDrawerListener(drawerToggle);

@@ -26,9 +26,11 @@ public class Restaurant_menu_item_Adapter  extends RecyclerView.Adapter<Restaura
     View root;
     Context context;
     ArrayList<Menu> dataList;
-    public Restaurant_menu_item_Adapter(Context context,ArrayList<Menu> dataList){
+    String Res_name="";
+    public Restaurant_menu_item_Adapter(Context context,ArrayList<Menu> dataList,String Res_name){
         this.context=context;
         this.dataList=dataList;
+        this.Res_name = Res_name;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -56,7 +58,9 @@ public class Restaurant_menu_item_Adapter  extends RecyclerView.Adapter<Restaura
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(new Intent(context, Appetizer_Dashboard.class));
+                Intent intent = new Intent(context, Appetizer_Dashboard.class);
+                intent.putExtra("res_name",Res_name);
+                context.startActivity(intent);
             }
         });
 

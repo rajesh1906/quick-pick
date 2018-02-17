@@ -2,7 +2,10 @@ package com.quick_pick.View.ui.Restarunt;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.view.menu.ActionMenuItem;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.view.ViewParent;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.gson.Gson;
@@ -23,6 +27,7 @@ import com.quick_pick.R;
 import com.quick_pick.View.adapters.Restaurant_menu_item_Adapter;
 import com.quick_pick.View.adapters.ShowRestaurant_Adapter;
 import com.quick_pick.View.adapters.SlidingImage_Adapter;
+import com.quick_pick.View.customviews.CustomDrawerLayout;
 import com.quick_pick.View.ui.BaseActivity;
 import com.quick_pick.View.ui.dashboard.DashBoardActivity;
 
@@ -49,12 +54,14 @@ public class RestaruntActivity extends BaseActivity {
     @Bind(R.id.txt_no_items)
     TextView txt_no_items;
 
+
     SlidingImage_Adapter adapter;
     int tab_position = 0;
     String Res_id = "";
     ArrayList<Menu> dataList = new ArrayList<>();
     Menu_Items menu_items, temp_pojo;
     int spage = 1, no_records = 0;
+    String name="";
     private static final Integer[] IMAGES = {R.drawable.img_one, R.drawable.img_two, R.drawable.img_three, R.drawable.img_four};
 
     @Override
@@ -66,9 +73,12 @@ public class RestaruntActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+//        getActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        drawerToggle.setDrawerIndicatorEnabled(false);
 
         Bundle bundle = getIntent().getExtras();
-        String name = bundle.getString("res_name");
+         name = bundle.getString("res_name");
         txt_header.setText(name);
         Res_id = bundle.getString("menu_id");
 
@@ -79,6 +89,14 @@ public class RestaruntActivity extends BaseActivity {
         recyclerview.setLayoutManager(grid_layout);
 
         getMenuItmes();
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener()
+
+        {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void init() {
@@ -132,7 +150,7 @@ public class RestaruntActivity extends BaseActivity {
                         dataList.addAll(menu_items.getMenu());
                         temp_pojo.setMenu(dataList);
                     }
-                    recyclerview.setAdapter(new Restaurant_menu_item_Adapter(RestaruntActivity.this, menu_items.getMenu()));
+                    recyclerview.setAdapter(new Restaurant_menu_item_Adapter(RestaruntActivity.this, menu_items.getMenu(),name));
                     if(menu_items.getMenu().size()==0)
                     {
                         txt_no_items.setVisibility(View.VISIBLE);
@@ -159,6 +177,17 @@ public class RestaruntActivity extends BaseActivity {
 
 
         return params;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home://this will handle back navigation click
+               onBackPressed();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
 
     }
 }
