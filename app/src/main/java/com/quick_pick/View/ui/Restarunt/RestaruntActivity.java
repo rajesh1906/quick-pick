@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.quick_pick.Model.menu.Menu;
 import com.quick_pick.Model.menu.Menu_Items;
 import com.quick_pick.Presenter.services.Network.APIResponse;
+import com.quick_pick.Presenter.services.Network.APIS;
 import com.quick_pick.Presenter.services.Network.RetrofitClient;
 import com.quick_pick.R;
 import com.quick_pick.View.adapters.Restaurant_menu_item_Adapter;
@@ -170,7 +171,9 @@ public class RestaruntActivity extends BaseActivity {
 
     private Map<String, String> getParams() {
         Map<String, String> params = new HashMap<>();
-        params.put("action", getResources().getString(R.string.displayMenusData));
+        params.put("action", APIS.DisplayMenusData);
+
+//        params.put("action", getResources().getString(R.string.displayMenusData));
         params.put("gettingRestaurantId", Res_id);
         params.put("Text", "");
         params.put("FlagSlNo", "0");

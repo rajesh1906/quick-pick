@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.quick_pick.Model.Appetizer.Appetizer;
 import com.quick_pick.Model.Appetizer.Items;
 import com.quick_pick.Presenter.services.Network.APIResponse;
+import com.quick_pick.Presenter.services.Network.APIS;
 import com.quick_pick.Presenter.services.Network.RetrofitClient;
 import com.quick_pick.R;
 import com.quick_pick.View.adapters.PagerAdapter;
@@ -190,7 +191,9 @@ public class Appetizer_Dashboard extends BaseActivity {
     private Map<String ,String> getParams(){
         Map<String ,String > params = new HashMap<>();
 
-        params.put("action",getResources().getString(R.string.getDisplayItems));
+//        params.put("action",getResources().getString(R.string.getDisplayItems));
+        params.put("action", APIS.DisplayItems);
+
         params.put("MunuId",menu_id);
         params.put("Text","");
         params.put("FlagSlNo","0");

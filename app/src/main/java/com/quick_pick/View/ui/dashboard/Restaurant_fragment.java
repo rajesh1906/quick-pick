@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.quick_pick.Model.restaurant_category.RestaurantData;
 import com.quick_pick.Model.restaurant_category.Restaurant_names;
 import com.quick_pick.Presenter.services.Network.APIResponse;
+import com.quick_pick.Presenter.services.Network.APIS;
 import com.quick_pick.Presenter.services.Network.RetrofitClient;
 import com.quick_pick.R;
 import com.quick_pick.View.adapters.ShowRestaurant_Adapter;
@@ -110,7 +111,7 @@ public class Restaurant_fragment extends Fragment {
 
             @Override
             public void onFailure(String res) {
-
+               Log.e("failure","failure");
             }
         });
     }
@@ -123,7 +124,9 @@ public class Restaurant_fragment extends Fragment {
         params.put("CityId",((GetCity_id)DashBoardActivity.instance).getCity_id());
         params.put("category_Id",""+(from+1));
         params.put("FlagSlNo",""+number_of_records);
-        params.put("action",getActivity().getResources().getString(R.string.getResturants));
+//        params.put("action",getActivity().getResources().getString(R.string.getResturants));
+
+        params.put("action", APIS.Restarant_id);
         return params;
     }
 

@@ -27,6 +27,7 @@ import com.google.gson.Gson;
 import com.quick_pick.Model.Category;
 import com.quick_pick.Model.Cities;
 import com.quick_pick.Presenter.services.Network.APIResponse;
+import com.quick_pick.Presenter.services.Network.APIS;
 import com.quick_pick.Presenter.services.Network.RetrofitClient;
 import com.quick_pick.Presenter.utils.Common_methods;
 import com.quick_pick.R;
@@ -290,10 +291,14 @@ public class DashBoardActivity extends BaseActivity implements GetCity_id {
             case "cities":
                 params.put("Text", edtSearch.getText().toString());
                 params.put("FlagSlNo", "0");
-                params.put("action", getResources().getString(R.string.getCities));
+//                params.put("action", getResources().getString(R.string.getCities));
+                params.put("action", APIS.CITIES);
+
                 break;
             case "category":
-                params.put("action", getResources().getString(R.string.getCategory));
+//                params.put("action", getResources().getString(R.string.getCategory));
+                params.put("action", APIS.Category);
+
                 break;
         }
 

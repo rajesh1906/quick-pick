@@ -4,10 +4,10 @@
 
     <string name="base_host_name">http://www.jklogistics.in/QuikPickApi/</string>
 
-   <string name="getCities">displayCitysdataNames</string>
-   <string name="getResturants">displayRestaurantNames</string>
-   <string name="getCategory">GettingCateogry</string>
-   <string name="getRestaurant_id">gettingRestaurantId</string>
-   <string name="getDisplayItems">displayItemsData</string>
-   <string name="displayMenusData">displayMenusData</string>
+   <!--<string name="getCities">displayCitysdataNames</string>-->
+   <!--<string name="getResturants">displayRestaurantNames</string>-->
+   <!--<string name="getCategory">GettingCateogry</string>-->
+   <!--<string name="getRestaurant_id">gettingRestaurantId</string>-->
+   <!--<string name="getDisplayItems">displayItemsData</string>-->
+   <!--<string name="displayMenusData">displayMenusData</string>-->
 </resources>
