@@ -20,7 +20,7 @@
         android:layout_below="@+id/sliding_tabs"
         android:visibility="visible" />
 
-    <com.quick_pick.View.customviews.CustomViewPager
+    <com.quickpick.views.customviews.CustomViewPager
         android:id="@+id/viewpager"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
