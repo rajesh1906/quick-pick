@@ -1,6 +1,9 @@
 package com.quickpick.presenter.services.Network;
 
 import android.content.Context;
+import android.widget.Toast;
+
+import com.quickpick.views.ui.BaseActivity;
 
 import java.util.Map;
 
@@ -29,36 +32,43 @@ public class EndPoint  {
     public void getResult(Map<String ,String > params,final APIResponse api_res ){
         params.put("InputType","M");
 
-
-        apiService.getApiResultCity(params.get("action")+"?",params).enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()) {
-                    try {
-
-                        api_res.onSuccess(response.body());
-                    } catch (Exception e) {
-                        e.printStackTrace();
+        if(BaseActivity.haveNetworkConnection(context)){
+            apiService.getApiResultCity(params.get("action")+"?",params).enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    if (response.isSuccessful()) {
                         try {
-                            api_res.onFailure(call.toString());
-                        } catch (Exception ee) {
-                            ee.printStackTrace();
+
+                            api_res.onSuccess(response.body());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            try {
+                                api_res.onFailure(call.toString());
+                            } catch (Exception ee) {
+                                ee.printStackTrace();
+                            }
+                        } finally {
+                            RetrofitClient.getInstance().hideProgressDialog();
                         }
-                    } finally {
+
+                    } else {
                         RetrofitClient.getInstance().hideProgressDialog();
+                        api_res.onFailure("Data validation Error");
                     }
-
-                } else {
-                    RetrofitClient.getInstance().hideProgressDialog();
-                    api_res.onFailure("Data validation Error");
                 }
-            }
 
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+
+        }else{
+           RetrofitClient.getInstance().hideProgressDialog();
+            Toast.makeText(context, "please check internet connection", Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 
 
