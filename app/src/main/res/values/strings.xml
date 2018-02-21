@@ -32,4 +32,5 @@
         <item>Apptizer9</item>
     </string-array>
     <string name="search">Search</string>
+    <string name="appetizers_error">No Appetizer found</string>
 </resources>

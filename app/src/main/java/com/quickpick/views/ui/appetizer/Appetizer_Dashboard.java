@@ -44,6 +44,10 @@ public class Appetizer_Dashboard extends BaseActivity {
     ImageView img_filter;
     @Bind(R.id.img_search)
     ImageView img_search;
+    @Bind(R.id.txt_apptizer_error)
+    TextView txt_apptizer_error;
+
+
     String[] TITLES;
     public static CustomViewPager mViewPager;
     private PagerAdapter mPagerAdapter;
@@ -51,7 +55,7 @@ public class Appetizer_Dashboard extends BaseActivity {
     List<Fragment> fragments = new Vector<Fragment>();
     @Bind(R.id.recyclerview)
     RecyclerView recyclerview;
-    String menu_id="";
+    String menu_id = "";
     ArrayList<Items> dataList = new ArrayList<>();
     Appetizer appetizer, temp_pojo;
     int spage = 1, no_records = 0;
@@ -59,6 +63,7 @@ public class Appetizer_Dashboard extends BaseActivity {
     private boolean scrollflag = true;
 
     Appetizer_Adapter adapter;
+
     @Override
     protected int getLayoutResourceId() {
         return R.layout.apptizerdashboard;
@@ -75,55 +80,10 @@ public class Appetizer_Dashboard extends BaseActivity {
         img_filter.setVisibility(View.VISIBLE);
         img_search.setVisibility(View.VISIBLE);
 //        tabLayout.setBackgroundColor(Color.parseColor("FFFFFF"));
-                TITLES = getResources().getStringArray(R.array.apptizers);
+        TITLES = getResources().getStringArray(R.array.apptizers);
         Appetizer_Fragment appetizer_fragment = new Appetizer_Fragment();
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerview.setLayoutManager(mLayoutManager);
-       /* for (int i = 0; i < TITLES.length; i++) {
-            Bundle bundle = new Bundle();
-            bundle.putInt("from", i);
-            fragments.add(Fragment.instantiate(this, appetizer_fragment.getClass().getName(), bundle));
-        }
-
-
-        this.mPagerAdapter = new PagerAdapter(
-                super.getSupportFragmentManager(), fragments);
-        this.mViewPager = (CustomViewPager) super.findViewById(R.id.viewpager);
-        this.mViewPager.setAdapter(this.mPagerAdapter);
-        tabLayout.setupWithViewPager(this.mViewPager);
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        this.mViewPager.setPagingEnabled(true);
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        for (int i = 0; i < TITLES.length; i++) {
-            setCountForTab(i, tabLayout);
-        }
-
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                mViewPager.setPagingEnabled(true);
-                mViewPager.setCurrentItem(tabLayout.getSelectedTabPosition());
-                for (int i = 0; i < TITLES.length; i++) {
-                    if (i == tabLayout.getSelectedTabPosition()) {
-                        tvList.get(i).setTypeface(Typeface.DEFAULT_BOLD);
-                    } else {
-                        tvList.get(i).setTypeface(Typeface.DEFAULT);
-                    }
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });*/
-
-
-
         mToolbar.setNavigationOnClickListener(new View.OnClickListener()
 
         {
@@ -132,7 +92,6 @@ public class Appetizer_Dashboard extends BaseActivity {
                 finish();
             }
         });
-
         getAppetizerData();
 
     }
@@ -150,13 +109,13 @@ public class Appetizer_Dashboard extends BaseActivity {
     }
 
 
-    private void getAppetizerData(){
-        RetrofitClient.getInstance().getEndPoint(this,"show_progress").getResult(getParams(), new APIResponse() {
+    private void getAppetizerData() {
+        RetrofitClient.getInstance().getEndPoint(this, "show_progress").getResult(getParams(), new APIResponse() {
             @Override
             public void onSuccess(String res) {
-                Log.e("response is ","<><>"+res);
-                 appetizer =new Gson().fromJson(res,Appetizer.class);
-                if(appetizer.getStatus().equalsIgnoreCase("successfully")){
+                Log.e("response is ", "<><>" + res);
+                appetizer = new Gson().fromJson(res, Appetizer.class);
+                if (appetizer.getStatus().equalsIgnoreCase("successfully")) {
                     if (spage == 1) {
                         temp_pojo = appetizer;
                     } else {
@@ -165,11 +124,16 @@ public class Appetizer_Dashboard extends BaseActivity {
                         temp_pojo.setItems(dataList);
                         loading = false;
                     }
-                    if(spage==1){
-                        adapter=    new Appetizer_Adapter(Appetizer_Dashboard.this,temp_pojo.getItems());
+                    if (spage == 1) {
+                        adapter = new Appetizer_Adapter(Appetizer_Dashboard.this, temp_pojo.getItems());
                         recyclerview.setAdapter(adapter);
-                    }else{
+                    } else {
                         adapter.notifyDataSetChanged();
+                    }
+
+                    if (spage == 1 && temp_pojo.getItems().size() == 0) {
+                        txt_apptizer_error.setVisibility(View.VISIBLE);
+                        recyclerview.setVisibility(View.GONE);
                     }
                 }
 
@@ -184,15 +148,15 @@ public class Appetizer_Dashboard extends BaseActivity {
 
     }
 
-    private Map<String ,String> getParams(){
-        Map<String ,String > params = new HashMap<>();
+    private Map<String, String> getParams() {
+        Map<String, String> params = new HashMap<>();
 
 //        params.put("action",getResources().getString(R.string.getDisplayItems));
         params.put("action", APIS.DisplayItems);
 
-        params.put("MunuId",menu_id);
-        params.put("Text","");
-        params.put("FlagSlNo","0");
+        params.put("MunuId", menu_id);
+        params.put("Text", "");
+        params.put("FlagSlNo", "0");
 
         return params;
     }
