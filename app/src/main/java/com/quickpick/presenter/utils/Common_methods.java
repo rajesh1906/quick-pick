@@ -20,13 +20,20 @@ public class Common_methods {
     }
 
 
-    public void hideKeyboard() {
-        View view = ((Activity)context).getCurrentFocus();
+    public void hideKeyboard(View view) {
+
         if (view != null) {
             InputMethodManager inputManager = (InputMethodManager) ((Activity)context)
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.hideSoftInputFromWindow(view.getWindowToken(),
-                    InputMethodManager.HIDE_NOT_ALWAYS);
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    public void openKeyboard(View view){
+        InputMethodManager inputManager = (InputMethodManager) ((Activity)context)
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.toggleSoftInputFromWindow(
+                view.getApplicationWindowToken(),
+                InputMethodManager.SHOW_FORCED, 0);
     }
 }

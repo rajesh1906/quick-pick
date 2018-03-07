@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:id="@+id/ll_header"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="vertical">
+        <include layout="@layout/header_view" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ll_header">
+
+        <include layout="@layout/resatarunt_list_fragment" />
+    </LinearLayout>
+
+
+    <com.rey.material.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        app:fab_iconSrc="@drawable/menu"
+        app:fab_backgroundColor="@color/white"
+        android:layout_marginRight="10dp"/>
+    <FrameLayout
+        android:id="@+id/container_serach"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent">
+        <include
+            layout="@layout/search_screen"/>
+
+    </FrameLayout>
+</RelativeLayout>

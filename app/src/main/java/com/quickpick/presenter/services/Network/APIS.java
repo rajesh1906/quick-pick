@@ -20,5 +20,6 @@ package com.quickpick.presenter.services.Network;
     public static String Restarents="displayRestaurantNames";
     public static String  DisplayItems="displayItemsData";
     public static String  DisplayMenusData="displayMenusData";
+    public static String Defaultrestarents = "displayRestaurantNamesCityBasedWithOutCategory";
 
 }
