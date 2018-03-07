@@ -7,6 +7,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
         <!-- <item name="numberPickerStyle">@style/NPWidget.Holo.Light.NumberPicker</item>-->
         <!-- For 2.x version -->
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
