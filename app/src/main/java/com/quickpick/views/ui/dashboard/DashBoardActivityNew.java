@@ -83,7 +83,7 @@ public class DashBoardActivityNew extends BaseActivity {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerview.setLayoutManager(mLayoutManager);
         img_search.setVisibility(View.VISIBLE);
-        fetchData("category");
+        fetchData("category","show_progress");
         img_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,7 +110,7 @@ public class DashBoardActivityNew extends BaseActivity {
                 city_id = al_city_id.get(i);
                 new Common_methods(DashBoardActivityNew.this).hideKeyboard(edt_txt_search);
                 container_serach.setVisibility(View.GONE);
-                fetchData("category");
+                fetchData("category","show_progress");
             }
         });
     }
@@ -120,7 +120,7 @@ public class DashBoardActivityNew extends BaseActivity {
     }
 
 
-    private void fetchData(final String coming_from){
+    private void fetchData(final String coming_from,final  String prograss_bar_status){
 
         RetrofitClient.getInstance().getEndPoint(this, "").getResult(getParams(coming_from), new APIResponse() {
             @Override
@@ -217,7 +217,7 @@ public class DashBoardActivityNew extends BaseActivity {
                 case R.id.edt_txt_search:
                     if (edt_txt_search.getText().length() >= 1) {
 
-                        fetchData("cities");
+                        fetchData("cities","");
                     }
                     break;
 
@@ -258,6 +258,9 @@ public class DashBoardActivityNew extends BaseActivity {
 //        super.onBackPressed();
         if(container_serach.isShown()){
             container_serach.setVisibility(View.GONE);
+        }else if(!city_id.equals("1")) {
+            city_id ="1";
+            fetchData("category","show_progress");
         }else{
             finish();
         }
