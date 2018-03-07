@@ -5,4 +5,5 @@ package com.quickpick.views.ui.dashboard;
  */
 
 public interface GetCategory_Id {
+    public void getId(int id);
 }

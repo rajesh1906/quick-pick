@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.quickpick.R;
+import com.quickpick.model.Category;
 import com.quickpick.model.Cities;
 import com.quickpick.model.restaurant_category.RestaurantData;
 import com.quickpick.model.restaurant_category.Restaurant_names;
@@ -30,6 +31,8 @@ import com.quickpick.presenter.services.Network.RetrofitClient;
 import com.quickpick.presenter.utils.Common_methods;
 import com.quickpick.views.adapters.ShowRestaurant_Adapter;
 import com.quickpick.views.ui.BaseActivity;
+import com.quickpick.views.ui.customviews.CustomDialog;
+import com.rey.material.widget.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +45,7 @@ import butterknife.ButterKnife;
  * Created by Rajesh Kumar on 07-03-2018.
  */
 
-public class DashBoardActivityNew extends BaseActivity {
+public class DashBoardActivityNew extends BaseActivity implements GetCategory_Id {
 
     @Bind(R.id.recyclerview)
     RecyclerView recyclerview;
@@ -58,6 +61,8 @@ public class DashBoardActivityNew extends BaseActivity {
     EditText edt_txt_search;
     @Bind(R.id.list_cities)
     ListView list_cities;
+    @Bind(R.id.menu_category)
+    FloatingActionButton menu_category;
 
 
 
@@ -70,7 +75,7 @@ public class DashBoardActivityNew extends BaseActivity {
     ShowRestaurant_Adapter adapter;
     ArrayList<String> city_items = new ArrayList<>();
     ArrayList<String> al_city_id = new ArrayList<>();
-    String city_id="1";
+    String city_id="1",category_id="";
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activitydashboard_new;
@@ -83,7 +88,7 @@ public class DashBoardActivityNew extends BaseActivity {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerview.setLayoutManager(mLayoutManager);
         img_search.setVisibility(View.VISIBLE);
-        fetchData("category","show_progress");
+        fetchData("restaurnts","show_progress");
         img_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,6 +115,12 @@ public class DashBoardActivityNew extends BaseActivity {
                 city_id = al_city_id.get(i);
                 new Common_methods(DashBoardActivityNew.this).hideKeyboard(edt_txt_search);
                 container_serach.setVisibility(View.GONE);
+                fetchData("restaurnts","show_progress");
+            }
+        });
+        menu_category.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 fetchData("category","show_progress");
             }
         });
@@ -125,10 +136,10 @@ public class DashBoardActivityNew extends BaseActivity {
         RetrofitClient.getInstance().getEndPoint(this, "").getResult(getParams(coming_from), new APIResponse() {
             @Override
             public void onSuccess(String res) {
-                Log.e("resultent cities is ", "<><>" + res);
+                Log.e("response ", "<><>" + res);
 
                 switch (coming_from){
-                    case "category":
+                    case "restaurnts":
                         restaurant_name = new Gson().fromJson(res,Restaurant_names.class);
                         if(restaurant_name.getStatus().equalsIgnoreCase("successfully")){
                             if (spage == 1) {
@@ -184,6 +195,22 @@ public class DashBoardActivityNew extends BaseActivity {
                             Toast.makeText(DashBoardActivityNew.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                         }
                         break;
+                    case "category":
+                        Log.e("getting category is ","<><>"+res);
+                        Category category = new Gson().fromJson(res, Category.class);
+                      ArrayList<String >  category_items = new ArrayList<>();
+                        if (category.getStatus().equalsIgnoreCase("successfully")) {
+                            for (int i = 0; i < category.getCateogryData().size(); i++) {
+                                Log.e("category names is ", "<><>" + category.getCateogryData().get(i).getCategory_Name());
+                                category_items.add(category.getCateogryData().get(i).getCategory_Name());
+
+                            }
+                            CustomDialog.getInstance().showCategory_Dialog(DashBoardActivityNew.this,category_items);
+
+                        } else {
+                            Toast.makeText(DashBoardActivityNew.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                        }
+                        break;
                 }
 
             }
@@ -194,6 +221,12 @@ public class DashBoardActivityNew extends BaseActivity {
             }
         });
 
+    }
+
+    @Override
+    public void getId(int id) {
+
+        category_id=""+id;
     }
 
     private class CustomWatcher implements TextWatcher {
@@ -236,7 +269,7 @@ public class DashBoardActivityNew extends BaseActivity {
     private Map<String,String > getParams(String coming_from){
         Map<String ,String > params = new HashMap<>();
         switch (coming_from){
-            case "category":
+            case "restaurnts":
                 params.put("action", APIS.Defaultrestarents);
                 params.put("CityId", city_id);
                 params.put("FlagSlNo", "0");
@@ -246,6 +279,15 @@ public class DashBoardActivityNew extends BaseActivity {
                 params.put("FlagSlNo", "0");
 //                params.put("action", getResources().getString(R.string.getCities));
                 params.put("action", APIS.CITIES);
+                break;
+            case "category":
+                params.put("action",APIS.Category);
+                break;
+            case "category_id":
+                params.put("action",APIS.RestarentsBasedCategory);
+                params.put("CityId", city_id);
+                params.put("FlagSlNo", "0");
+                params.put("CatrgoryId",category_id);
                 break;
         }
 
@@ -260,7 +302,7 @@ public class DashBoardActivityNew extends BaseActivity {
             container_serach.setVisibility(View.GONE);
         }else if(!city_id.equals("1")) {
             city_id ="1";
-            fetchData("category","show_progress");
+            fetchData("restaurnts","show_progress");
         }else{
             finish();
         }
