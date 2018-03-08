@@ -46,6 +46,7 @@ public class CustomDialog {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 GetCategory_Id getCategory_id =(GetCategory_Id)activity;
                 getCategory_id.getId(position);
+                dialog.dismiss();
             }
         });
         dialog.show();

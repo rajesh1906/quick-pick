@@ -211,6 +211,43 @@ public class DashBoardActivityNew extends BaseActivity implements GetCategory_Id
                             Toast.makeText(DashBoardActivityNew.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                         }
                         break;
+                    case "category_id":
+
+
+                        restaurant_name = new Gson().fromJson(res,Restaurant_names.class);
+                        if(restaurant_name.getStatus().equalsIgnoreCase("successfully")){
+                            if (spage == 1) {
+                                temp_pojo = restaurant_name;
+                            } else {
+                                dataList = (ArrayList<RestaurantData>) temp_pojo.getRestaurantData();
+                                dataList.addAll(restaurant_name.getRestaurantData());
+                                temp_pojo.setRestaurantData(dataList);
+                                loading = false;
+                            }
+                            if(spage==1){
+                                adapter=    new ShowRestaurant_Adapter(DashBoardActivityNew.this,temp_pojo.getRestaurantData());
+                                recyclerview.setAdapter(adapter);
+                            }else{
+                                adapter.notifyDataSetChanged();
+                            }
+
+                            if(restaurant_name.getRestaurantData().size()==0&&spage==1){
+                                txt_no_res.setVisibility(View.VISIBLE);
+                            }else{
+                                txt_no_res.setVisibility(View.GONE);
+                            }
+
+
+                  /*  if (restaurant_name.getRestaurantData().size() < 2) {
+                        scrollflag = false;
+                    }*/
+
+                        }else{
+                            Toast.makeText(DashBoardActivityNew.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                        break;
                 }
 
             }
@@ -227,6 +264,7 @@ public class DashBoardActivityNew extends BaseActivity implements GetCategory_Id
     public void getId(int id) {
 
         category_id=""+id;
+        fetchData("category_id","show_progress");
     }
 
     private class CustomWatcher implements TextWatcher {
