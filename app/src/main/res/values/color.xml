@@ -28,4 +28,5 @@
     <color name="cte_color">#CC0000</color>
     <color name="cte_ripple_color">#CC0000</color>
     <color name="bikewale_color">#FFFF66</color>
+    <color name="black_transprient">#4D000000</color>
 </resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="50dp">
+    <ImageView
+        android:id="@+id/img_location"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/location_icon"/>
+        <TextView
+            android:id="@+id/txt_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/img_location"
+            android:text="city"
+            android:textColor="@color/black"
+            android:textSize="17dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"/>
+</RelativeLayout>

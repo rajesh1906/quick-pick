@@ -33,15 +33,15 @@
                 android:background="@color/white"
                 android:textColor="@color/black"
                 android:cursorVisible="true"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="5dp"
                 android:layout_toLeftOf="@+id/img_search"
                 android:layout_toRightOf="@+id/img_back"/>
             <ImageView
-                android:id="@+id/img_search"
+                android:id="@+id/img_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/icon_search"
+                android:background="@drawable/ic_close_popup"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"/>
         </RelativeLayout>
