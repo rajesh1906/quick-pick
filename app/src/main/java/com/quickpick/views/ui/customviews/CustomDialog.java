@@ -64,9 +64,9 @@ public class CustomDialog {
                 // .setLocation(new location[])//point in screen
                 .setLocationByAttachedView(target_view)
                 .setGravity(EasyDialog.GRAVITY_TOP)
-                .setAnimationTranslationShow(EasyDialog.DIRECTION_X, 1000, -600, 100, -50, 50, 0)
+                .setAnimationTranslationShow(EasyDialog.DIRECTION_Y, 1000, -600, 100, -50, 50, 0)
                 .setAnimationAlphaShow(1000, 0.3f, 1.0f)
-                .setAnimationTranslationDismiss(EasyDialog.DIRECTION_X, 500, -50, 800)
+                .setAnimationTranslationDismiss(EasyDialog.DIRECTION_Y, 500, -50, 800)
                 .setAnimationAlphaDismiss(500, 1.0f, 0.0f)
                 .setTouchOutsideDismiss(true)
                 .setMatchParent(true)
