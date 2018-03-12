@@ -26,7 +26,7 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="260dp"
+        android:layout_height="100dp"
         android:layout_marginBottom="3sp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
@@ -39,72 +39,92 @@
             android:layout_height="match_parent">
             <ImageView
                 android:id="@+id/img_res"
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_margin="2dp"
+                android:layout_centerVertical="true"
                 android:background="@drawable/img_three"/>
-            <RelativeLayout
-                android:id="@+id/rel_des"
+            <TextView
+                android:id="@+id/txt_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Restarent Name"
+                android:textSize="14dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/img_res"
+                android:textColor="@color/black"
+                android:layout_marginLeft="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_item"
+                android:layout_toRightOf="@+id/img_res"
+                android:textSize="12sp"
+                android:layout_marginLeft="10dp"
+                android:text="North Indian.Chinese.Fast Food"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height=".5dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@+id/img_res"
+                android:background="@color/gray"/>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/img_res"
-                android:layout_marginTop="10dp">
+                android:orientation="horizontal"
+                android:layout_toRightOf="@+id/img_res"
+               android:layout_alignParentBottom="true"
+                android:weightSum="3"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                >
                 <TextView
-                    android:id="@+id/txt_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Restarent Name"
-                    android:textSize="14dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:text="4.2(56)"
                     android:textColor="@color/black"
-                    android:layout_marginLeft="5dp"/>
+                    android:textSize="11dp"
+                    android:layout_weight="1"
+                    android:drawablePadding="2dp"
+                    android:drawableLeft="@drawable/star"
+                    />
                 <TextView
                     android:id="@+id/txt_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="100"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
                     android:textColor="@color/black"
-                    android:layout_alignParentRight="true"
                     android:textSize="12dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginLeft="5dp"/>
+                <TextView
+                    android:id="@+id/txt_pay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/txt_pay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:textSize="15dp"
-                android:layout_gravity="right"
-                android:background="@color/red"
-                android:textColor="@color/white"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:layout_marginRight="5dp"
-                android:textStyle="bold"
-                android:visibility="visible"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/rel_des"
-                android:text="Pay"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_below="@+id/rel_des"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp"
-                android:text="4.2(56)"
-                android:textColor="@color/black"
-                android:textSize="11dp"
-                android:drawablePadding="2dp"
-                android:drawableLeft="@drawable/star"
-               />
-
-
-
+                    android:textSize="15dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/red"
+                    android:textColor="@color/white"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textStyle="bold"
+                    android:visibility="visible"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/rel_des"
+                    android:text="Pay"/>
+            </LinearLayout>
 
         </RelativeLayout>
 

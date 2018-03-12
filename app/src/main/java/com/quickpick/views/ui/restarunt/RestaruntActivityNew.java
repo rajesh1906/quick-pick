@@ -88,7 +88,7 @@ public class RestaruntActivityNew extends BaseActivity implements View.OnClickLi
         name = bundle.getString("res_name");
         img_search.setVisibility(View.VISIBLE);
         Res_id = bundle.getString("menu_id");
-        fetchData("default_res","");
+        fetchData("default_res","show");
         fetchLisiner();
 
 
@@ -168,6 +168,11 @@ public class RestaruntActivityNew extends BaseActivity implements View.OnClickLi
                         if(menu.getItems().size()!=0){
                             Restaurant_menu_Adapter adapter = new Restaurant_menu_Adapter(RestaruntActivityNew.this,menu.getItems());
                             recyclerview.setAdapter(adapter);
+                            txt_no_res.setVisibility(View.GONE);
+                            recyclerview.setVisibility(View.VISIBLE);
+                        }else{
+                            txt_no_res.setVisibility(View.VISIBLE);
+                            recyclerview.setVisibility(View.GONE);
                         }
                         break;
                     case "search_items":
