@@ -11,7 +11,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.quickpick.R;
+import com.quickpick.model.menu.menunew.Item;
 import com.quickpick.views.ui.appetizer.Appetizer_Dashboard;
+import com.quickpick.views.ui.customviews.CustomDialog;
+
+import java.util.List;
 
 /**
  * Created by Rajesh Kumar on 20-11-2017.
@@ -21,13 +25,14 @@ public class Restaurant_menu_Adapter extends RecyclerView.Adapter<Restaurant_men
     private MyViewHolder holder;
     View root;
     Context context;
-
-    public Restaurant_menu_Adapter(Context context) {
+    List<Item> item;
+    public Restaurant_menu_Adapter(Context context,List<Item> item) {
         this.context = context;
+        this.item = item;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
+        TextView textView,txt_amount,txt_pay;
         ImageView imageView;
         RelativeLayout rel_item;
 
@@ -35,8 +40,10 @@ public class Restaurant_menu_Adapter extends RecyclerView.Adapter<Restaurant_men
         public MyViewHolder(View view) {
             super(view);
             textView = (TextView) view.findViewById(R.id.txt_item);
-            imageView = (ImageView)view.findViewById(R.id.img_item);
-            rel_item = (RelativeLayout)view.findViewById(R.id.rel_item);
+            txt_amount = (TextView) view.findViewById(R.id.txt_amount);
+            imageView = (ImageView)view.findViewById(R.id.img_res);
+            txt_pay = view.findViewById(R.id.txt_pay);
+//            rel_item = (RelativeLayout)view.findViewById(R.id.rel_item);
         }
     }
 
@@ -51,18 +58,20 @@ public class Restaurant_menu_Adapter extends RecyclerView.Adapter<Restaurant_men
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
-        holder.textView.setText("Item " + (position + 1));
-        holder.rel_item.setOnClickListener(new View.OnClickListener() {
+        holder.textView.setText(item.get(position).getItemName());
+        holder.txt_amount.setText("₹"+item.get(position).getAmount()+".00");
+        holder.txt_pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(new Intent(context, Appetizer_Dashboard.class));
+//                context.startActivity(new Intent(context, Appetizer_Dashboard.class));
+                CustomDialog.getInstance().showCategory_Dialog(context);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return 20;
+        return item.size();
     }
 
     @Override

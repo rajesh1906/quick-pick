@@ -354,7 +354,7 @@ public class DashBoardActivityNew extends BaseActivity implements GetCategory_Id
 //        super.onBackPressed();
         if (container_serach.isShown()) {
             container_serach.setVisibility(View.GONE);
-        } else if (!city_id.equals("1")||txt_header.getText().toString().equalsIgnoreCase("Search by City")) {
+        } else if (!city_id.equals("1")||!txt_header.getText().toString().equalsIgnoreCase("Search by City")) {
             city_id = "1";
             txt_header.setText("Search by City");
             fetchData("restaurnts", "show_progress");

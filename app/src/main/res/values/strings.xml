@@ -33,4 +33,9 @@
     </string-array>
     <string name="search">Search</string>
     <string name="appetizers_error">No Appetizer found</string>
+    <string-array name="payment_type">
+        <item>Cash on delivery</item>
+        <item>Pay from credit card</item>
+        <item>pay from debit card</item>
+    </string-array>
 </resources>

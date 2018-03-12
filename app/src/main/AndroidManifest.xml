@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".views.ui.restarunt.RestaruntActivity"
+        <activity android:name=".views.ui.restarunt.RestaruntActivityNew"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"/>

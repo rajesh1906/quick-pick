@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.quickpick.R;
 import com.quickpick.model.restaurant_category.RestaurantData;
 import com.quickpick.views.ui.restarunt.RestaruntActivity;
+import com.quickpick.views.ui.restarunt.RestaruntActivityNew;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -62,7 +63,7 @@ public class ShowRestaurant_Adapter extends RecyclerView.Adapter<ShowRestaurant_
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(context, RestaruntActivity.class);
+                Intent intent = new Intent(context, RestaruntActivityNew.class);
                 intent.putExtra("menu_id",dataList.get(position).getRes_id());
                 intent.putExtra("res_name",dataList.get(position).getRes_Name());
                 context.startActivity(intent);

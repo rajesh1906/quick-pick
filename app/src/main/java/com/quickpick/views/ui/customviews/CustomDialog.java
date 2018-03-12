@@ -7,7 +7,12 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.michael.easydialog.EasyDialog;
 import com.quickpick.R;
@@ -15,6 +20,8 @@ import com.quickpick.views.ui.dashboard.DashBoardActivityNew;
 import com.quickpick.views.ui.dashboard.GetCategory_Id;
 
 import java.util.ArrayList;
+
+import butterknife.ButterKnife;
 
 /**
  * Created by Rajesh kumar on 07-03-2018.
@@ -34,23 +41,43 @@ public class CustomDialog {
     }
 
 
-    public void showCategory_Dialog(final Context activity, ArrayList<String> items){
+    public void showCategory_Dialog(final Context activity){
 
         final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
-        dialog.setContentView(R.layout.categoriesdialog);
-        ListView ll_categories = (ListView)dialog.findViewById(R.id.ll_categories);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity,android.R.layout.simple_list_item_1,android.R.id.text1,items);
-        ll_categories.setAdapter(adapter);
-        ll_categories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        dialog.setContentView(R.layout.pay_dialog);
+       final RadioGroup radio_group = (RadioGroup)dialog.findViewById(R.id.radio_group);
+        String[] payement_array = activity.getResources().getStringArray(R.array.payment_type);
+        TextView txt_cancel = (TextView)dialog.findViewById(R.id.txt_cancel);
+        Button btn_proceed = (Button) dialog.findViewById(R.id.btn_proceed);
+
+        for (int i = 0; i < payement_array.length ; i++) {
+            RadioButton rbn = new RadioButton(activity);
+            rbn.setId(i + 1000);
+            rbn.setText(payement_array[i]);
+            radio_group.addView(rbn);
+        }
+        txt_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                GetCategory_Id getCategory_id =(GetCategory_Id)activity;
-                getCategory_id.getId(position);
+            public void onClick(View view) {
                 dialog.dismiss();
             }
         });
+        btn_proceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (radio_group.getCheckedRadioButtonId() == -1)
+                {
+                    Toast.makeText(activity,"Please select atleast one payment option",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    dialog.dismiss();
+                }
+            }
+        });
+
         dialog.show();
     }
 
