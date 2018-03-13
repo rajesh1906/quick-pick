@@ -43,6 +43,7 @@
             android:layout_centerVertical="true"
             android:layout_weight="1.8"
             android:text="Cancel"
+            android:layout_marginLeft="20dp"
             android:textColor="@color/black" />
 
         <Button

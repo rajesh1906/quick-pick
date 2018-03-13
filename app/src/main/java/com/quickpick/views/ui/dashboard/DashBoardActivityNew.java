@@ -1,7 +1,14 @@
 package com.quickpick.views.ui.dashboard;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -30,6 +37,7 @@ import com.quickpick.presenter.services.Network.APIResponse;
 import com.quickpick.presenter.services.Network.APIS;
 import com.quickpick.presenter.services.Network.RetrofitClient;
 import com.quickpick.presenter.utils.Common_methods;
+import com.quickpick.presenter.utils.GPSTracker;
 import com.quickpick.views.adapters.ShowRestaurant_Adapter;
 import com.quickpick.views.ui.BaseActivity;
 import com.quickpick.views.ui.customviews.CustomDialog;
@@ -80,6 +88,9 @@ public class DashBoardActivityNew extends BaseActivity implements GetCategory_Id
     ArrayList<String> city_items = new ArrayList<>();
     ArrayList<String> al_city_id = new ArrayList<>();
     String city_id = "1", category_id = "";
+    public final int REQUEST_CODE_ASK_LOCATION_PERMISSIONS = 124;
+    GPSTracker gpsTracker;
+    String lat="",lng="";
 
     @Override
     protected int getLayoutResourceId() {
@@ -327,6 +338,8 @@ public class DashBoardActivityNew extends BaseActivity implements GetCategory_Id
                 params.put("action", APIS.Defaultrestarents);
                 params.put("CityId", city_id);
                 params.put("FlagSlNo", "0");
+                params.put("latitude",lat);
+                params.put("longitude",lng);
                 break;
             case "cities":
                 params.put("Text", edt_txt_search.getText().toString());
@@ -363,5 +376,73 @@ public class DashBoardActivityNew extends BaseActivity implements GetCategory_Id
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(permission_Location()) {
+            gpsTracker = new GPSTracker(this);
+            if (!gpsTracker.isLocationAvailable()) {
+                CustomDialog.getInstance().commonDialog(this,
+                        "Please Enable Location Services",
+                        "Go to Settings -> Location Service ->" +
+                                "Check on Use GPS, Wi-Fi or mobile networks to determine location ","location");
+            }else{
+                lat = String.valueOf(gpsTracker.getLatitude());
+                lng = String.valueOf(gpsTracker.getLongitude());
+            }
+        }
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_LOCATION_PERMISSIONS:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // if (gpsTracker == null)
+                    gpsTracker = new GPSTracker(this);
+                    if (gpsTracker.isLocationAvailable()) {
+                        Log.e("location", gpsTracker.getLatitude() + ":::" + gpsTracker.getLongitude());
+                        lat = String.valueOf(gpsTracker.getLatitude());
+                        lng = String.valueOf(gpsTracker.getLongitude());
+                        if(String.valueOf(gpsTracker.getLatitude()).equals("0.0")){
+                            gpsTracker.getLocation();
+                        }
+
+                    } else {
+                        CustomDialog.getInstance().commonDialog(this,
+                                "Please Enable Location Services",
+                                "Go to Settings -> Location Service ->" +
+                                        "Check on Use GPS, Wi-Fi or mobile networks to determine location ","location");
+                    }
+
+                }else if (Build.VERSION.SDK_INT >= 23 && !shouldShowRequestPermissionRationale(permissions[0])) {
+                    CustomDialog.getInstance().commonDialog(this,
+                            "Your Location permission Denied",
+                            "Go to Settings and Grant the permission to use better features. ","location permssion");
+//                Toast.makeText(DashBoardActivityNew.this, "Go to Settings and Grant the permission to use this feature.", Toast.LENGTH_SHORT).show();
+                // User selected the Never Ask Again Option
+            } else {
+                Toast.makeText(DashBoardActivityNew.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+                break;
+        }
+    }
+
+    public boolean permission_Location() {
+        int hasStoragePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if (hasStoragePermission != PackageManager.PERMISSION_GRANTED) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        REQUEST_CODE_ASK_LOCATION_PERMISSIONS);
+                return false;
+            }
+
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_CODE_ASK_LOCATION_PERMISSIONS);
+
+            return false;
+        }
+        return true;
+    }
 }

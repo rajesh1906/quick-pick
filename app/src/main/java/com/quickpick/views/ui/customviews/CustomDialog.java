@@ -3,6 +3,9 @@ package com.quickpick.views.ui.customviews;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.Settings;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.michael.easydialog.EasyDialog;
+import com.quickpick.BuildConfig;
 import com.quickpick.R;
 import com.quickpick.views.ui.dashboard.DashBoardActivityNew;
 import com.quickpick.views.ui.dashboard.GetCategory_Id;
@@ -31,9 +35,9 @@ public class CustomDialog {
     public static CustomDialog customDialog;
 
 
-    public static CustomDialog getInstance(){
+    public static CustomDialog getInstance() {
 
-        if(customDialog==null){
+        if (customDialog == null) {
             customDialog = new CustomDialog();
         }
         return customDialog;
@@ -41,18 +45,18 @@ public class CustomDialog {
     }
 
 
-    public void showCategory_Dialog(final Context activity){
+    public void showCategory_Dialog(final Context activity) {
 
         final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
         dialog.setContentView(R.layout.pay_dialog);
-       final RadioGroup radio_group = (RadioGroup)dialog.findViewById(R.id.radio_group);
+        final RadioGroup radio_group = (RadioGroup) dialog.findViewById(R.id.radio_group);
         String[] payement_array = activity.getResources().getStringArray(R.array.payment_type);
-        TextView txt_cancel = (TextView)dialog.findViewById(R.id.txt_cancel);
+        TextView txt_cancel = (TextView) dialog.findViewById(R.id.txt_cancel);
         Button btn_proceed = (Button) dialog.findViewById(R.id.btn_proceed);
 
-        for (int i = 0; i < payement_array.length ; i++) {
+        for (int i = 0; i < payement_array.length; i++) {
             RadioButton rbn = new RadioButton(activity);
             rbn.setId(i + 1000);
             rbn.setText(payement_array[i]);
@@ -67,12 +71,9 @@ public class CustomDialog {
         btn_proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (radio_group.getCheckedRadioButtonId() == -1)
-                {
-                    Toast.makeText(activity,"Please select atleast one payment option",Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
+                if (radio_group.getCheckedRadioButtonId() == -1) {
+                    Toast.makeText(activity, "Please select atleast one payment option", Toast.LENGTH_SHORT).show();
+                } else {
                     dialog.dismiss();
                 }
             }
@@ -82,9 +83,9 @@ public class CustomDialog {
     }
 
 
-    public void showTooltip(final Context context, ArrayList<String > category_items, View target_view){
-        View view = ((Activity)context).getLayoutInflater().inflate(R.layout.categoriesdialog, null);
-        final EasyDialog dialog=   new EasyDialog(context)
+    public void showTooltip(final Context context, ArrayList<String> category_items, View target_view) {
+        View view = ((Activity) context).getLayoutInflater().inflate(R.layout.categoriesdialog, null);
+        final EasyDialog dialog = new EasyDialog(context)
                 // .setLayoutResourceId(R.layout.layout_tip_content_horizontal)//layout resource id
                 .setLayout(view)
                 .setBackgroundColor(context.getResources().getColor(R.color.white))
@@ -100,13 +101,13 @@ public class CustomDialog {
                 .setMarginLeftAndRight(24, 24)
                 .setOutsideColor(context.getResources().getColor(R.color.black_transprient))
                 .show();
-        ListView listView = (ListView)view.findViewById(R.id.ll_categories);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1,android.R.id.text1,category_items);
+        ListView listView = (ListView) view.findViewById(R.id.ll_categories);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, android.R.id.text1, category_items);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                GetCategory_Id getCategory_id =(GetCategory_Id)context;
+                GetCategory_Id getCategory_id = (GetCategory_Id) context;
                 getCategory_id.getId(position);
                 dialog.dismiss();
             }
@@ -116,7 +117,32 @@ public class CustomDialog {
     }
 
 
+    public void commonDialog(final Context context, String title, String desc_data, final String coming_from) {
 
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.custom_common_dialog);
+        TextView desc = (TextView) dialog.findViewById(R.id.txt_dec);
+        TextView txt_title = (TextView) dialog.findViewById(R.id.txt_title);
+        Button btn_ok = (Button) dialog.findViewById(R.id.btn_ok);
+        desc.setText(desc_data);
+        txt_title.setText(title);
+        dialog.show();
+        btn_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(coming_from.equalsIgnoreCase("location")) {
+                    context.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                }else{
+                    context.startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + BuildConfig.APPLICATION_ID)));
+                }
+                dialog.dismiss();
+            }
+        });
+
+
+    }
 
 
 }

@@ -1,7 +1,10 @@
 package com.quickpick.presenter.utils;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -36,4 +39,6 @@ public class Common_methods {
                 view.getApplicationWindowToken(),
                 InputMethodManager.SHOW_FORCED, 0);
     }
+
+
 }
