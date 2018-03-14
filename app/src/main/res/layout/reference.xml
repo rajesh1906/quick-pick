@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ll_pager_bottom"
+        >
+        <android.support.v4.view.ViewPager
+            android:id="@+id/reviewpager"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+            <LinearLayout
+                android:id="@+id/ll_dots"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+
+                android:gravity="center"
+                android:orientation="horizontal"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/ll_pager_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+        <TextView
+            android:id="@+id/txt_skip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Skip >>"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginLeft="10dp"
+            android:textSize="15dp"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/txt_count_pages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="1"
+            android:textColor="@color/black"
+            />
+        <TextView
+            android:id="@+id/txt_proceed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="Proceed"
+            android:visibility="gone"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginRight="10dp"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>

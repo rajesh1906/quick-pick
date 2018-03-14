@@ -43,6 +43,7 @@ public class Authentication_dashboard extends AppCompatActivity implements View.
                 startActivity(new Intent(this,SignIn.class));
                 break;
             case R.id.txt_register:
+                startActivity(new Intent(this,SignUp.class));
                 break;
         }
 

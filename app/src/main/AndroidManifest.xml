@@ -20,7 +20,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".views.ui.authentication.Authentication_dashboard"
+            android:name=".views.ui.authentication.SignIn"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
@@ -29,9 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.ui.authentication.SignIn"
-            android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"/>
         <activity android:name=".views.ui.dashboard.DashBoardActivityNew"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"/>
@@ -43,6 +40,14 @@
         <activity android:name=".views.ui.appetizer.Appetizer_Dashboard"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"/>
+        <activity android:name=".views.ui.authentication.SignUp"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".views.ui.authentication.Reference"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>

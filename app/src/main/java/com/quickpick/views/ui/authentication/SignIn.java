@@ -9,10 +9,14 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.quickpick.R;
+import com.quickpick.presenter.utils.Common_methods;
 import com.quickpick.views.ui.dashboard.DashBoardActivityNew;
+
+import org.w3c.dom.Text;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,6 +36,10 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
     TextView txt_user_error;
     @Bind(R.id.txt_error_pwd)
     TextView txt_error_pwd;
+    @Bind(R.id.scroll_view)
+    ScrollView scroll_view;
+    @Bind(R.id.txt_register)
+    TextView txt_register;
 
 
 
@@ -42,21 +50,37 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
         ButterKnife.bind(this);
         fetchListeners();
         btn_login.setOnClickListener(this);
+        txt_register.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        if(checkvalidation()) {
-            startActivity(new Intent(this, DashBoardActivityNew.class));
-            Authentication_dashboard.activity.finish();
-            finish();
+        switch (view.getId()){
+            case R.id.btn_login:
+                if(checkvalidation()) {
+                    startActivity(new Intent(this, DashBoardActivityNew.class));
+                    finish();
+                }
+                break;
+            case R.id.txt_register:
+                startActivity(new Intent( this,SignUp.class));
+                break;
+
         }
+
     }
 
 
     private void fetchListeners(){
         et_username.addTextChangedListener(new CustomWatcher(et_username));
         et_pwd.addTextChangedListener(new CustomWatcher(et_pwd));
+
+        et_username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                new Common_methods(SignIn.this).ScreenLift(scroll_view,et_username,btn_login.getBottom()+300);
+            }
+        });
     }
 
 
