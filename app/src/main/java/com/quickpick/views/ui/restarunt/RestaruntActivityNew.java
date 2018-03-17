@@ -7,6 +7,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -64,11 +66,22 @@ public class RestaruntActivityNew extends BaseActivity implements View.OnClickLi
     ImageView img_cancel;
     @Bind(R.id.txt_header)
     TextView txt_header;
-    String Res_id = "",name="";
+    @Bind(R.id.ll_icon)
+    LinearLayout ll_icon;
+    @Bind(R.id.fab_filter)
+    FloatingActionButton fab_filter;
+    @Bind(R.id.fab_menu)
+    FloatingActionButton fab_menu;
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
+
+    String Res_id = "", name = "";
     ArrayList<String> menu_items = new ArrayList<>();
-    ArrayList<String > menu_id = new ArrayList<>();
-    String  menu__item_id="1", category_id = "";
-    ArrayList<String > category_items_id = new ArrayList<>();
+    ArrayList<String> menu_id = new ArrayList<>();
+    String menu__item_id = "1", category_id = "";
+    ArrayList<String> category_items_id = new ArrayList<>();
+    private Animation fab_open, fab_close, rotate_forward, rotate_backward;
+    private Boolean isFabOpen = false;
 
     @Override
     protected int getLayoutResourceId() {
@@ -82,14 +95,21 @@ public class RestaruntActivityNew extends BaseActivity implements View.OnClickLi
         ButterKnife.bind(this);
         txt_header.setText("Search by Item");
         txt_header.setTextColor(getResources().getColor(R.color.black));
+        drawerToggle.setDrawerIndicatorEnabled(false);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerview.setLayoutManager(mLayoutManager);
         Bundle bundle = getIntent().getExtras();
         name = bundle.getString("res_name");
         img_search.setVisibility(View.VISIBLE);
         Res_id = bundle.getString("menu_id");
-        fetchData("default_res","show");
+        fetchData("default_res", "show");
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_forward);
+        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_backward);
         fetchLisiner();
+        ll_icon.setVisibility(View.VISIBLE);
+        menu_category.setVisibility(View.GONE);
 
 
         list_menu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -104,7 +124,16 @@ public class RestaruntActivityNew extends BaseActivity implements View.OnClickLi
                 fetchData("search_based_menu", "show_progress");
             }
         });
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener()
+
+        {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
+
     private void fetchLisiner() {
 
         img_search.setOnClickListener(this);
@@ -112,12 +141,16 @@ public class RestaruntActivityNew extends BaseActivity implements View.OnClickLi
         menu_category.setOnClickListener(this);
         img_cancel.setOnClickListener(this);
         edt_txt_search.addTextChangedListener(new CustomWatcher(edt_txt_search));
+        fab.setOnClickListener(this);
+        fab_menu.setOnClickListener(this);
+        fab_filter.setOnClickListener(this);
 
     }
 
     @Override
     public void getId(int id) {
-        menu__item_id = ""+category_items_id .get(id);
+        menu__item_id = "" + category_items_id.get(id);
+        animateFAB();
         fetchData("search_based_menu", "show_progress");
     }
 
@@ -156,21 +189,20 @@ public class RestaruntActivityNew extends BaseActivity implements View.OnClickLi
     }
 
 
-
-    private void fetchData(final String coming_from, String progress_bar){
-        RetrofitClient.getInstance().getEndPoint(this,progress_bar).getResult(getparams(coming_from), new APIResponse() {
+    private void fetchData(final String coming_from, String progress_bar) {
+        RetrofitClient.getInstance().getEndPoint(this, progress_bar).getResult(getparams(coming_from), new APIResponse() {
             @Override
             public void onSuccess(String res) {
-                Log.e("response is ","<><><>"+res);
-                switch (coming_from){
+                Log.e("response is ", "<><><>" + res);
+                switch (coming_from) {
                     case "default_res":
-                        Menu menu = new Gson().fromJson(res,Menu.class);
-                        if(menu.getItems().size()!=0){
-                            Restaurant_menu_Adapter adapter = new Restaurant_menu_Adapter(RestaruntActivityNew.this,menu.getItems());
+                        Menu menu = new Gson().fromJson(res, Menu.class);
+                        if (menu.getItems().size() != 0) {
+                            Restaurant_menu_Adapter adapter = new Restaurant_menu_Adapter(RestaruntActivityNew.this, menu.getItems());
                             recyclerview.setAdapter(adapter);
                             txt_no_res.setVisibility(View.GONE);
                             recyclerview.setVisibility(View.VISIBLE);
-                        }else{
+                        } else {
                             txt_no_res.setVisibility(View.VISIBLE);
                             recyclerview.setVisibility(View.GONE);
                         }
@@ -180,11 +212,11 @@ public class RestaruntActivityNew extends BaseActivity implements View.OnClickLi
                             menu_items.clear();
                             menu_id.clear();
                         }
-                        Menu menu_search = new Gson().fromJson(res,Menu.class);
-                        if(menu_search.getItems().size()!=0){
+                        Menu menu_search = new Gson().fromJson(res, Menu.class);
+                        if (menu_search.getItems().size() != 0) {
                             for (int i = 0; i < menu_search.getItems().size(); i++) {
                                 menu_items.add(menu_search.getItems().get(i).getItemName());
-                               menu_id.add(menu_search.getItems().get(i).getMenuId());
+                                menu_id.add(menu_search.getItems().get(i).getMenuId());
 
                                 Log.e("menu data is ", "<><>" + menu_search.getItems().get(i).getItemName());
                             }
@@ -192,19 +224,19 @@ public class RestaruntActivityNew extends BaseActivity implements View.OnClickLi
                             list_menu.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
 
-                        }else{
+                        } else {
                             Toast.makeText(RestaruntActivityNew.this, "No Search Found", Toast.LENGTH_SHORT).show();
                         }
 
                         break;
 
                     case "search_based_menu":
-                        Menu menu_search_based = new Gson().fromJson(res,Menu.class);
-                        if(menu_search_based.getItems().size()!=0){
-                            Restaurant_menu_Adapter adapter = new Restaurant_menu_Adapter(RestaruntActivityNew.this,menu_search_based.getItems());
+                        Menu menu_search_based = new Gson().fromJson(res, Menu.class);
+                        if (menu_search_based.getItems().size() != 0) {
+                            Restaurant_menu_Adapter adapter = new Restaurant_menu_Adapter(RestaruntActivityNew.this, menu_search_based.getItems());
                             recyclerview.setAdapter(adapter);
                             txt_no_res.setVisibility(View.GONE);
-                        }else{
+                        } else {
                             txt_no_res.setVisibility(View.VISIBLE);
                             recyclerview.setVisibility(View.GONE);
                         }
@@ -221,7 +253,7 @@ public class RestaruntActivityNew extends BaseActivity implements View.OnClickLi
                                 category_items_id.add(category.getMenuData().get(i).getMenuId());
 
                             }
-                            CustomDialog.getInstance().showTooltip(RestaruntActivityNew.this, category_items,menu_category);
+                            CustomDialog.getInstance().showTooltip(RestaruntActivityNew.this, category_items, fab_menu);
 
 
                         } else {
@@ -242,30 +274,27 @@ public class RestaruntActivityNew extends BaseActivity implements View.OnClickLi
     }
 
 
-
-    private Map<String ,String > getparams(String coming_from){
-        Map<String,String > params = new HashMap<>();
-        switch (coming_from){
+    private Map<String, String> getparams(String coming_from) {
+        Map<String, String> params = new HashMap<>();
+        switch (coming_from) {
             case "default_res":
                 params.put("action", APIS.DisplayItems);
                 break;
             case "search_items":
-                params.put("action",APIS.displayItemsSearchData);
-                params.put("Text",edt_txt_search.getText().toString());
+                params.put("action", APIS.displayItemsSearchData);
+                params.put("Text", edt_txt_search.getText().toString());
                 break;
             case "search_based_menu":
-                params.put("action",APIS.displayItemsDataMenuBased);
-                params.put("MenuId",""+menu__item_id);
+                params.put("action", APIS.displayItemsDataMenuBased);
+                params.put("MenuId", "" + menu__item_id);
 
                 break;
             case "category":
-                params.put("action",APIS.MenuLoading);
+                params.put("action", APIS.MenuLoading);
                 break;
         }
         params.put("RestaurantID", Res_id);
-        params.put("FlagSlNo","0");
-
-
+        params.put("FlagSlNo", "0");
 
 
         return params;
@@ -273,7 +302,7 @@ public class RestaruntActivityNew extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.img_search:
                 edt_txt_search.setText("");
                 container_serach.setVisibility(View.VISIBLE);
@@ -291,6 +320,17 @@ public class RestaruntActivityNew extends BaseActivity implements View.OnClickLi
             case R.id.img_cancel:
                 edt_txt_search.setText("");
                 break;
+            case R.id.fab:
+
+                animateFAB();
+                break;
+            case R.id.fab_menu:
+                fetchData("category", "");
+                break;
+            case R.id.fab_filter:
+
+               Toast.makeText(RestaruntActivityNew.this,"Filter Under construction",Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 
@@ -299,12 +339,37 @@ public class RestaruntActivityNew extends BaseActivity implements View.OnClickLi
 //        super.onBackPressed();
         if (container_serach.isShown()) {
             container_serach.setVisibility(View.GONE);
-        } else if (!menu__item_id.equals("1")||!txt_header.getText().toString().equalsIgnoreCase("Search by Item")) {
+        } else if (!menu__item_id.equals("1") || !txt_header.getText().toString().equalsIgnoreCase("Search by Item")) {
             menu__item_id = "1";
             txt_header.setText("Search by Item");
             fetchData("default_res", "show_progress");
         } else {
             finish();
+        }
+    }
+
+    public void animateFAB() {
+
+        if (isFabOpen) {
+
+            fab.startAnimation(rotate_backward);
+            fab_filter.startAnimation(fab_close);
+            fab_menu.startAnimation(fab_close);
+            fab_filter.setClickable(false);
+            fab_menu.setClickable(false);
+            isFabOpen = false;
+            Log.d("Raj", "close");
+
+        } else {
+
+            fab.startAnimation(rotate_forward);
+            fab_filter.startAnimation(fab_open);
+            fab_menu.startAnimation(fab_open);
+            fab_filter.setClickable(true);
+            fab_menu.setClickable(true);
+            isFabOpen = true;
+            Log.d("Raj", "open");
+
         }
     }
 }

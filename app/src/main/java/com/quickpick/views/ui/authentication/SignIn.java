@@ -128,11 +128,15 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
 
     private boolean checkvalidation(){
         boolean validation=true;
-        if(et_username.getText().toString().isEmpty()||et_username.getText().toString().length()<3){
-            txt_user_error.setVisibility(View.VISIBLE);
+        if(!Common_methods.validateUsername(et_username)){
+            et_username.requestFocus();
+            et_username.setError("please enter valid username");
+//            txt_user_error.setVisibility(View.VISIBLE);
             validation=false;
         }else if(et_pwd.getText().toString().isEmpty()||et_pwd.getText().toString().length()<3){
-            txt_error_pwd.setVisibility(View.VISIBLE);
+            et_pwd.requestFocus();
+            et_pwd.setError("please enter valid password");
+//            txt_error_pwd.setVisibility(View.VISIBLE);
             validation=false;
         }
         return validation;

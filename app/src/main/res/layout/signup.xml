@@ -43,7 +43,7 @@
             <EditText
                 android:id="@+id/et_email"
                 style="@style/edit_text_pay_req_form"
-                android:inputType="textCapSentences"
+                android:inputType="textEmailAddress"
                 android:maxLength="25"
                 android:layout_toLeftOf="@+id/txt_verify_email"
                 android:background="@drawable/shape_white"
@@ -83,8 +83,8 @@
             <EditText
                 android:id="@+id/et_mobile"
                 style="@style/edit_text_pay_req_form"
-                android:inputType="textCapSentences"
-                android:maxLength="25"
+                android:inputType="phone"
+                android:maxLength="10"
                 android:background="@drawable/shape_white"
                 android:singleLine="true"
                 android:layout_toLeftOf="@+id/txt_verify_mobile"

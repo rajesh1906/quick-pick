@@ -7,13 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.quickpick.R;
 import com.quickpick.model.menu.menunew.Item;
 import com.quickpick.views.ui.appetizer.Appetizer_Dashboard;
 import com.quickpick.views.ui.customviews.CustomDialog;
+import com.quickpick.views.ui.details.DetailsActivity;
 
 import java.util.List;
 
@@ -35,6 +38,7 @@ public class Restaurant_menu_Adapter extends RecyclerView.Adapter<Restaurant_men
         TextView textView,txt_amount,txt_pay;
         ImageView imageView;
         RelativeLayout rel_item;
+        LinearLayout ll_cart;
 
 
         public MyViewHolder(View view) {
@@ -43,7 +47,8 @@ public class Restaurant_menu_Adapter extends RecyclerView.Adapter<Restaurant_men
             txt_amount = (TextView) view.findViewById(R.id.txt_amount);
             imageView = (ImageView)view.findViewById(R.id.img_res);
             txt_pay = view.findViewById(R.id.txt_pay);
-//            rel_item = (RelativeLayout)view.findViewById(R.id.rel_item);
+            rel_item = (RelativeLayout)view.findViewById(R.id.rel_item);
+            ll_cart = view.findViewById(R.id.ll_cart);
         }
     }
 
@@ -65,6 +70,21 @@ public class Restaurant_menu_Adapter extends RecyclerView.Adapter<Restaurant_men
             public void onClick(View view) {
 //                context.startActivity(new Intent(context, Appetizer_Dashboard.class));
                 CustomDialog.getInstance().showCategory_Dialog(context);
+            }
+        });
+        holder.rel_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, DetailsActivity.class);
+                intent.putExtra("item_name",item.get(position).getItemName());
+                intent.putExtra("item_price",item.get(position).getAmount());
+                context.startActivity(intent);
+            }
+        });
+        holder.ll_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "Cart under construction", Toast.LENGTH_SHORT).show();
             }
         });
     }

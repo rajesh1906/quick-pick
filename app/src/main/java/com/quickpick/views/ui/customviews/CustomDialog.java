@@ -6,11 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -88,7 +90,7 @@ public class CustomDialog {
         final EasyDialog dialog = new EasyDialog(context)
                 // .setLayoutResourceId(R.layout.layout_tip_content_horizontal)//layout resource id
                 .setLayout(view)
-                .setBackgroundColor(context.getResources().getColor(R.color.white))
+                .setBackgroundColor(context.getResources().getColor(R.color.black_transprient))
                 // .setLocation(new location[])//point in screen
                 .setLocationByAttachedView(target_view)
                 .setGravity(EasyDialog.GRAVITY_TOP)
@@ -97,11 +99,13 @@ public class CustomDialog {
                 .setAnimationTranslationDismiss(EasyDialog.DIRECTION_Y, 500, -50, 800)
                 .setAnimationAlphaDismiss(500, 1.0f, 0.0f)
                 .setTouchOutsideDismiss(true)
-                .setMatchParent(true)
-                .setMarginLeftAndRight(24, 24)
+//                .setMatchParent(true)
+                .setMarginLeftAndRight(50, 50)
+                .setMarginTopAndBottom(400,0)
                 .setOutsideColor(context.getResources().getColor(R.color.black_transprient))
                 .show();
         ListView listView = (ListView) view.findViewById(R.id.ll_categories);
+        LinearLayout ll_inflate = view.findViewById(R.id.ll_inflate);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, android.R.id.text1, category_items);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -112,6 +116,15 @@ public class CustomDialog {
                 dialog.dismiss();
             }
         });
+       /* LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        for(int i=0;i<category_items.size();i++){
+            View view_item = inflater.inflate(R.layout.item_parent, null);
+            TextView text1 = (TextView)view_item.findViewById(R.id.text1);
+            text1.setText(category_items.get(i));
+            ll_inflate.addView(view_item);
+        }*/
+
+
 
 
     }
