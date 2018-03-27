@@ -6,5 +6,5 @@ package com.quickpick.presenter.payment;
 
 public class PayPalConfig {
 
-    public static final String PAYPAL_CLIENT_ID = "YOUR PAYPAL CLIENT ID";
+    public static final String PAYPAL_CLIENT_ID = "AQB4rH_RoIQbSce_eJ9uQxnLKekV9ghnTh1EcHh4SS7rJAj3Z70ZxAzYi8-TZ7sFz0WW4Rr8jjqiZX_7";
 }
