@@ -69,7 +69,12 @@ public class Restaurant_menu_Adapter extends RecyclerView.Adapter<Restaurant_men
             @Override
             public void onClick(View view) {
 //                context.startActivity(new Intent(context, Appetizer_Dashboard.class));
-                CustomDialog.getInstance().showCategory_Dialog(context);
+                CustomDialog.getInstance().showCategory_Dialog(context, new CustomDialog.getpaymentType() {
+                    @Override
+                    public void getpayment() {
+
+                    }
+                });
             }
         });
         holder.rel_item.setOnClickListener(new View.OnClickListener() {

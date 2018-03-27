@@ -1,22 +1,34 @@
 package com.quickpick.views.ui.details;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.paypal.android.sdk.payments.PayPalPayment;
+import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
 import com.quickpick.R;
+import com.quickpick.presenter.payment.PaypalImplementation;
 import com.quickpick.views.ui.BaseActivity;
 import com.quickpick.views.ui.customviews.CustomDialog;
 
+import org.json.JSONException;
 import org.w3c.dom.Text;
+
+import java.math.BigDecimal;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static com.quickpick.presenter.payment.PaypalImplementation.PAYPAL_REQUEST_CODE;
 
 /**
  * Created by Rajesh Kumar on 16-03-2018.
@@ -172,10 +184,29 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
                 }
                 break;
             case R.id.txt_pay:
-                CustomDialog.getInstance().showCategory_Dialog(this);
+                CustomDialog.getInstance().showCategory_Dialog(this, new CustomDialog.getpaymentType() {
+                    @Override
+                    public void getpayment() {
+//                        Toast.makeText(DetailsActivity.this, "coming to activity", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(DetailsActivity.this, PayPalService.class);
+
+                        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, PaypalImplementation.getInstance().getPPConfigrationInstance());
+
+                        startService(intent);
+
+                        getPayment(txt_price.getText().toString().replaceAll("₹","").trim());
+                    }
+                });
                 break;
 
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        stopService(new Intent(this, PayPalService.class));
+        super.onDestroy();
+
     }
 
     public String trimLeadingZeros(String str) {
@@ -204,5 +235,63 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
             }
             return new String(temp);
         }
+
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PAYPAL_REQUEST_CODE) {
+
+            //If the result is OK i.e. user has not canceled the payment
+            if (resultCode == Activity.RESULT_OK) {
+                //Getting the payment confirmation
+                PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+
+                //if confirmation is not null
+                if (confirm != null) {
+                    try {
+                        //Getting the payment details
+                        String paymentDetails = confirm.toJSONObject().toString(4);
+                        Log.e("paymentExample", "payment detials "+paymentDetails);
+
+                        //Starting a new activity for the payment details and also putting the payment details with intent
+//                        startActivity(new Intent(this, ConfirmationActivity.class)
+//                                .putExtra("PaymentDetails", paymentDetails)
+//                                .putExtra("PaymentAmount", paymentAmount));
+
+                    } catch (JSONException e) {
+                        Log.e("paymentExample", "an extremely unlikely failure occurred: ", e);
+                    }
+                }
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                Log.i("paymentExample", "The user canceled.");
+            } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
+                Log.i("paymentExample", "An invalid Payment or PayPalConfiguration was submitted. Please see the docs.");
+            }
+        }
+    }
+
+    private void getPayment(String payment_amount) {
+        //Getting the amount from editText
+//      String  paymentAmount = editTextAmount.getText().toString();
+
+        //Creating a paypalpayment
+        PayPalPayment payment = new PayPalPayment(new BigDecimal(String.valueOf(payment_amount)), "USD", "Item price",
+                PayPalPayment.PAYMENT_INTENT_SALE);
+
+        //Creating Paypal Payment activity intent
+        Intent intent = new Intent(this, PaymentActivity.class);
+
+        //putting the paypal configuration to the intent
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, PaypalImplementation.getInstance().getPPConfigrationInstance());
+
+        //Puting paypal payment to the intent
+        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
+
+        //Starting the intent activity for result
+        //the request code will be used on the method onActivityResult
+        startActivityForResult(intent, PAYPAL_REQUEST_CODE);
     }
 }

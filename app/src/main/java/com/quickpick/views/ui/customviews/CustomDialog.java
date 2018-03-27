@@ -36,6 +36,8 @@ import butterknife.ButterKnife;
 public class CustomDialog {
     public static CustomDialog customDialog;
 
+    public getpaymentType getpaymenttype;
+
 
     public static CustomDialog getInstance() {
 
@@ -47,7 +49,7 @@ public class CustomDialog {
     }
 
 
-    public void showCategory_Dialog(final Context activity) {
+    public void showCategory_Dialog(final Context activity,final getpaymentType getpaymenttype) {
 
         final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -77,6 +79,7 @@ public class CustomDialog {
                     Toast.makeText(activity, "Please select atleast one payment option", Toast.LENGTH_SHORT).show();
                 } else {
                     dialog.dismiss();
+                     getpaymenttype.getpayment();
                 }
             }
         });
@@ -155,6 +158,10 @@ public class CustomDialog {
         });
 
 
+    }
+
+    public interface getpaymentType{
+        public void getpayment();
     }
 
 
