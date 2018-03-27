@@ -14,7 +14,7 @@ public class AppAplication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d("","inside onCreate()...................... ");
+//        Log.d("","inside onCreate()...................... ");
     }
     @Override
     protected void attachBaseContext(Context context) {

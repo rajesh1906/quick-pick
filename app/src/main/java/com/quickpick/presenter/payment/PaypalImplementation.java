@@ -27,8 +27,6 @@ public class PaypalImplementation {
                 // or live (ENVIRONMENT_PRODUCTION)
                 .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
                 .clientId(PayPalConfig.PAYPAL_CLIENT_ID);
-
-
     }
 
 
