@@ -1,6 +1,7 @@
 package com.quickpick.presenter.services.Network;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.quickpick.views.ui.BaseActivity;
@@ -31,6 +32,12 @@ public class EndPoint  {
 
     public void getResult(Map<String ,String > params,final APIResponse api_res ){
         params.put("InputType","M");
+        for ( Map.Entry<String, String > entry : params.entrySet()) {
+            String key = entry.getKey();
+            String tab = entry.getValue();
+            Log.e("key is ","<><"+key+" value is "+tab);
+            // do something with key and/or tab
+        }
 
         if(BaseActivity.haveNetworkConnection(context)){
             apiService.getApiResultCity(params.get("action")+"?",params).enqueue(new Callback<String>() {

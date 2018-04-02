@@ -10,15 +10,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <android.support.design.widget.FloatingActionButton
+    <com.rey.material.widget.FloatingActionButton
         android:id="@+id/floating_action_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right|bottom"
+        android:layout_gravity="bottom|end"
+        android:visibility="visible"
+        android:layout_alignParentBottom="true"
+        app:elevation="6dp"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_alignParentRight="true"
+        app:fab_backgroundColor="@color/white"
+        app:pressedTranslationZ="12dp"
+        app:fab_iconSrc="@drawable/menu"
+        app:useCompatPadding="true"
         android:layout_marginBottom="88dp"
-        android:src="@drawable/menu"
-        android:visibility="gone"
-        app:useCompatPadding="true"/>
+        android:layout_toLeftOf="@+id/fab"/>
 
     <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
         android:id="@+id/bottom_navigation"

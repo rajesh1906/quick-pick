@@ -209,7 +209,7 @@ public class DashBoardActivityNew extends BaseActivity implements GetCategory_Id
                                 category_items.add(category.getCateogryData().get(i).getCategory_Name());
 
                             }
-                            CustomDialog.getInstance().showTooltip(DashBoardActivityNew.this, category_items,menu_category);
+                            CustomDialog.getInstance().showTooltip(DashBoardActivityNew.this, category_items,menu_category,null);
 
 
                         } else {

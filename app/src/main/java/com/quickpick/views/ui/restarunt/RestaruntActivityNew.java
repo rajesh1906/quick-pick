@@ -253,7 +253,7 @@ public class RestaruntActivityNew extends BaseActivity implements View.OnClickLi
                                 category_items_id.add(category.getMenuData().get(i).getMenuId());
 
                             }
-                            CustomDialog.getInstance().showTooltip(RestaruntActivityNew.this, category_items, fab_menu);
+                            CustomDialog.getInstance().showTooltip(RestaruntActivityNew.this, category_items, fab_menu,null);
 
 
                         } else {

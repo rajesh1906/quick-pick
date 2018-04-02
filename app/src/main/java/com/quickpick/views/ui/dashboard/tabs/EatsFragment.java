@@ -31,6 +31,7 @@ import com.quickpick.presenter.services.Network.RetrofitClient;
 import com.quickpick.views.adapters.ShowRestaurant_Adapter;
 import com.quickpick.views.ui.customviews.CustomDialog;
 import com.quickpick.views.ui.dashboard.DashBoardActivityNew;
+import com.quickpick.views.ui.dashboard.GetCategory_Id;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +43,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Rajesh Kumar on 02-04-2018.
  */
-public class EatsFragment extends Fragment {
+public class EatsFragment extends Fragment implements Calling_Fragment,GetCategory_Id {
 
     @Bind(R.id.recyclerview)
     RecyclerView recyclerview;
@@ -69,6 +70,7 @@ public class EatsFragment extends Fragment {
     ArrayList<String> al_city_id = new ArrayList<>();
     String city_id = "8", category_id = "";
     String lat="16.989065",lng="82.247465";
+    com.rey.material.widget.FloatingActionButton floatingActionButton;
 
     public static EatsFragment newInstance(int index) {
         EatsFragment fragment = new EatsFragment();
@@ -163,7 +165,7 @@ public class EatsFragment extends Fragment {
                                 category_items.add(category.getCateogryData().get(i).getCategory_Name());
 
                             }
-//                            CustomDialog.getInstance().showTooltip(getActivity(), category_items,menu_category);
+                            CustomDialog.getInstance().showTooltip(getActivity(), category_items,floatingActionButton,EatsFragment.this);
 
 
                         } else {
@@ -243,10 +245,25 @@ public class EatsFragment extends Fragment {
                 params.put("CityId", city_id);
                 params.put("FlagSlNo", "0");
                 params.put("CatrgoryId", category_id);
+                params.put("typeofways", "EatIn");
+                params.put("foodandbeverage", "Food");
                 break;
         }
 
 
         return params;
+    }
+
+    @Override
+    public void calling(com.rey.material.widget.FloatingActionButton floatingActionButton) {
+        Log.e("coming to fragment","<><>");
+        this.floatingActionButton = floatingActionButton;
+        fetchData("category", "");
+    }
+
+    @Override
+    public void getId(int id) {
+        category_id = "" + id;
+        fetchData("category_id", "show_progress");
     }
 }

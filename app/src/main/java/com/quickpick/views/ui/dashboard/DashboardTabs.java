@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
+
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -23,6 +23,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
 import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
 import com.quickpick.R;
 import com.quickpick.views.ui.demo.DemoViewPagerAdapter;
+import com.rey.material.widget.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -88,7 +89,7 @@ public class DashboardTabs extends AppCompatActivity {
 			bottomNavigation.addItems(bottomNavigationItems);
 		}
 
-		bottomNavigation.manageFloatingActionButtonBehavior(floatingActionButton);
+		//bottomNavigation.manageFloatingActionButtonBehavior(floatingActionButton);
 		bottomNavigation.setTranslucentNavigationEnabled(true);
 
 		bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
@@ -205,22 +206,13 @@ public class DashboardTabs extends AppCompatActivity {
 		viewPager.setAdapter(adapter);
 
 		currentFragment = adapter.getCurrentFragment();
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adapter.callingFragment(floatingActionButton);
 
-		handler.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				// Setting custom colors for notification
-				AHNotification notification = new AHNotification.Builder()
-						.setText(":)")
-						.setBackgroundColor(ContextCompat.getColor(DashboardTabs.this, R.color.color_notification_back))
-						.setTextColor(ContextCompat.getColor(DashboardTabs.this, R.color.color_notification_text))
-						.build();
-				bottomNavigation.setNotification(notification, 1);
-				Snackbar.make(bottomNavigation, "Snackbar with bottom navigation",
-						Snackbar.LENGTH_SHORT).show();
-
-			}
-		}, 3000);
+            }
+        });
 		
 		//bottomNavigation.setDefaultBackgroundResource(R.drawable.bottom_navigation_background);
 	}
