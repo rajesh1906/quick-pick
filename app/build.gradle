@@ -63,5 +63,6 @@ dependencies {
     compile 'com.android.support:multidex:1.0.2'
     compile 'com.github.michaelye.easydialog:easydialog:1.4'
     compile 'com.paypal.sdk:paypal-android-sdk:2.14.2'
+    compile 'com.aurelhubert:ahbottomnavigation:2.1.0'
 
 }
