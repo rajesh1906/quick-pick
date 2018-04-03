@@ -35,7 +35,7 @@ public class DrinksFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_demo_list, container, false);
-        initDemoList(view);
+//        initDemoList(view);
         return view;
 
     }
