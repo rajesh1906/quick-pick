@@ -20,7 +20,7 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
-//        useLibrary 'org.apache.http.legacy'
+        useLibrary 'org.apache.http.legacy'
         multiDexEnabled false
 
         javaCompileOptions {

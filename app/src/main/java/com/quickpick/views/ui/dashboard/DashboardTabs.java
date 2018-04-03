@@ -1,33 +1,41 @@
 package com.quickpick.views.ui.dashboard;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
-import android.support.design.widget.Snackbar;
+import android.os.ResultReceiver;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
+import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
-import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
 import com.quickpick.R;
+import com.quickpick.presenter.utils.GPSTracker;
+import com.quickpick.views.ui.customviews.CustomDialog;
 import com.quickpick.views.ui.demo.DemoViewPagerAdapter;
 import com.rey.material.widget.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class DashboardTabs extends AppCompatActivity {
+public class DashboardTabs extends AppCompatActivity  {
 
 	private Fragment currentFragment;
 	private DemoViewPagerAdapter adapter;
@@ -41,6 +49,10 @@ public class DashboardTabs extends AppCompatActivity {
 	private AHBottomNavigationViewPager viewPager;
 	private AHBottomNavigation bottomNavigation;
 	private FloatingActionButton floatingActionButton;
+	public final int REQUEST_CODE_ASK_LOCATION_PERMISSIONS = 124;
+	GPSTracker gpsTracker;
+	String lat="",lng="";
+	protected Location mLastLocation;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +62,8 @@ public class DashboardTabs extends AppCompatActivity {
 		setTheme(enabledTranslucentNavigation ? R.style.AppTheme_TranslucentNavigation : R.style.AppTheme);
 		setContentView(R.layout.activity_home);
 		initUI();
+
+//		startIntentService();
 	}
 
 	@Override
@@ -71,11 +85,11 @@ public class DashboardTabs extends AppCompatActivity {
 		viewPager = findViewById(R.id.view_pager);
 		floatingActionButton = findViewById(R.id.floating_action_button);
 
-		if (useMenuResource) {
+		/*if (useMenuResource) {
 			tabColors = getApplicationContext().getResources().getIntArray(R.array.tab_colors);
 			navigationAdapter = new AHBottomNavigationAdapter(this, R.menu.bottom_nav_items);
 			navigationAdapter.setupWithBottomNavigation(bottomNavigation, tabColors);
-		} else {
+		} else*/ {
 			AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.drinks, R.drawable.drinks, R.color.color_tab_1);
 			AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.eats, R.drawable.menu, R.color.color_tab_2);
 			AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.pick, R.drawable.delivery, R.color.color_tab_3);
@@ -217,92 +231,87 @@ public class DashboardTabs extends AppCompatActivity {
 		//bottomNavigation.setDefaultBackgroundResource(R.drawable.bottom_navigation_background);
 	}
 
-	/**
-	 * Update the bottom navigation colored param
-	 */
-	public void updateBottomNavigationColor(boolean isColored) {
-		bottomNavigation.setColored(isColored);
-	}
-
-	/**
-	 * Return if the bottom navigation is colored
-	 */
-	public boolean isBottomNavigationColored() {
-		return bottomNavigation.isColored();
-	}
-
-	/**
-	 * Add or remove items of the bottom navigation
-	 */
-	public void updateBottomNavigationItems(boolean addItems) {/*
-
-		if (useMenuResource) {
-			if (addItems) {
-				navigationAdapter = new AHBottomNavigationAdapter(this, R.menu.bottom_navigation_menu_5);
-				navigationAdapter.setupWithBottomNavigation(bottomNavigation, tabColors);
-				bottomNavigation.setNotification("1", 3);
-			} else {
-				navigationAdapter = new AHBottomNavigationAdapter(this, R.menu.bottom_navigation_menu_3);
-				navigationAdapter.setupWithBottomNavigation(bottomNavigation, tabColors);
+	@Override
+	protected void onStart() {
+		super.onStart();
+		if(permission_Location()) {
+			gpsTracker = new GPSTracker(this);
+			if (!gpsTracker.isLocationAvailable()) {
+				CustomDialog.getInstance().commonDialog(this,
+						"Please Enable Location Services",
+						"Go to Settings -> Location Service ->" +
+								"Check on Use GPS, Wi-Fi or mobile networks to determine location ","location");
+			}else{
+				lat = String.valueOf(gpsTracker.getLatitude());
+				lng = String.valueOf(gpsTracker.getLongitude());
 			}
-
-		} else {
-			if (addItems) {
-				AHBottomNavigationItem item4 = new AHBottomNavigationItem(getString(R.string.tab_4),
-						ContextCompat.getDrawable(this, R.drawable.ic_maps_local_bar),
-						ContextCompat.getColor(this, R.color.color_tab_4));
-				AHBottomNavigationItem item5 = new AHBottomNavigationItem(getString(R.string.tab_5),
-						ContextCompat.getDrawable(this, R.drawable.ic_maps_place),
-						ContextCompat.getColor(this, R.color.color_tab_5));
-
-				bottomNavigation.addItem(item4);
-				bottomNavigation.addItem(item5);
-				bottomNavigation.setNotification("1", 3);
-			} else {
-				bottomNavigation.removeAllItems();
-				bottomNavigation.addItems(bottomNavigationItems);
-			}
-		}*/
-	}
-
-	/**
-	 * Show or hide the bottom navigation with animation
-	 */
-	public void showOrHideBottomNavigation(boolean show) {
-		if (show) {
-			bottomNavigation.restoreBottomNavigation(true);
-		} else {
-			bottomNavigation.hideBottomNavigation(true);
 		}
 	}
 
-	/**
-	 * Show or hide selected item background
-	 */
-	public void updateSelectedBackgroundVisibility(boolean isVisible) {
-		bottomNavigation.setSelectedBackgroundVisible(isVisible);
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		switch (requestCode) {
+			case REQUEST_CODE_ASK_LOCATION_PERMISSIONS:
+				if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+					// if (gpsTracker == null)
+					gpsTracker = new GPSTracker(this);
+					if (gpsTracker.isLocationAvailable()) {
+						Log.e("location", gpsTracker.getLatitude() + ":::" + gpsTracker.getLongitude());
+						lat = String.valueOf(gpsTracker.getLatitude());
+						lng = String.valueOf(gpsTracker.getLongitude());
+						if(String.valueOf(gpsTracker.getLatitude()).equals("0.0")){
+							gpsTracker.getLocation();
+						}
+
+					} else {
+						CustomDialog.getInstance().commonDialog(this,
+								"Please Enable Location Services",
+								"Go to Settings -> Location Service ->" +
+										"Check on Use GPS, Wi-Fi or mobile networks to determine location ","location");
+					}
+
+				}else if (Build.VERSION.SDK_INT >= 23 && !shouldShowRequestPermissionRationale(permissions[0])) {
+					CustomDialog.getInstance().commonDialog(this,
+							"Your Location permission Denied",
+							"Go to Settings and Grant the permission to use better features. ","location permssion");
+//                Toast.makeText(DashBoardActivityNew.this, "Go to Settings and Grant the permission to use this feature.", Toast.LENGTH_SHORT).show();
+					// User selected the Never Ask Again Option
+				} else {
+					Toast.makeText(DashboardTabs.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+				}
+				break;
+		}
 	}
 
-	/**
-	 * Set title state for bottomNavigation
-	 */
-	public void setTitleState(AHBottomNavigation.TitleState titleState) {
-		bottomNavigation.setTitleState(titleState);
+	public boolean permission_Location() {
+		int hasStoragePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+		if (hasStoragePermission != PackageManager.PERMISSION_GRANTED) {
+			if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+				requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+						REQUEST_CODE_ASK_LOCATION_PERMISSIONS);
+				return false;
+			}
+
+			requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+					REQUEST_CODE_ASK_LOCATION_PERMISSIONS);
+
+			return false;
+		}
+		return true;
 	}
 
-	/**
-	 * Reload activity
-	 */
-	public void reload() {
-		startActivity(new Intent(this, DashboardTabs.class));
-		finish();
+
+
+
+	public HashMap<String ,String > getLatLongs(){
+		HashMap<String ,String > params = new HashMap<>();
+		params.put("lat",lat);
+		params.put("lng",lng);
+		return params;
 	}
 
-	/**
-	 * Return the number of items in the bottom navigation
-	 */
-	public int getBottomNavigationNbItems() {
-		return bottomNavigation.getItemsCount();
-	}
+
+
 
 }

@@ -117,10 +117,10 @@ public class CustomDialog {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(null!=fragment) {
                     GetCategory_Id getCategory_id = (GetCategory_Id) fragment;
-                    getCategory_id.getId(position);
+                    getCategory_id.getId((position+1));
                 }else{
                     GetCategory_Id getCategory_id = (GetCategory_Id) context;
-                    getCategory_id.getId(position);
+                    getCategory_id.getId((position+1));
                 }
                 dialog.dismiss();
             }
