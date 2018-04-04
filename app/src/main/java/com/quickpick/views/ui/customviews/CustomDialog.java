@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -88,7 +89,7 @@ public class CustomDialog {
     }
 
 
-    public void showTooltip(final Context context, ArrayList<String> category_items, View target_view) {
+    public void showTooltip(final Context context, ArrayList<String> category_items, View target_view, final Fragment fragment) {
         View view = ((Activity) context).getLayoutInflater().inflate(R.layout.categoriesdialog, null);
         final EasyDialog dialog = new EasyDialog(context)
                 // .setLayoutResourceId(R.layout.layout_tip_content_horizontal)//layout resource id
@@ -114,8 +115,13 @@ public class CustomDialog {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                GetCategory_Id getCategory_id = (GetCategory_Id) context;
-                getCategory_id.getId(position);
+                if(null!=fragment) {
+                    GetCategory_Id getCategory_id = (GetCategory_Id) fragment;
+                    getCategory_id.getId((position+1));
+                }else{
+                    GetCategory_Id getCategory_id = (GetCategory_Id) context;
+                    getCategory_id.getId((position+1));
+                }
                 dialog.dismiss();
             }
         });

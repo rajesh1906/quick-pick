@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_drinks"
+        android:title="@string/drinks"
+        android:icon="@drawable/drinks"
+
+        />
+    <item
+        android:id="@+id/menu_eats"
+        android:title="@string/eats"
+        android:icon="@drawable/menu"
+        />
+
+    <item
+        android:id="@+id/menu_pick"
+        android:title="@string/pick"
+        android:icon="@drawable/delivery"
+         />
+    <item
+        android:id="@+id/menu_prifile"
+        android:title="@string/profile"
+        android:icon="@drawable/profile"
+   />
+</menu>

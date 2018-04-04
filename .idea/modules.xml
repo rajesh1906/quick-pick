@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://E:\personal info\Project\Qickpick-new-master\CTE-BikeFinance.iml" filepath="E:\personal info\Project\Qickpick-new-master\CTE-BikeFinance.iml" />
-      <module fileurl="file://G:\Office Workspace\Ashok\Quick_pick nov-25\Quick-pick_updated\Quick-pick-master\Qickpick-new-master.iml" filepath="G:\Office Workspace\Ashok\Quick_pick nov-25\Quick-pick_updated\Quick-pick-master\Qickpick-new-master.iml" />
-      <module fileurl="file://G:\Quick pick\quick-pick\Quick-pick-master.iml" filepath="G:\Quick pick\quick-pick\Quick-pick-master.iml" />
-      <module fileurl="file://E:\personal info\Project\Qickpick-new-master\Quick-pick-master.iml" filepath="E:\personal info\Project\Qickpick-new-master\Quick-pick-master.iml" />
-      <module fileurl="file://E:\personal info\Quick pick\Quick_pick_update\quick-pick\Quick-pick-master.iml" filepath="E:\personal info\Quick pick\Quick_pick_update\quick-pick\Quick-pick-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/quick-pick.iml" filepath="$PROJECT_DIR$/quick-pick.iml" />
-      <module fileurl="file://G:\Office Workspace\Ashok\Quick_pick nov-25\Quick-pick_updated\Quick-pick-master\quick-pick.iml" filepath="G:\Office Workspace\Ashok\Quick_pick nov-25\Quick-pick_updated\Quick-pick-master\quick-pick.iml" />
-      <module fileurl="file://G:\Quick pick\quick-pick\quick-pick27032018.iml" filepath="G:\Quick pick\quick-pick\quick-pick27032018.iml" />
     </modules>
   </component>
 </project>
