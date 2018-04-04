@@ -29,10 +29,13 @@ import com.google.gson.Gson;
 import com.quickpick.R;
 import com.quickpick.model.Category;
 import com.quickpick.model.Cities;
+import com.quickpick.model.adds.AddsData;
+import com.quickpick.model.adds.AddsRoot;
 import com.quickpick.model.restaurant_category.RestaurantData;
 import com.quickpick.model.restaurant_category.Restaurant_names;
 import com.quickpick.presenter.services.Network.APIResponse;
 import com.quickpick.presenter.services.Network.APIS;
+import com.quickpick.presenter.services.Network.ApiService;
 import com.quickpick.presenter.services.Network.RetrofitClient;
 import com.quickpick.presenter.utils.Common_methods;
 import com.quickpick.views.adapters.ShowRestaurant_Adapter;
@@ -45,13 +48,23 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Rajesh Kumar on 02-04-2018.
@@ -138,11 +151,10 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
         lng = params.get("lng");
 
         Log.e("lat is ", "<><>" + params.get("lat") + " lng " + params.get("lng"));
-//        new CityAsyncTask(lat,lng).execute();
         fetchData("getCity_Id", "");
-
-
         fetchData("restaurnts", "show_progress");
+        fetchData("adds", "");
+
         fetchListerns();
 
         list_cities.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -157,6 +169,8 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
                 fetchData("restaurnts", "show_progress");
             }
         });
+
+//        fetchParllelData();
         return view;
     }
 
@@ -304,6 +318,21 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
                         }
 
                         break;
+
+                    case "adds":
+                        try{
+                            AddsRoot data = new Gson().fromJson(res,AddsRoot.class);
+                            if(data.getStatus().equalsIgnoreCase("successfully")){
+
+
+                            }
+
+                        }catch (Exception e) {
+                            e.printStackTrace();
+                    }
+
+
+                        break;
                 }
 
             }
@@ -348,6 +377,10 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
             case "getCity_Id":
                 params.put("action", APIS.GettingResDataBasedOnLat);
                 params.put("LatLng", lat + "," + lng);
+                break;
+            case "adds":
+                params.put("action", APIS.AddsLoading);
+                params.put("CityId", city_id);
                 break;
         }
 
@@ -517,4 +550,50 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
         txt_pickup.setTag(t3);
         txt_delivery.setTag(t4);
     }
+
+    void fetchParllelData(){
+        Observable.just(RetrofitClient.getInstance().getClient(APIS.BASEURL).create(ApiService.class)).subscribeOn(Schedulers.computation())
+                .flatMap(s -> {
+                    Observable<String> observable[] = new Observable[2];
+
+                    Observable<String> city_observable = s.getData(getParams("getCity_Id").get("action")+"?",getParams("getCity_Id")).subscribeOn(Schedulers.io());
+                    Observable<String> res_observable = s.getData(getParams("restaurnts").get("action")+"?",getParams("restaurnts")).subscribeOn(Schedulers.io());
+                   /* for (int i = 0; i < observable.length; i++) {
+                        if(i==0)
+                        observable[0]
+                                = s.getData(getParams("getCity_Id").get("action")+"?",getParams("getCity_Id")).subscribeOn(Schedulers.io());
+                        if(i==1)
+                        observable[1]
+                                = s.getData(getParams("restaurnts").get("action")+"?",getParams("restaurnts")).subscribeOn(Schedulers.io());
+                    }*/
+
+                    return Observable.concatArray(city_observable,res_observable);
+                })
+                .debounce(500, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                Log.e("on onSubscribe calling","##");
+            }
+
+            @Override
+            public void onNext(String s) {
+
+                Log.e("on onNext calling","##"+s);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e("on onError calling","##"+e.getMessage());
+            }
+
+            @Override
+            public void onComplete() {
+                Log.e("on onComplete calling","##");
+            }
+        });
+
+    }
+
 }

@@ -9,6 +9,8 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Rajesh kumar on 13-07-2017.
@@ -26,7 +28,7 @@ public class RetrofitClient extends AppCompatActivity implements ConnectApiServi
         return uniqInstance;
     }
 
-    private static Retrofit getClient(String baseUrl) {
+    public static Retrofit getClient(String baseUrl) {
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(1, TimeUnit.MINUTES)
                 .connectTimeout(1, TimeUnit.MINUTES)
@@ -34,6 +36,8 @@ public class RetrofitClient extends AppCompatActivity implements ConnectApiServi
         retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(new RetrofitConverter())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
 

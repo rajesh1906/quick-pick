@@ -2,6 +2,7 @@ package com.quickpick.presenter.services.Network;
 
 import java.util.Map;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.QueryMap;
@@ -27,4 +28,7 @@ public interface ApiService  {
 
     @GET
     Call<String> getApiResultCity(@Url String action, @QueryMap Map<String, String> fields);
+
+    @GET
+    Observable<String > getData(@Url String action, @QueryMap Map<String, String> fields);
 }
