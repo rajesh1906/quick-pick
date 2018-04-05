@@ -210,7 +210,6 @@ public class Restaurant_menu_fragment extends Fragment implements View.OnClickLi
                                         internal.put("Item_Id",itemsData.getItem_Id());
                                         internal.put("NumberofQtys",itemsData.getNumberofQtys());
                                         internal.put("Amount",itemsData.getAmount());
-                                        internal.put("ItemUrl",itemsData.getItemUrl());
                                         addidional.add(internal);
                                         additional_data.put(itemsData.getSubMenuName(),addidional);
                                     } else {
@@ -221,7 +220,6 @@ public class Restaurant_menu_fragment extends Fragment implements View.OnClickLi
                                         internal.put("Item_Id",itemsData.getItem_Id());
                                         internal.put("NumberofQtys",itemsData.getNumberofQtys());
                                         internal.put("Amount",itemsData.getAmount());
-                                        internal.put("ItemUrl",itemsData.getItemUrl());
                                         addidional.add(internal);
                                         additional_data.put(itemsData.getSubMenuName(),addidional);
                                     }

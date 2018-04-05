@@ -82,7 +82,7 @@ public class Restaurent_menu_tab extends RecyclerView.Adapter<Restaurent_menu_ta
             textView[i].setText(final_list.get(header_names.get(position)).get(i));
             txt_amount[i].setText("₹"+additional_data.get(header_names.get(position)).get(i).get("Amount"));
 //            Image_Fetch.getInstance().LoadImage(context,img_res[i],additional_data.get(header_names.get(position)).get(i).get("ItemUrl"));
-            Image_Fetch.getInstance().LoadImage(context,img_res[i],"http://cdn.journaldev.com/wp-content/uploads/2016/11/android-image-picker-project-structure.png");
+            //Image_Fetch.getInstance().LoadImage(context,img_res[i],"http://cdn.journaldev.com/wp-content/uploads/2016/11/android-image-picker-project-structure.png");
             textView[i].setId(i+position);
             holder.ll_view_items.addView(view);
 //            Log.e("item id is ","##"+additional_data.get(header_names.get(position)).get(i).get("Item_Id"));
