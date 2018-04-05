@@ -6,12 +6,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.quickpick.R;
 import com.quickpick.model.menu.menunew.Item;
+import com.quickpick.presenter.utils.Image_Fetch;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,9 +33,11 @@ public class Restaurent_menu_tab extends RecyclerView.Adapter<Restaurent_menu_ta
     ArrayList<String > header_names;
     int list_size =0;
     Map<String,List<String>> final_list ;
-    public Restaurent_menu_tab(Context context,HashMap<String,List<String>> display_data) {
+    HashMap<String, ArrayList<HashMap<String ,String >>> additional_data;
+    public Restaurent_menu_tab(Context context,HashMap<String,List<String>> display_data,HashMap<String, ArrayList<HashMap<String ,String >>> additional_data) {
         this.context = context;
         this.display_data = display_data;
+        this.additional_data = additional_data;
         list_size = hashmapKeys(display_data).size();
         final_list = new TreeMap<>(display_data);
         header_names = hashmapKeys(final_list);
@@ -66,18 +70,26 @@ public class Restaurent_menu_tab extends RecyclerView.Adapter<Restaurent_menu_ta
             holder.txt_header.setText(header_names.get(position));
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         TextView[] textView = new TextView[final_list.get(header_names.get(position)).size()];
+        TextView[] txt_amount = new TextView[final_list.get(header_names.get(position)).size()];
+        ImageView[] img_res = new ImageView[final_list.get(header_names.get(position)).size()];
         for (int i = 0; i < final_list.get(header_names.get(position)).size(); i++) {
             View view = inflater.inflate(R.layout.resuarunt_menu_item, null);
             textView[i] = (TextView)view.findViewById(R.id.txt_item);
+            txt_amount[i] = (TextView)view.findViewById(R.id.txt_amount);
+            img_res[i] = view.findViewById(R.id.img_res);
             TextView txt_subtext = view.findViewById(R.id.txt_subtext);
             txt_subtext.setVisibility(View.GONE);
             textView[i].setText(final_list.get(header_names.get(position)).get(i));
+            txt_amount[i].setText("₹"+additional_data.get(header_names.get(position)).get(i).get("Amount"));
+//            Image_Fetch.getInstance().LoadImage(context,img_res[i],additional_data.get(header_names.get(position)).get(i).get("ItemUrl"));
+            Image_Fetch.getInstance().LoadImage(context,img_res[i],"http://cdn.journaldev.com/wp-content/uploads/2016/11/android-image-picker-project-structure.png");
             textView[i].setId(i+position);
             holder.ll_view_items.addView(view);
+//            Log.e("item id is ","##"+additional_data.get(header_names.get(position)).get(i).get("Item_Id"));
 
             textView[i].setOnClickListener(view1 -> {
                 String  name = ((TextView) view1).getText().toString();
-                Log.e("name is ","<><>"+name);
+//                Log.e("name is ","<><>"+name);
                 Toast.makeText(context,name,Toast.LENGTH_SHORT).show();
 
             });

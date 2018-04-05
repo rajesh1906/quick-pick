@@ -193,25 +193,43 @@ public class Restaurant_menu_fragment extends Fragment implements View.OnClickLi
                         try {
                             AllItems_Pojo items_pojo = new Gson().fromJson(Temp.data, AllItems_Pojo.class);
                             HashMap<String, List<String>> display_data = new HashMap<>();
+                            HashMap<String, ArrayList<HashMap<String ,String >>> additional_data = new HashMap<>();
+
                             if (items_pojo.getStatus().equalsIgnoreCase("successfully")) {
                                 List<String> itemList = null;
+                                ArrayList<HashMap<String,String >> addidional=null;
                                 for (int i = 0; i < items_pojo.getItemsData().size(); i++) {
                                     ItemsData itemsData = items_pojo.getItemsData().get(i);
                                     if (!display_data.containsKey(itemsData.getSubMenuName())) {
                                         itemList = new ArrayList<String>();
+                                        addidional = new ArrayList<>();
+                                        HashMap<String ,String> internal = new HashMap<>();
                                         itemList.add(itemsData.getItemName());
                                         display_data.put(itemsData.getSubMenuName(), itemList);
+
+                                        internal.put("Item_Id",itemsData.getItem_Id());
+                                        internal.put("NumberofQtys",itemsData.getNumberofQtys());
+                                        internal.put("Amount",itemsData.getAmount());
+                                        internal.put("ItemUrl",itemsData.getItemUrl());
+                                        addidional.add(internal);
+                                        additional_data.put(itemsData.getSubMenuName(),addidional);
                                     } else {
                                         itemList = display_data.get(itemsData.getSubMenuName());
                                         itemList.add(itemsData.getItemName());
+                                        HashMap<String ,String> internal = new HashMap<>();
+                                        addidional = additional_data.get(itemsData.getSubMenuName());
+                                        internal.put("Item_Id",itemsData.getItem_Id());
+                                        internal.put("NumberofQtys",itemsData.getNumberofQtys());
+                                        internal.put("Amount",itemsData.getAmount());
+                                        internal.put("ItemUrl",itemsData.getItemUrl());
+                                        addidional.add(internal);
+                                        additional_data.put(itemsData.getSubMenuName(),addidional);
                                     }
                                 }
                             }
-
-                            Log.e("final data is ", "<><><<>" + display_data);
-
-
-                            recyclerview.setAdapter(new Restaurent_menu_tab(getActivity(), display_data));
+//                            Log.e("final data is ", "<><><<>" + display_data);
+//                            Log.e("additional data is ", "<><><<>" + additional_data);
+                            recyclerview.setAdapter(new Restaurent_menu_tab(getActivity(), display_data,additional_data));
                             recyclerview.setVisibility(View.VISIBLE);
                         } catch (Exception e) {
                             e.printStackTrace();
