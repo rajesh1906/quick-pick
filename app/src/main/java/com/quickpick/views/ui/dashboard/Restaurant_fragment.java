@@ -88,7 +88,7 @@ public class Restaurant_fragment extends Fragment {
                         loading = false;
                     }
                     if(spage==1){
-                         adapter=    new ShowRestaurant_Adapter(getActivity(),temp_pojo.getRestaurantData());
+                         adapter=    new ShowRestaurant_Adapter(getActivity(),temp_pojo.getRestaurantData(),null);
                         recyclerview.setAdapter(adapter);
                     }else{
                         adapter.notifyDataSetChanged();

@@ -39,7 +39,7 @@ public class Reference extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reference);
         ButterKnife.bind(this);
-        adapter = new SlidingImage_Adapter(Reference.this, IMAGES);
+        adapter = new SlidingImage_Adapter(Reference.this, IMAGES,null);
         init();
         String  page_number = 1+"/"+IMAGES.length;
         txt_count_pages.setText(page_number);

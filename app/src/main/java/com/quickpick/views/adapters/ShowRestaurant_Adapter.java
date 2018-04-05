@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.telecom.Call;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,8 @@ import android.widget.Toast;
 import com.quickpick.R;
 import com.quickpick.model.restaurant_category.RestaurantData;
 import com.quickpick.views.ui.dashboard.DashBoardActivity;
+import com.quickpick.views.ui.dashboard.tabs.Calling_Fragment;
+import com.quickpick.views.ui.dashboard.tabs.EatsFragment;
 import com.quickpick.views.ui.restarunt.RestaruntActivity;
 import com.quickpick.views.ui.restarunt.RestaruntActivityNew;
 import com.quickpick.views.ui.restarunt.tabs.Restaurant_menu_fragment;
@@ -43,10 +46,13 @@ public class ShowRestaurant_Adapter extends RecyclerView.Adapter<RecyclerView.Vi
     private static final int TYPE_ITEM = 2;
     private static final Integer[] IMAGES = {R.drawable.img_one, R.drawable.img_two, R.drawable.img_three, R.drawable.img_four};
     SlidingImage_Adapter adapter;
-    public ShowRestaurant_Adapter(Context context,ArrayList<RestaurantData> dataList){
+    EatsFragment fragment;
+    public ShowRestaurant_Adapter(Context context,ArrayList<RestaurantData> dataList,EatsFragment fragment){
         this.context=context;
         this.dataList = dataList;
-        adapter = new SlidingImage_Adapter(context, IMAGES);
+        this.fragment = fragment;
+        Calling_Fragment calling_fragment = (Calling_Fragment)fragment;
+        adapter = new SlidingImage_Adapter(context, IMAGES,calling_fragment.getAddsData());
     }
 
     private class HeaderViewHolder extends RecyclerView.ViewHolder {
@@ -174,7 +180,7 @@ public class ShowRestaurant_Adapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     private void addBottomDots(int currentPage,Context context,LinearLayout ll_dots) {
-        TextView[] dots = new TextView[IMAGES.length];
+        TextView[] dots = new TextView[dataList.size()];
         ll_dots.removeAllViews();
         for (int i = 0; i < dots.length; i++) {
             dots[i] = new TextView(context);

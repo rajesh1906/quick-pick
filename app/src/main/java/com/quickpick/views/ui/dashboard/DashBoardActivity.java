@@ -84,7 +84,7 @@ public class DashBoardActivity extends BaseActivity implements GetCity_id {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        adapter = new SlidingImage_Adapter(DashBoardActivity.this, IMAGES);
+        adapter = new SlidingImage_Adapter(DashBoardActivity.this, IMAGES,null);
         init();
         instance = this;
 

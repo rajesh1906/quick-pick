@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import android.os.ResultReceiver;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -57,6 +58,9 @@ public class DashboardTabs extends AppCompatActivity  {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+		StrictMode.setThreadPolicy(policy);
 		boolean enabledTranslucentNavigation = getSharedPreferences("shared", Context.MODE_PRIVATE)
 				.getBoolean("translucentNavigation", false);
 		setTheme(enabledTranslucentNavigation ? R.style.AppTheme_TranslucentNavigation : R.style.AppTheme);

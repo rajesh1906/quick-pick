@@ -155,7 +155,7 @@ public class DashBoardActivityNew extends BaseActivity implements GetCategory_Id
                                 loading = false;
                             }
                             if (spage == 1) {
-                                adapter = new ShowRestaurant_Adapter(DashBoardActivityNew.this, temp_pojo.getRestaurantData());
+                                adapter = new ShowRestaurant_Adapter(DashBoardActivityNew.this, temp_pojo.getRestaurantData(),null);
                                 recyclerview.setAdapter(adapter);
                             } else {
                                 adapter.notifyDataSetChanged();
@@ -230,7 +230,7 @@ public class DashBoardActivityNew extends BaseActivity implements GetCategory_Id
                                 loading = false;
                             }
                             if (spage == 1) {
-                                adapter = new ShowRestaurant_Adapter(DashBoardActivityNew.this, temp_pojo.getRestaurantData());
+                                adapter = new ShowRestaurant_Adapter(DashBoardActivityNew.this, temp_pojo.getRestaurantData(),null);
                                 recyclerview.setAdapter(adapter);
                             } else {
                                 adapter.notifyDataSetChanged();

@@ -1,5 +1,7 @@
 package com.quickpick.model.adds;
 
+import java.util.ArrayList;
+
 /**
  * Created by Rajesh Kumar on 04-04-2018.
  */
@@ -8,7 +10,7 @@ public class AddsRoot {
 
     private String error;
 
-    private AddsData[] AddsData;
+    private ArrayList<AddsData> AddsData;
 
     public String getStatus ()
     {
@@ -30,12 +32,12 @@ public class AddsRoot {
         this.error = error;
     }
 
-    public AddsData[] getAddsData ()
+    public  ArrayList<AddsData> getAddsData ()
     {
         return AddsData;
     }
 
-    public void setAddsData (AddsData[] AddsData)
+    public void setAddsData ( ArrayList<AddsData> AddsData)
     {
         this.AddsData = AddsData;
     }

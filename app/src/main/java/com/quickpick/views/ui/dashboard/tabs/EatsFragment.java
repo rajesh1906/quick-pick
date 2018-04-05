@@ -122,6 +122,7 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
     String city_id = "8", category_id = "";
     String lat = "16.989065", lng = "82.247465";
     com.rey.material.widget.FloatingActionButton floatingActionButton;
+    ArrayList<AddsData> addsData;
 
     public static EatsFragment newInstance(int index) {
         EatsFragment fragment = new EatsFragment();
@@ -151,9 +152,10 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
         lng = params.get("lng");
 
         Log.e("lat is ", "<><>" + params.get("lat") + " lng " + params.get("lng"));
-        fetchData("getCity_Id", "");
-        fetchData("restaurnts", "show_progress");
         fetchData("adds", "");
+        fetchData("getCity_Id", "");
+
+
 
         fetchListerns();
 
@@ -206,7 +208,7 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
                                 loading = false;
                             }
                             if (spage == 1) {
-                                adapter = new ShowRestaurant_Adapter(getActivity(), temp_pojo.getRestaurantData());
+                                adapter = new ShowRestaurant_Adapter(getActivity(), temp_pojo.getRestaurantData(),EatsFragment.this);
                                 recyclerview.setAdapter(adapter);
                             } else {
                                 adapter.notifyDataSetChanged();
@@ -281,7 +283,7 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
                                 loading = false;
                             }
                             if (spage == 1) {
-                                adapter = new ShowRestaurant_Adapter(getActivity(), temp_pojo.getRestaurantData());
+                                adapter = new ShowRestaurant_Adapter(getActivity(), temp_pojo.getRestaurantData(),EatsFragment.this);
                                 recyclerview.setAdapter(adapter);
                             } else {
                                 adapter.notifyDataSetChanged();
@@ -324,8 +326,15 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
                             AddsRoot data = new Gson().fromJson(res,AddsRoot.class);
                             if(data.getStatus().equalsIgnoreCase("successfully")){
 
+                                addsData = data.getAddsData();
+                                for(int i=0;i<data.getAddsData().size();i++){
+                                    Log.e("first url url is ","<><"+data.getAddsData().get(i).getFirsturls());
+                                    Log.e("second url is ","<><"+data.getAddsData().get(i).getSecondurls());
+                                }
+
 
                             }
+                            fetchData("restaurnts", "show_progress");
 
                         }catch (Exception e) {
                             e.printStackTrace();
@@ -393,6 +402,11 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
         Log.e("coming to fragment", "<><>");
         this.floatingActionButton = floatingActionButton;
         fetchData("category", "");
+    }
+
+    @Override
+    public ArrayList<AddsData> getAddsData() {
+        return addsData;
     }
 
     @Override
