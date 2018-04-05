@@ -2,8 +2,10 @@ package com.quickpick.views.ui.restarunt.tabs;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,19 +23,25 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.quickpick.R;
+import com.quickpick.model.AllItems_Pojo;
+import com.quickpick.model.ItemsData;
+import com.quickpick.model.Temp;
 import com.quickpick.model.menu.menunew.Menu;
 import com.quickpick.model.menu.menunew.Menucategory;
 import com.quickpick.presenter.services.Network.APIResponse;
 import com.quickpick.presenter.services.Network.APIS;
 import com.quickpick.presenter.services.Network.RetrofitClient;
 import com.quickpick.views.adapters.Restaurant_menu_Adapter;
+import com.quickpick.views.adapters.Restaurent_menu_tab;
 import com.quickpick.views.ui.customviews.CustomDialog;
 import com.quickpick.views.ui.restarunt.RestaruntActivityNew;
 import com.rey.material.widget.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -90,8 +98,9 @@ public class Restaurant_menu_fragment extends Fragment implements View.OnClickLi
 
         Res_id=getArguments().getString("menu_id");
         name=getArguments().getString("res_name");
-
-        fetchData("default_res", "show");
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerview.setLayoutManager(mLayoutManager);
+        fetchData("AllItemsLoading", "show");
 
         img_filter.setVisibility(View.VISIBLE);
         img_filter.setOnClickListener(this);
@@ -178,6 +187,37 @@ public class Restaurant_menu_fragment extends Fragment implements View.OnClickLi
                             Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
                         }
                         break;
+
+                    case "AllItemsLoading":
+
+                        try{
+                            AllItems_Pojo items_pojo = new Gson().fromJson(Temp.data,AllItems_Pojo.class);
+                            HashMap<String,List<String>> display_data = new HashMap<>();
+                            if(items_pojo.getStatus().equalsIgnoreCase("successfully")){
+                                List<String > itemList = null;
+                                for(int i=0;i<items_pojo.getItemsData().size();i++){
+                                      ItemsData itemsData = items_pojo.getItemsData().get(i);
+                                    if (!display_data.containsKey(itemsData.getSubMenuName())) {
+                                        itemList = new ArrayList<String>();
+                                        itemList.add(itemsData.getItemName());
+                                        display_data.put(itemsData.getSubMenuName(), itemList);
+                                    } else {
+                                        itemList = display_data.get(itemsData.getSubMenuName());
+                                        itemList.add(itemsData.getItemName());
+                                    }
+                                }
+                            }
+
+                            Log.e("final data is ","<><><<>"+display_data);
+
+
+                            recyclerview.setAdapter(new Restaurent_menu_tab(getActivity(),display_data));
+                            recyclerview.setVisibility(View.VISIBLE);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+
+                        break;
                 }
 
             }
@@ -196,23 +236,34 @@ public class Restaurant_menu_fragment extends Fragment implements View.OnClickLi
         Map<String, String> params = new HashMap<>();
         switch (coming_from) {
             case "default_res":
-                params.put("action", APIS.DisplayItems);
+                params.put("action", APIS.SubMenusLoading);
+                params.put("RestaurantID", Res_id);
+                params.put("FlagSlNo", "0");
                 break;
             case "search_items":
                 params.put("action", APIS.displayItemsSearchData);
                 params.put("Text", edt_txt_search.getText().toString());
+                params.put("RestaurantID", Res_id);
+                params.put("FlagSlNo", "0");
                 break;
             case "search_based_menu":
                 params.put("action", APIS.displayItemsDataMenuBased);
                 params.put("MenuId", "" + menu__item_id);
+                params.put("RestaurantID", Res_id);
+                params.put("FlagSlNo", "0");
 
                 break;
             case "category":
                 params.put("action", APIS.MenuLoading);
+                params.put("RestaurantID", Res_id);
+                params.put("FlagSlNo", "0");
+                break;
+            case "AllItemsLoading":
+                params.put("action",APIS.AllItemsLoading);
+                params.put("RestaurantID", Res_id);
                 break;
         }
-        params.put("RestaurantID", Res_id);
-        params.put("FlagSlNo", "0");
+
 
 
         return params;

@@ -28,5 +28,7 @@ package com.quickpick.presenter.services.Network;
     public static String DefultRestaurantLoading = "DefultRestaurantLoading";
     public static String GettingResDataBasedOnLat = "GettingResDataBasedOnLat";
     public static String AddsLoading = "AddsLoading";
+    public static String SubMenusLoading = "SubMenusLoading";
+    public static String AllItemsLoading = "AllItemsLoading";
 
 }

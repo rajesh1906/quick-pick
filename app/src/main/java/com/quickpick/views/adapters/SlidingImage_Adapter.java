@@ -1,8 +1,6 @@
 package com.quickpick.views.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
@@ -11,12 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.quickpick.R;
 import com.quickpick.model.adds.AddsData;
-import com.squareup.picasso.Picasso;
+import com.quickpick.presenter.utils.Image_Fetch;
 
-import java.net.URL;
 import java.util.ArrayList;
 
 
@@ -61,8 +57,10 @@ public class SlidingImage_Adapter extends PagerAdapter {
         try {
 //            URL url = new URL(addsData.get(position).getFirsturls());
 //            Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            Log.e("url is ","<><><"+addsData.get(position).getFirsturls());
 //            imageView.setImageBitmap(bmp);
-            Picasso.with(context).load(R.mipmap.ic_launcher).into(imageView);
+            Image_Fetch.getInstance().LoadImage(context, imageView, "http://cdn.journaldev.com/wp-content/uploads/2016/11/android-image-picker-project-structure.png");
+//            Picasso.with(context).load(R.mipmap.ic_launcher).into(imageView);
 //            Picasso.with(context)
 //                    .load("http://cdn.journaldev.com/wp-content/uploads/2016/11/android-image-picker-project-structure.png").into(imageView);
         }catch (Exception e){

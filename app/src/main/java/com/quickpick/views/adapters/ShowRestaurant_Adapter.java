@@ -106,19 +106,19 @@ public class ShowRestaurant_Adapter extends RecyclerView.Adapter<RecyclerView.Vi
                 context.startActivity(intent);*/
 
 
-//                Restaurant_menu_fragment restaurant_menu_fragment = new Restaurant_menu_fragment();
-//                Bundle bundle = new Bundle();
-//                bundle.putString("menu_id",dataList.get(position).getRes_id());
-//                bundle.putString("res_name",dataList.get(position).getRes_Name());
-//                android.app.FragmentManager fm = ((Activity)context).getFragmentManager();
-//                android.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
-//                restaurant_menu_fragment.setArguments(bundle);
-//                fragmentTransaction.add(R.id.container, restaurant_menu_fragment);
-//                fragmentTransaction.addToBackStack("bacstack");
-//                fragmentTransaction.commit();
+                Restaurant_menu_fragment restaurant_menu_fragment = new Restaurant_menu_fragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("menu_id",dataList.get(position-1).getRes_id());
+                bundle.putString("res_name",dataList.get(position-1).getRes_Name());
+                android.app.FragmentManager fm = ((Activity)context).getFragmentManager();
+                android.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                restaurant_menu_fragment.setArguments(bundle);
+                fragmentTransaction.add(R.id.container, restaurant_menu_fragment);
+                fragmentTransaction.addToBackStack("bacstack");
+                fragmentTransaction.commit();
 
 
-                    Toast.makeText(context, "Coming Soon", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "Coming Soon", Toast.LENGTH_SHORT).show();
 
 
                 }
