@@ -93,11 +93,11 @@ public class Restaurant_menu_fragment extends Fragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        view = inflater.inflate(R.layout.activitydashboard_new,container,false);
-        ButterKnife.bind(this,view);
+        view = inflater.inflate(R.layout.activitydashboard_new, container, false);
+        ButterKnife.bind(this, view);
 
-        Res_id=getArguments().getString("menu_id");
-        name=getArguments().getString("res_name");
+        Res_id = getArguments().getString("menu_id");
+        name = getArguments().getString("res_name");
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(mLayoutManager);
         fetchData("AllItemsLoading", "show");
@@ -109,7 +109,7 @@ public class Restaurant_menu_fragment extends Fragment implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.img_filter:
                 getFragmentManager().popBackStackImmediate();
                 break;
@@ -190,13 +190,13 @@ public class Restaurant_menu_fragment extends Fragment implements View.OnClickLi
 
                     case "AllItemsLoading":
 
-                        try{
-                            AllItems_Pojo items_pojo = new Gson().fromJson(Temp.data,AllItems_Pojo.class);
-                            HashMap<String,List<String>> display_data = new HashMap<>();
-                            if(items_pojo.getStatus().equalsIgnoreCase("successfully")){
-                                List<String > itemList = null;
-                                for(int i=0;i<items_pojo.getItemsData().size();i++){
-                                      ItemsData itemsData = items_pojo.getItemsData().get(i);
+                        try {
+                            AllItems_Pojo items_pojo = new Gson().fromJson(Temp.data, AllItems_Pojo.class);
+                            HashMap<String, List<String>> display_data = new HashMap<>();
+                            if (items_pojo.getStatus().equalsIgnoreCase("successfully")) {
+                                List<String> itemList = null;
+                                for (int i = 0; i < items_pojo.getItemsData().size(); i++) {
+                                    ItemsData itemsData = items_pojo.getItemsData().get(i);
                                     if (!display_data.containsKey(itemsData.getSubMenuName())) {
                                         itemList = new ArrayList<String>();
                                         itemList.add(itemsData.getItemName());
@@ -208,12 +208,12 @@ public class Restaurant_menu_fragment extends Fragment implements View.OnClickLi
                                 }
                             }
 
-                            Log.e("final data is ","<><><<>"+display_data);
+                            Log.e("final data is ", "<><><<>" + display_data);
 
 
-                            recyclerview.setAdapter(new Restaurent_menu_tab(getActivity(),display_data));
+                            recyclerview.setAdapter(new Restaurent_menu_tab(getActivity(), display_data));
                             recyclerview.setVisibility(View.VISIBLE);
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
 
@@ -224,11 +224,8 @@ public class Restaurant_menu_fragment extends Fragment implements View.OnClickLi
 
             @Override
             public void onFailure(String res) {
-
             }
         });
-
-
     }
 
 
@@ -259,11 +256,10 @@ public class Restaurant_menu_fragment extends Fragment implements View.OnClickLi
                 params.put("FlagSlNo", "0");
                 break;
             case "AllItemsLoading":
-                params.put("action",APIS.AllItemsLoading);
+                params.put("action", APIS.AllItemsLoading);
                 params.put("RestaurantID", Res_id);
                 break;
         }
-
 
 
         return params;

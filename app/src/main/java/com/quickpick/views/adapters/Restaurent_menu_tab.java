@@ -1,22 +1,17 @@
 package com.quickpick.views.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.quickpick.R;
 import com.quickpick.model.menu.menunew.Item;
-import com.quickpick.views.ui.customviews.CustomDialog;
-import com.quickpick.views.ui.details.DetailsActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,23 +65,21 @@ public class Restaurent_menu_tab extends RecyclerView.Adapter<Restaurent_menu_ta
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
             holder.txt_header.setText(header_names.get(position));
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        Log.e(" array list is ","<><"+final_list.get(header_names.get(position)));
         TextView[] textView = new TextView[final_list.get(header_names.get(position)).size()];
         for (int i = 0; i < final_list.get(header_names.get(position)).size(); i++) {
-            View view = inflater.inflate(R.layout.layout_item_demo, null);
-            textView[i] = (TextView)view.findViewById(R.id.layout_item_demo_title);
+            View view = inflater.inflate(R.layout.resuarunt_menu_item, null);
+            textView[i] = (TextView)view.findViewById(R.id.txt_item);
+            TextView txt_subtext = view.findViewById(R.id.txt_subtext);
+            txt_subtext.setVisibility(View.GONE);
             textView[i].setText(final_list.get(header_names.get(position)).get(i));
             textView[i].setId(i+position);
             holder.ll_view_items.addView(view);
 
-            textView[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String  name = ((TextView)view).getText().toString();
-                    Log.e("name is ","<><>"+name);
-                    Toast.makeText(context,name,Toast.LENGTH_SHORT).show();
+            textView[i].setOnClickListener(view1 -> {
+                String  name = ((TextView) view1).getText().toString();
+                Log.e("name is ","<><>"+name);
+                Toast.makeText(context,name,Toast.LENGTH_SHORT).show();
 
-                }
             });
         }
 
