@@ -7,6 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
+        android:id="@+id/appbar"
         android:layout_height="250dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -28,30 +29,33 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
+                app:layout_collapseMode="pin" >
+                <LinearLayout
+                    android:id="@+id/img_back"
+                    android:layout_width="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_height="40dp">
+                    <ImageView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+
+                        android:background="@drawable/back_btn"/>
+                </LinearLayout>
+            </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-       >
-
     <LinearLayout
         android:layout_width="match_parent"
-          android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingTop="10dp">
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:orientation="vertical">
 
-        <include layout="@layout/resatarunt_list_fragment" />
-
-
-
+    <include layout="@layout/resatarunt_list_fragment" />
     </LinearLayout>
-
-</android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

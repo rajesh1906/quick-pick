@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
@@ -62,16 +63,12 @@ public class Restaurant_menu_fragment extends Fragment {
     RecyclerView recyclerview;
     @Bind(R.id.txt_no_res)
     TextView txt_no_res;
-//    @Bind(R.id.edt_txt_search)
-//    EditText edt_txt_search;
-//    @Bind(R.id.list_cities)
-//    ListView list_menu;
-//    @Bind(R.id.menu_category)
-//    FloatingActionButton menu_category;
+    @Bind(R.id.img_back)
+        LinearLayout img_back;
 
 
 
-    String Res_id = "", name = "";
+    String Res_id = "", name = "",time="";
     ArrayList<String> menu_items = new ArrayList<>();
     ArrayList<String> menu_id = new ArrayList<>();
     String menu__item_id = "1", category_id = "";
@@ -87,15 +84,42 @@ public class Restaurant_menu_fragment extends Fragment {
 
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
-        collapsingToolbarLayout.setTitle("rajesh");
+        AppBarLayout appBarLayout = (AppBarLayout) view.findViewById(R.id.appbar);
 
         Res_id = getArguments().getString("menu_id");
         name = getArguments().getString("res_name");
+        time = getArguments().getString("time");
+     ;
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(mLayoutManager);
         fetchData("AllItemsLoading", "show");
         dynamicToolbarColor();
         toolbarTextAppernce();
+        img_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().popBackStack();
+            }
+        });
+
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = true;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    collapsingToolbarLayout.setTitle(name);
+                    isShow = true;
+                } else if(isShow) {
+                    collapsingToolbarLayout.setTitle(" ");//carefull there should a space between double quote otherwise it wont work
+                    isShow = false;
+                }
+            }
+        });
         return view;
     }
 
@@ -195,7 +219,7 @@ public class Restaurant_menu_fragment extends Fragment {
                     case "AllItemsLoading":
 
                         try {
-                            AllItems_Pojo items_pojo = new Gson().fromJson(Temp.data, AllItems_Pojo.class);
+                            AllItems_Pojo items_pojo = new Gson().fromJson(res, AllItems_Pojo.class);
                             HashMap<String, List<String>> display_data = new HashMap<>();
                             HashMap<String, ArrayList<HashMap<String ,String >>> additional_data = new HashMap<>();
 
@@ -229,9 +253,7 @@ public class Restaurant_menu_fragment extends Fragment {
                                     }
                                 }
                             }
-//                            Log.e("final data is ", "<><><<>" + display_data);
-//                            Log.e("additional data is ", "<><><<>" + additional_data);
-                            recyclerview.setAdapter(new Restaurent_menu_tab(getActivity(), display_data,additional_data));
+                            recyclerview.setAdapter(new Restaurent_menu_tab(getActivity(), display_data,additional_data,name,time));
                             recyclerview.setVisibility(View.VISIBLE);
                         } catch (Exception e) {
                             e.printStackTrace();

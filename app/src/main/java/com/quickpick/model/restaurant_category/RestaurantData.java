@@ -7,7 +7,19 @@ package com.quickpick.model.restaurant_category;
 public class RestaurantData {
     private String Res_id;
 
-    private String Res_Name;
+    private String restaurantname;
+
+    private String PreparationTimeDuration;
+
+    public String getPreparationTimeDuration() {
+        return PreparationTimeDuration;
+    }
+
+    public void setPreparationTimeDuration(String preparationTimeDuration) {
+        PreparationTimeDuration = preparationTimeDuration;
+    }
+
+
 
     private String sl_no;
 
@@ -23,12 +35,12 @@ public class RestaurantData {
 
     public String getRes_Name ()
     {
-        return Res_Name;
+        return restaurantname;
     }
 
     public void setRes_Name (String Res_Name)
     {
-        this.Res_Name = Res_Name;
+        this.restaurantname = Res_Name;
     }
 
     public String getSl_no ()
@@ -44,6 +56,6 @@ public class RestaurantData {
     @Override
     public String toString()
     {
-        return "ClassPojo [Res_id = "+Res_id+", Res_Name = "+Res_Name+", sl_no = "+sl_no+"]";
+        return "ClassPojo [Res_id = "+Res_id+", Res_Name = "+restaurantname+", sl_no = "+sl_no+"]";
     }
 }

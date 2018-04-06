@@ -66,13 +66,14 @@ public class ShowRestaurant_Adapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-       TextView textView;
+       TextView textView,txt_time;
        RelativeLayout rel_parent;
        ImageView img_res;
         public MyViewHolder(View view) {
             super(view);
             textView = (TextView)view.findViewById(R.id.txt_item);
             rel_parent = (RelativeLayout)view.findViewById(R.id.rel_parent);
+            txt_time =(TextView)view.findViewById(R.id.txt_time);
             img_res = view.findViewById(R.id.img_res);
         }
     }
@@ -96,6 +97,7 @@ public class ShowRestaurant_Adapter extends RecyclerView.Adapter<RecyclerView.Vi
             MyViewHolder holder1 = (MyViewHolder)holder;
             holder1.textView.setText(dataList.get(position-1).getRes_Name());
             holder1.img_res.setBackgroundResource(getIMage(getRandomNumber()));
+            holder1.txt_time.setText(dataList.get(position-1).getPreparationTimeDuration()+" MIN");
             holder1.rel_parent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -110,6 +112,7 @@ public class ShowRestaurant_Adapter extends RecyclerView.Adapter<RecyclerView.Vi
                 Bundle bundle = new Bundle();
                 bundle.putString("menu_id",dataList.get(position-1).getRes_id());
                 bundle.putString("res_name",dataList.get(position-1).getRes_Name());
+                bundle.putString("time",dataList.get(position-1).getPreparationTimeDuration());
                 android.app.FragmentManager fm = ((Activity)context).getFragmentManager();
                 android.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 restaurant_menu_fragment.setArguments(bundle);
