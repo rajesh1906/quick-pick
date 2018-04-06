@@ -73,14 +73,9 @@ public class Restaurent_menu_tab extends RecyclerView.Adapter<Restaurent_menu_ta
         TextView[] txt_amount = new TextView[final_list.get(header_names.get(position)).size()];
         ImageView[] img_res = new ImageView[final_list.get(header_names.get(position)).size()];
         for (int i = 0; i < final_list.get(header_names.get(position)).size(); i++) {
-            View view = inflater.inflate(R.layout.resuarunt_menu_item, null);
+            View view = inflater.inflate(R.layout.restaurent_menu_name, null);
             textView[i] = (TextView)view.findViewById(R.id.txt_item);
-            txt_amount[i] = (TextView)view.findViewById(R.id.txt_amount);
-            img_res[i] = view.findViewById(R.id.img_res);
-            TextView txt_subtext = view.findViewById(R.id.txt_subtext);
-            txt_subtext.setVisibility(View.GONE);
             textView[i].setText(final_list.get(header_names.get(position)).get(i));
-            txt_amount[i].setText("₹"+additional_data.get(header_names.get(position)).get(i).get("Amount"));
 //            Image_Fetch.getInstance().LoadImage(context,img_res[i],additional_data.get(header_names.get(position)).get(i).get("ItemUrl"));
             //Image_Fetch.getInstance().LoadImage(context,img_res[i],"http://cdn.journaldev.com/wp-content/uploads/2016/11/android-image-picker-project-structure.png");
             textView[i].setId(i+position);

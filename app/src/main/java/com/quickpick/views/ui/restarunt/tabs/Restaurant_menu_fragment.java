@@ -1,10 +1,15 @@
 package com.quickpick.views.ui.restarunt.tabs;
 
+import android.app.ActionBar;
 import android.app.Fragment;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 
 import com.google.gson.Gson;
@@ -50,71 +56,69 @@ import butterknife.ButterKnife;
  * Created by Rajesh Kumar on 20-11-2017.
  */
 
-public class Restaurant_menu_fragment extends Fragment implements View.OnClickListener {
+public class Restaurant_menu_fragment extends Fragment {
     View view;
-    @Bind(R.id.img_filter)
-    ImageView img_filter;
     @Bind(R.id.recyclerview)
     RecyclerView recyclerview;
     @Bind(R.id.txt_no_res)
     TextView txt_no_res;
-    @Bind(R.id.img_search)
-    ImageView img_search;
-    @Bind(R.id.container_serach)
-    FrameLayout container_serach;
-    @Bind(R.id.img_back)
-    LinearLayout img_back;
-    @Bind(R.id.edt_txt_search)
-    EditText edt_txt_search;
-    @Bind(R.id.list_cities)
-    ListView list_menu;
-    @Bind(R.id.menu_category)
-    FloatingActionButton menu_category;
-    @Bind(R.id.img_cancel)
-    ImageView img_cancel;
-    @Bind(R.id.txt_header)
-    TextView txt_header;
-    @Bind(R.id.ll_icon)
-    LinearLayout ll_icon;
-    @Bind(R.id.fab_filter)
-    FloatingActionButton fab_filter;
-    @Bind(R.id.fab_menu)
-    FloatingActionButton fab_menu;
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
+//    @Bind(R.id.edt_txt_search)
+//    EditText edt_txt_search;
+//    @Bind(R.id.list_cities)
+//    ListView list_menu;
+//    @Bind(R.id.menu_category)
+//    FloatingActionButton menu_category;
+
+
 
     String Res_id = "", name = "";
     ArrayList<String> menu_items = new ArrayList<>();
     ArrayList<String> menu_id = new ArrayList<>();
     String menu__item_id = "1", category_id = "";
     ArrayList<String> category_items_id = new ArrayList<>();
+    private CollapsingToolbarLayout collapsingToolbarLayout = null;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        view = inflater.inflate(R.layout.activitydashboard_new, container, false);
+        view = inflater.inflate(R.layout.restaurent_menu_fragment, container, false);
         ButterKnife.bind(this, view);
+
+
+        collapsingToolbarLayout = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setTitle("rajesh");
 
         Res_id = getArguments().getString("menu_id");
         name = getArguments().getString("res_name");
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(mLayoutManager);
         fetchData("AllItemsLoading", "show");
-
-        img_filter.setVisibility(View.VISIBLE);
-        img_filter.setOnClickListener(this);
+        dynamicToolbarColor();
+        toolbarTextAppernce();
         return view;
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.img_filter:
-                getFragmentManager().popBackStackImmediate();
-                break;
-        }
+    private void dynamicToolbarColor() {
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+                R.drawable.img_four);
+        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+
+            @Override
+            public void onGenerated(Palette palette) {
+                collapsingToolbarLayout.setContentScrimColor(palette.getMutedColor(R.attr.colorPrimary));
+                collapsingToolbarLayout.setStatusBarScrimColor(palette.getMutedColor(R.attr.colorPrimaryDark));
+            }
+        });
     }
+
+    private void toolbarTextAppernce() {
+        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.collapsedappbar);
+        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.expandedappbar);
+    }
+
+
 
     private void fetchData(final String coming_from, String progress_bar) {
         RetrofitClient.getInstance().getEndPoint(getActivity(), progress_bar).getResult(getparams(coming_from), new APIResponse() {
@@ -148,8 +152,8 @@ public class Restaurant_menu_fragment extends Fragment implements View.OnClickLi
                                 Log.e("menu data is ", "<><>" + menu_search.getItems().get(i).getItemName());
                             }
                             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.search_menu_item, R.id.txt_item, menu_items.toArray(new String[menu_items.size()]));
-                            list_menu.setAdapter(adapter);
-                            adapter.notifyDataSetChanged();
+//                            list_menu.setAdapter(adapter);
+//                            adapter.notifyDataSetChanged();
 
                         } else {
                             Toast.makeText(getActivity(), "No Search Found", Toast.LENGTH_SHORT).show();
@@ -255,7 +259,7 @@ public class Restaurant_menu_fragment extends Fragment implements View.OnClickLi
                 break;
             case "search_items":
                 params.put("action", APIS.displayItemsSearchData);
-                params.put("Text", edt_txt_search.getText().toString());
+//                params.put("Text", edt_txt_search.getText().toString());
                 params.put("RestaurantID", Res_id);
                 params.put("FlagSlNo", "0");
                 break;
