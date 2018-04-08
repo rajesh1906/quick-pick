@@ -33,14 +33,17 @@ import com.quickpick.R;
 import com.quickpick.model.AllItems_Pojo;
 import com.quickpick.model.ItemsData;
 import com.quickpick.model.Temp;
+import com.quickpick.model.adds.AddsData;
 import com.quickpick.model.menu.menunew.Menu;
 import com.quickpick.model.menu.menunew.Menucategory;
 import com.quickpick.presenter.services.Network.APIResponse;
 import com.quickpick.presenter.services.Network.APIS;
 import com.quickpick.presenter.services.Network.RetrofitClient;
+import com.quickpick.views.adapters.Fetching_items_completed;
 import com.quickpick.views.adapters.Restaurant_menu_Adapter;
 import com.quickpick.views.adapters.Restaurent_menu_tab;
 import com.quickpick.views.ui.customviews.CustomDialog;
+import com.quickpick.views.ui.dashboard.tabs.Calling_Fragment;
 import com.quickpick.views.ui.restarunt.RestaruntActivityNew;
 import com.rey.material.widget.FloatingActionButton;
 
@@ -57,11 +60,11 @@ import butterknife.ButterKnife;
  * Created by Rajesh Kumar on 20-11-2017.
  */
 
-public class Restaurant_menu_fragment extends Fragment {
+public class Restaurant_menu_fragment extends Fragment implements Calling_Fragment, Fetching_items_completed {
     View view;
     @Bind(R.id.recyclerview)
     RecyclerView recyclerview;
-    @Bind(R.id.txt_no_res)
+    @Bind(R.id.txt_no_res_pagger)
     TextView txt_no_res;
     @Bind(R.id.img_back)
         LinearLayout img_back;
@@ -224,37 +227,54 @@ public class Restaurant_menu_fragment extends Fragment {
                             HashMap<String, ArrayList<HashMap<String ,String >>> additional_data = new HashMap<>();
 
                             if (items_pojo.getStatus().equalsIgnoreCase("successfully")) {
-                                List<String> itemList = null;
-                                ArrayList<HashMap<String,String >> addidional=null;
-                                for (int i = 0; i < items_pojo.getItemsData().size(); i++) {
-                                    ItemsData itemsData = items_pojo.getItemsData().get(i);
-                                    if (!display_data.containsKey(itemsData.getSubMenuName())) {
-                                        itemList = new ArrayList<String>();
-                                        addidional = new ArrayList<>();
-                                        HashMap<String ,String> internal = new HashMap<>();
-                                        itemList.add(itemsData.getItemName());
-                                        display_data.put(itemsData.getSubMenuName(), itemList);
+                                if(items_pojo.getItemsData().size()!=0) {
+                                    List<String> itemList = null;
+                                    ArrayList<HashMap<String, String>> addidional = null;
+                                    for (int i = 0; i < items_pojo.getItemsData().size(); i++) {
+                                        ItemsData itemsData = items_pojo.getItemsData().get(i);
+                                        if (!display_data.containsKey(itemsData.getSubMenuName())) {
+                                            itemList = new ArrayList<String>();
+                                            addidional = new ArrayList<>();
+                                            HashMap<String, String> internal = new HashMap<>();
+                                            itemList.add(itemsData.getItemName());
+                                            display_data.put(itemsData.getSubMenuName(), itemList);
 
-                                        internal.put("Item_Id",itemsData.getItem_Id());
-                                        internal.put("NumberofQtys",itemsData.getNumberofQtys());
-                                        internal.put("Amount",itemsData.getAmount());
-                                        addidional.add(internal);
-                                        additional_data.put(itemsData.getSubMenuName(),addidional);
-                                    } else {
-                                        itemList = display_data.get(itemsData.getSubMenuName());
-                                        itemList.add(itemsData.getItemName());
-                                        HashMap<String ,String> internal = new HashMap<>();
-                                        addidional = additional_data.get(itemsData.getSubMenuName());
-                                        internal.put("Item_Id",itemsData.getItem_Id());
-                                        internal.put("NumberofQtys",itemsData.getNumberofQtys());
-                                        internal.put("Amount",itemsData.getAmount());
-                                        addidional.add(internal);
-                                        additional_data.put(itemsData.getSubMenuName(),addidional);
+                                            internal.put("Item_Id", itemsData.getItem_Id());
+                                            internal.put("NumberofQtys", itemsData.getNumberofQtys());
+                                            internal.put("Amount", itemsData.getAmount());
+                                            internal.put("Description", itemsData.getDescription());
+                                            internal.put("ItemUrl", itemsData.getItemUrl());
+                                            addidional.add(internal);
+                                            additional_data.put(itemsData.getSubMenuName(), addidional);
+                                        } else {
+                                            itemList = display_data.get(itemsData.getSubMenuName());
+                                            itemList.add(itemsData.getItemName());
+                                            HashMap<String, String> internal = new HashMap<>();
+                                            addidional = additional_data.get(itemsData.getSubMenuName());
+                                            internal.put("Item_Id", itemsData.getItem_Id());
+                                            internal.put("NumberofQtys", itemsData.getNumberofQtys());
+                                            internal.put("Amount", itemsData.getAmount());
+                                            internal.put("Description", itemsData.getDescription());
+                                            internal.put("ItemUrl", itemsData.getItemUrl());
+                                            addidional.add(internal);
+                                            additional_data.put(itemsData.getSubMenuName(), addidional);
+                                        }
                                     }
+                                    try{
+                                        RetrofitClient.getInstance().showProgressDialog(getActivity());
+                                    }catch (Exception e){
+                                        e.printStackTrace();
+                                    }
+                                    recyclerview.setAdapter(new Restaurent_menu_tab(getActivity(), display_data,additional_data,name,time,Restaurant_menu_fragment.this));
+                                    recyclerview.setVisibility(View.VISIBLE);
+                                }else{
+                                    txt_no_res.setVisibility(View.VISIBLE);
+                                    txt_no_res.setText("No Menu Items found");
+
+                                    recyclerview.setVisibility(View.GONE);
                                 }
                             }
-                            recyclerview.setAdapter(new Restaurent_menu_tab(getActivity(), display_data,additional_data,name,time));
-                            recyclerview.setVisibility(View.VISIBLE);
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -305,5 +325,20 @@ public class Restaurant_menu_fragment extends Fragment {
 
 
         return params;
+    }
+
+    @Override
+    public void calling(FloatingActionButton floatingActionButton) {
+
+    }
+
+    @Override
+    public ArrayList<AddsData> getAddsData() {
+        return null;
+    }
+
+    @Override
+    public void completed() {
+        RetrofitClient.getInstance().hideProgressDialog();
     }
 }

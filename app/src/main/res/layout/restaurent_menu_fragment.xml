@@ -58,4 +58,13 @@
     <include layout="@layout/resatarunt_list_fragment" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/txt_no_res_pagger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+       android:layout_gravity="center"
+        android:textColor="@color/red"
+        android:visibility="gone"
+        android:text="No Restaurants found"/>
+
 </android.support.design.widget.CoordinatorLayout>

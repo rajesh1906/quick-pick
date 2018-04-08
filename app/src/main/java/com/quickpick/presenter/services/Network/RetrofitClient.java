@@ -62,7 +62,7 @@ public class RetrofitClient extends AppCompatActivity implements ConnectApiServi
 
 
 
-    private void showProgressDialog(Context context){
+    public void showProgressDialog(Context context){
 
         CustomProgressbar.showProgressBar(context, false);
     }

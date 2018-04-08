@@ -15,6 +15,7 @@ import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
@@ -30,11 +31,14 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
 import com.quickpick.R;
 import com.quickpick.presenter.utils.GPSTracker;
 import com.quickpick.views.ui.customviews.CustomDialog;
+import com.quickpick.views.ui.dashboard.tabs.EatsFragment;
 import com.quickpick.views.ui.demo.DemoViewPagerAdapter;
+import com.quickpick.views.ui.restarunt.tabs.Restaurant_menu_fragment;
 import com.rey.material.widget.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class DashboardTabs extends AppCompatActivity  {
 
@@ -228,6 +232,11 @@ public class DashboardTabs extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
                 adapter.callingFragment(floatingActionButton);
+                if(getVisibleFragment() instanceof EatsFragment){
+                	Log.e("visible eats fragment","<><>");
+				}else{
+                	Log.e("visible restaurant","<><<");
+				}
 
             }
         });
@@ -314,7 +323,15 @@ public class DashboardTabs extends AppCompatActivity  {
 		params.put("lng",lng);
 		return params;
 	}
-
+	private Fragment getVisibleFragment() {
+		FragmentManager fragmentManager = DashboardTabs.this.getSupportFragmentManager();
+		List<Fragment> fragments = fragmentManager.getFragments();
+		for (Fragment fragment : fragments) {
+			if (fragment != null && fragment.isVisible())
+				return fragment;
+		}
+		return null;
+	}
 
 
 

@@ -4,23 +4,23 @@ package com.quickpick.model;
  * Created by Rajesh Kumar on 05-04-2018.
  */
 public class ItemsData {
-    private String  Description;
+    private String  Description="";
 
-    private String Amount;
+    private String Amount="";
 
-    private String RestaurantID;
+    private String RestaurantID="";
 
-    private String NumberofQtys;
+    private String NumberofQtys="";
 
-    private String SubmenuId;
+    private String SubmenuId="";
 
-    private String ItemName;
+    private String ItemName="";
 
-    private String SubMenuName;
+    private String SubMenuName="";
 
-    private String Item_Id;
+    private String Item_Id="";
 
-    private String ItemUrl;
+    private String ItemUrl="";
 
     public String  getDescription ()
     {
