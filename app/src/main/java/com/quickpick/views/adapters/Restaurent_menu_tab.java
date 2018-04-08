@@ -1,6 +1,10 @@
 package com.quickpick.views.adapters;
 
+import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,6 +19,7 @@ import android.widget.Toast;
 import com.quickpick.R;
 import com.quickpick.model.menu.menunew.Item;
 import com.quickpick.presenter.utils.Image_Fetch;
+import com.quickpick.views.ui.menu_datails.MenuDetailsFragment;
 import com.quickpick.views.ui.restarunt.tabs.Restaurant_menu_fragment;
 
 import java.util.ArrayList;
@@ -40,6 +45,7 @@ public class Restaurent_menu_tab extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int TYPE_ITEM = 2;
     String restaurent_name="",time="";
     Restaurant_menu_fragment fragment;
+    int i = 0;
     public Restaurent_menu_tab(Context context,HashMap<String,List<String>> display_data,HashMap<String, ArrayList<HashMap<String ,String >>> additional_data,String restaurent_name,String time,Restaurant_menu_fragment fragment) {
         this.fragment = fragment;
         this.context = context;
@@ -96,7 +102,7 @@ public class Restaurent_menu_tab extends RecyclerView.Adapter<RecyclerView.ViewH
             TextView[] txt_amount = new TextView[final_list.get(header_names.get(position-1)).size()];
             TextView[] txt_description = new TextView[final_list.get(header_names.get(position-1)).size()];
             ImageView[] img_res = new ImageView[final_list.get(header_names.get(position-1)).size()];
-            for (int i = 0; i < final_list.get(header_names.get(position-1)).size(); i++) {
+            for ( i = 0; i < final_list.get(header_names.get(position-1)).size(); i++) {
                 View view = inflater.inflate(R.layout.restaurent_menu_name, null);
                 textView[i] = (TextView)view.findViewById(R.id.txt_item);
                 txt_amount[i] = (TextView)view.findViewById(R.id.txt_amount);
@@ -109,14 +115,26 @@ public class Restaurent_menu_tab extends RecyclerView.Adapter<RecyclerView.ViewH
                 Image_Fetch.getInstance().LoadImage(context,img_res[i],"http://cdn.journaldev.com/wp-content/uploads/2016/11/android-image-picker-project-structure.png");
                 textView[i].setId(i+(position-1));
                 img_res[i].setId(i+(position-1));
+                txt_description[i].setId(i+(position-1));
 //                Image_Fetch.getInstance().LoadImage(context,img_res[i],additional_data.get(header_names.get(position-1)).get(i).get("ItemUrl"));
                 holder.ll_view_items.addView(view);
 //            Log.e("item id is ","##"+additional_data.get(header_names.get(position)).get(i).get("Item_Id"));
 
                 textView[i].setOnClickListener(view1 -> {
                     String  name = ((TextView) view1).getText().toString();
-//                Log.e("name is ","<><>"+name);
-                    Toast.makeText(context,name,Toast.LENGTH_SHORT).show();
+                    String des = ((TextView)txt_description[view1.getId()]).getText().toString();
+                Log.e("des is ","<><>"+des);
+//                    Toast.makeText(context,name,Toast.LENGTH_SHORT).show();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("Item_name",name);
+                    bundle.putString("description",des);
+                   FragmentManager fm = ((Activity)context).getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                    MenuDetailsFragment menuDetailsFragment = new MenuDetailsFragment();
+                    menuDetailsFragment.setArguments(bundle);
+                    fragmentTransaction.add(R.id.container,menuDetailsFragment );
+                    fragmentTransaction.addToBackStack("bacstack");
+                    fragmentTransaction.commit();
 
                 });
             }

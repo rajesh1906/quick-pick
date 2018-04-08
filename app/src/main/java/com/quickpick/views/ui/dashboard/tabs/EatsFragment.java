@@ -1,9 +1,6 @@
 package com.quickpick.views.ui.dashboard.tabs;
 
 import android.graphics.Color;
-import android.location.Address;
-import android.location.Geocoder;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -40,18 +37,13 @@ import com.quickpick.presenter.services.Network.RetrofitClient;
 import com.quickpick.presenter.utils.Common_methods;
 import com.quickpick.views.adapters.ShowRestaurant_Adapter;
 import com.quickpick.views.ui.customviews.CustomDialog;
-import com.quickpick.views.ui.dashboard.DashBoardActivityNew;
 import com.quickpick.views.ui.dashboard.DashboardTabs;
 import com.quickpick.views.ui.dashboard.GetCategory_Id;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -62,9 +54,6 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Rajesh Kumar on 02-04-2018.

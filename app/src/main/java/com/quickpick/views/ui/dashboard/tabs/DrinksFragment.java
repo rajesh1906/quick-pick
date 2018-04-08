@@ -12,7 +12,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import com.quickpick.R;
-import com.quickpick.views.ui.demo.DemoAdapter;
+
 
 import java.util.ArrayList;
 
@@ -44,22 +44,7 @@ public class DrinksFragment extends Fragment {
     /**
      * Init the fragment
      */
-    private void initDemoList(View view) {
 
-        fragmentContainer = view.findViewById(R.id.fragment_container);
-        recyclerView = view.findViewById(R.id.fragment_demo_recycler_view);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-
-        ArrayList<String> itemsData = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-            itemsData.add("Fragment " + getArguments().getInt("index", -1) + " / Item " + i);
-        }
-
-        DemoAdapter adapter = new DemoAdapter(itemsData);
-        recyclerView.setAdapter(adapter);
-    }
 
     /**
      * Refresh

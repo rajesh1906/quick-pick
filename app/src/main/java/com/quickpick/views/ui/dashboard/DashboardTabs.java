@@ -3,14 +3,12 @@ package com.quickpick.views.ui.dashboard;
 import android.Manifest;
 import android.animation.Animator;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
-import android.os.ResultReceiver;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -32,8 +30,7 @@ import com.quickpick.R;
 import com.quickpick.presenter.utils.GPSTracker;
 import com.quickpick.views.ui.customviews.CustomDialog;
 import com.quickpick.views.ui.dashboard.tabs.EatsFragment;
-import com.quickpick.views.ui.demo.DemoViewPagerAdapter;
-import com.quickpick.views.ui.restarunt.tabs.Restaurant_menu_fragment;
+
 import com.rey.material.widget.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -43,7 +40,7 @@ import java.util.List;
 public class DashboardTabs extends AppCompatActivity  {
 
 	private Fragment currentFragment;
-	private DemoViewPagerAdapter adapter;
+	private TabViewPagerAdapter adapter;
 	private AHBottomNavigationAdapter navigationAdapter;
 	private ArrayList<AHBottomNavigationItem> bottomNavigationItems = new ArrayList<>();
 	private boolean useMenuResource = true;
@@ -224,7 +221,7 @@ public class DashboardTabs extends AppCompatActivity  {
 		*/
 
 		viewPager.setOffscreenPageLimit(4);
-		adapter = new DemoViewPagerAdapter(getSupportFragmentManager());
+		adapter = new TabViewPagerAdapter(getSupportFragmentManager());
 		viewPager.setAdapter(adapter);
 
 		currentFragment = adapter.getCurrentFragment();

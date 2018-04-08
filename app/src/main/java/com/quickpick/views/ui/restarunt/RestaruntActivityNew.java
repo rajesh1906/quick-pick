@@ -30,7 +30,6 @@ import com.quickpick.presenter.utils.Common_methods;
 import com.quickpick.views.adapters.Restaurant_menu_Adapter;
 import com.quickpick.views.ui.BaseActivity;
 import com.quickpick.views.ui.customviews.CustomDialog;
-import com.quickpick.views.ui.dashboard.DashBoardActivityNew;
 import com.quickpick.views.ui.dashboard.GetCategory_Id;
 import com.rey.material.widget.FloatingActionButton;
 

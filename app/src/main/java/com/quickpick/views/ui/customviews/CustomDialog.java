@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -23,12 +22,9 @@ import android.widget.Toast;
 import com.michael.easydialog.EasyDialog;
 import com.quickpick.BuildConfig;
 import com.quickpick.R;
-import com.quickpick.views.ui.dashboard.DashBoardActivityNew;
 import com.quickpick.views.ui.dashboard.GetCategory_Id;
 
 import java.util.ArrayList;
-
-import butterknife.ButterKnife;
 
 /**
  * Created by Rajesh kumar on 07-03-2018.

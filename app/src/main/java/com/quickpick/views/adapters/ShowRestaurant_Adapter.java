@@ -2,14 +2,10 @@ package com.quickpick.views.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
-import android.telecom.Call;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,15 +15,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.quickpick.R;
 import com.quickpick.model.restaurant_category.RestaurantData;
-import com.quickpick.views.ui.dashboard.DashBoardActivity;
 import com.quickpick.views.ui.dashboard.tabs.Calling_Fragment;
 import com.quickpick.views.ui.dashboard.tabs.EatsFragment;
-import com.quickpick.views.ui.restarunt.RestaruntActivity;
-import com.quickpick.views.ui.restarunt.RestaruntActivityNew;
 import com.quickpick.views.ui.restarunt.tabs.Restaurant_menu_fragment;
 
 import java.util.ArrayList;
