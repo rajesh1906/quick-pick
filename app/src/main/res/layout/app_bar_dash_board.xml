@@ -14,7 +14,7 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="50dp"
             android:background="@color/white"
             app:popupTheme="@style/AppTheme.PopupOverlay" >
             <RelativeLayout
@@ -31,11 +31,11 @@
                 android:textColor="@color/black"/>
                 <ImageView
                     android:id="@+id/img_filter"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/icon_filter"
+                    android:background="@drawable/back_btn"
                     android:layout_toLeftOf="@+id/img_search"
                     android:visibility="gone"/>
 
@@ -66,11 +66,21 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="15dp"
                     android:background="@drawable/icon_search"
-                    android:layout_alignParentRight="true"
+                   android:layout_toLeftOf="@+id/img_cart"
                     android:paddingRight="10dp"
                     android:visibility="gone"/>
+                <ImageView
+                    android:id="@+id/img_cart"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/cart_icon"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="10dp"
+                    android:visibility="gone" />
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
 

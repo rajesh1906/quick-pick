@@ -14,9 +14,7 @@ import android.widget.TextView;
 
 import com.quickpick.R;
 import com.quickpick.presenter.utils.Common_methods;
-import com.quickpick.views.ui.dashboard.DashBoardActivityNew;
-
-import org.w3c.dom.Text;
+import com.quickpick.views.ui.dashboard.DashboardTabs;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -58,7 +56,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
         switch (view.getId()){
             case R.id.btn_login:
                 if(checkvalidation()) {
-                    startActivity(new Intent(this, DashBoardActivityNew.class));
+                    startActivity(new Intent(this, DashboardTabs.class));
                     finish();
                 }
                 break;

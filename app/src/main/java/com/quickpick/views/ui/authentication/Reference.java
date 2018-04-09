@@ -10,8 +10,7 @@ import android.widget.TextView;
 
 import com.quickpick.R;
 import com.quickpick.views.adapters.SlidingImage_Adapter;
-import com.quickpick.views.ui.dashboard.DashBoardActivityNew;
-import com.quickpick.views.ui.restarunt.RestaruntActivity;
+import com.quickpick.views.ui.dashboard.DashboardTabs;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,7 +38,7 @@ public class Reference extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reference);
         ButterKnife.bind(this);
-        adapter = new SlidingImage_Adapter(Reference.this, IMAGES);
+        adapter = new SlidingImage_Adapter(Reference.this, IMAGES,null);
         init();
         String  page_number = 1+"/"+IMAGES.length;
         txt_count_pages.setText(page_number);
@@ -83,7 +82,7 @@ public class Reference extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void onClick(View view) {
-        startActivity(new Intent(Reference.this, DashBoardActivityNew.class));
+        startActivity(new Intent(Reference.this, DashboardTabs.class));
         finish();
     }
 }

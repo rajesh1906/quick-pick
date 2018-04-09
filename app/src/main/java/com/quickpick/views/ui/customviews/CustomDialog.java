@@ -6,12 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
-import android.view.LayoutInflater;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -22,12 +23,10 @@ import android.widget.Toast;
 import com.michael.easydialog.EasyDialog;
 import com.quickpick.BuildConfig;
 import com.quickpick.R;
-import com.quickpick.views.ui.dashboard.DashBoardActivityNew;
+import com.quickpick.presenter.utils.Common_methods;
 import com.quickpick.views.ui.dashboard.GetCategory_Id;
 
 import java.util.ArrayList;
-
-import butterknife.ButterKnife;
 
 /**
  * Created by Rajesh kumar on 07-03-2018.
@@ -88,7 +87,7 @@ public class CustomDialog {
     }
 
 
-    public void showTooltip(final Context context, ArrayList<String> category_items, View target_view) {
+    public void showTooltip(final Context context, ArrayList<String> category_items, View target_view, final Fragment fragment) {
         View view = ((Activity) context).getLayoutInflater().inflate(R.layout.categoriesdialog, null);
         final EasyDialog dialog = new EasyDialog(context)
                 // .setLayoutResourceId(R.layout.layout_tip_content_horizontal)//layout resource id
@@ -114,8 +113,13 @@ public class CustomDialog {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                GetCategory_Id getCategory_id = (GetCategory_Id) context;
-                getCategory_id.getId(position);
+                if(null!=fragment) {
+                    GetCategory_Id getCategory_id = (GetCategory_Id) fragment;
+                    getCategory_id.getId((position+1));
+                }else{
+                    GetCategory_Id getCategory_id = (GetCategory_Id) context;
+                    getCategory_id.getId((position+1));
+                }
                 dialog.dismiss();
             }
         });
@@ -144,6 +148,7 @@ public class CustomDialog {
         Button btn_ok = (Button) dialog.findViewById(R.id.btn_ok);
         desc.setText(desc_data);
         txt_title.setText(title);
+
         dialog.show();
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,6 +167,32 @@ public class CustomDialog {
 
     public interface getpaymentType{
         public void getpayment();
+    }
+
+    public void Alternative_note(Context context,getAlternativenote getAlternativenote){
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.alternative_note_dialog);
+        TextView txt_done = (TextView) dialog.findViewById(R.id.txt_done);
+        EditText edt_txt = (EditText) dialog.findViewById(R.id.edt_txt);
+        edt_txt.requestFocus();
+        new Common_methods(context).openKeyboard(edt_txt);
+        dialog.show();
+        txt_done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Common_methods(context).hideKeyboard(edt_txt);
+                getAlternativenote.getnote(edt_txt.getText().toString());
+
+                dialog.dismiss();
+            }
+        });
+    }
+
+    public interface getAlternativenote{
+        void getnote(String note);
+
     }
 
 

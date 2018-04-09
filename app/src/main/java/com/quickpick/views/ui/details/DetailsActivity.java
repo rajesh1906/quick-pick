@@ -52,7 +52,7 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
 @Bind(R.id.txt_pay_not)
         TextView txt_pay_not;
     String item_name = "", item_price = "";
-
+//ashok
     @Override
     protected int getLayoutResourceId() {
         return R.layout.details_activity;
@@ -151,6 +151,7 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
                                 txt_pay.setText("Checkout " + item + " item for ₹" + resultent_price);
                                 txt_pay_not.setText("Checkout " + item + " item for ₹" + resultent_price);
                             }
+
 
                         } else {
                             Toast.makeText(DetailsActivity.this, "minus values not accepted", Toast.LENGTH_SHORT).show();

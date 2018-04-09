@@ -4,6 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:id="@+id/rel_parent"
+    android:background="@color/white"
     android:layout_height="wrap_content">
     <TextView
 
@@ -44,7 +45,7 @@
                 android:layout_height="100dp"
                 android:layout_margin="2dp"
                 android:layout_centerVertical="true"
-                android:background="@drawable/img_three"/>
+                />
             <TextView
                 android:id="@+id/txt_item"
                 android:layout_width="wrap_content"
@@ -56,6 +57,7 @@
                 android:textColor="@color/black"
                 android:layout_marginLeft="10dp"/>
             <TextView
+                android:id="@+id/txt_subtext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txt_item"

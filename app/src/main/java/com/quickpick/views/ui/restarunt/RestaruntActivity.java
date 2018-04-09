@@ -75,7 +75,7 @@ public class RestaruntActivity extends BaseActivity {
         Res_id = bundle.getString("menu_id");
 
         addBottomDots(0);
-        adapter = new SlidingImage_Adapter(RestaruntActivity.this, IMAGES);
+        adapter = new SlidingImage_Adapter(RestaruntActivity.this, IMAGES,null);
         init();
         GridLayoutManager grid_layout = new GridLayoutManager(this, 2);
         recyclerview.setLayoutManager(grid_layout);

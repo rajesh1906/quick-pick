@@ -25,14 +25,11 @@
             android:label="@string/app_name"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
-        <activity android:name=".views.ui.dashboard.DashBoardActivityNew"
+        <!--<activity android:name=".views.ui.dashboard.DashBoardActivityNew"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"/>-->
 
         <activity android:name=".views.ui.restarunt.RestaruntActivityNew"
             android:configChanges="orientation|screenSize"
@@ -55,7 +52,20 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"
             />
-
+        <activity android:name=".views.ui.dashboard.DashboardTabs"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".views.ui.menu_datails.MenuDetailsActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <service android:name="com.paypal.android.sdk.payments.PayPalService"/>
     </application>
 
 </manifest>

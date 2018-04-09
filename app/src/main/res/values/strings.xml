@@ -38,4 +38,14 @@
         <item>Pay from credit card</item>
         <item>pay from debit card</item>
     </string-array>
+
+    <!--Tab names-->
+    <string name="drinks">Drinks</string>
+    <string name="eats">Eats</string>
+    <string name="pick">Pickup</string>
+    <string name="profile">Profile </string>
+    <string name="book_table">Book a Table</string>
+    <string name="dine_in">Dine In\nEat In</string>
+    <string name="pickup">Pickup</string>
+    <string name="home_delivery">Home Delivery</string>
 </resources>
