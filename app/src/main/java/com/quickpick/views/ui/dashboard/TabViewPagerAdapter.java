@@ -58,10 +58,10 @@ public class TabViewPagerAdapter extends FragmentPagerAdapter {
         return currentFragment;
     }
 
-    public void callingFragment(FloatingActionButton floatingActionButton){
+    public void callingFragment(FloatingActionButton floatingActionButton,String coming_from){
         Log.e("calling adapter ","<><");
         Calling_Fragment calling_fragment = (Calling_Fragment)fragments.get(1);
-        calling_fragment.calling(floatingActionButton);
+        calling_fragment.calling(floatingActionButton,coming_from);
     }
 }
 

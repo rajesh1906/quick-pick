@@ -60,6 +60,8 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class EatsFragment extends Fragment implements Calling_Fragment, GetCategory_Id, View.OnClickListener {
 
+
+
     @Bind(R.id.recyclerview)
     RecyclerView recyclerview;
     @Bind(R.id.txt_no_res)
@@ -165,6 +167,19 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
         return view;
     }
 
+
+    /*@Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        Log.e("calling set user visible ","###");
+        DashboardTabs.coming_fragment="EatsFragment";
+    }*/
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+    }
 
     private void fetchListerns() {
         txt_book_table.setOnClickListener(this);
@@ -387,10 +402,16 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
     }
 
     @Override
-    public void calling(com.rey.material.widget.FloatingActionButton floatingActionButton) {
+    public void calling(com.rey.material.widget.FloatingActionButton floatingActionButton,String coming_from) {
         Log.e("coming to fragment", "<><>");
-        this.floatingActionButton = floatingActionButton;
-        fetchData("category", "");
+        if(coming_from.equalsIgnoreCase("eats_fragment")) {
+            this.floatingActionButton = floatingActionButton;
+            fetchData("category", "");
+        }else{
+
+            adapter.callingResFragment(floatingActionButton);
+
+        }
     }
 
     @Override

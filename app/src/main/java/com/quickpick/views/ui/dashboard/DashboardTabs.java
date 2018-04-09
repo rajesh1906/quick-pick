@@ -2,6 +2,7 @@ package com.quickpick.views.ui.dashboard;
 
 import android.Manifest;
 import android.animation.Animator;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -31,13 +32,14 @@ import com.quickpick.presenter.utils.GPSTracker;
 import com.quickpick.views.ui.customviews.CustomDialog;
 import com.quickpick.views.ui.dashboard.tabs.EatsFragment;
 
+import com.quickpick.views.ui.restarunt.tabs.Restaurant_menu_fragment;
 import com.rey.material.widget.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class DashboardTabs extends AppCompatActivity  {
+public class DashboardTabs extends AppCompatActivity implements ShowViews {
 
 	private Fragment currentFragment;
 	private TabViewPagerAdapter adapter;
@@ -55,12 +57,13 @@ public class DashboardTabs extends AppCompatActivity  {
 	GPSTracker gpsTracker;
 	String lat="",lng="";
 	protected Location mLastLocation;
+	public static Activity instance;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-
+		instance = this;
 		StrictMode.setThreadPolicy(policy);
 		boolean enabledTranslucentNavigation = getSharedPreferences("shared", Context.MODE_PRIVATE)
 				.getBoolean("translucentNavigation", false);
@@ -191,12 +194,12 @@ public class DashboardTabs extends AppCompatActivity  {
 
 									@Override
 									public void onAnimationEnd(Animator animation) {
-										floatingActionButton.setVisibility(View.GONE);
+//										floatingActionButton.setVisibility(View.GONE);
 									}
 
 									@Override
 									public void onAnimationCancel(Animator animation) {
-										floatingActionButton.setVisibility(View.GONE);
+//										floatingActionButton.setVisibility(View.GONE);
 									}
 
 									@Override
@@ -228,13 +231,16 @@ public class DashboardTabs extends AppCompatActivity  {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                adapter.callingFragment(floatingActionButton);
-                if(getVisibleFragment() instanceof EatsFragment){
-                	Log.e("visible eats fragment","<><>");
-				}else{
-                	Log.e("visible restaurant","<><<");
-				}
 
+
+				Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.container);
+				if(currentFragment instanceof Restaurant_menu_fragment) {
+					Log.e("fragment ","<>>res fragment<><");
+                    adapter.callingFragment(floatingActionButton,"res_fragment");
+				}else {
+					Log.e("fragment ","<>>Eats fragment<><");
+                    adapter.callingFragment(floatingActionButton,"eats_fragment");
+				}
             }
         });
 		
@@ -320,16 +326,15 @@ public class DashboardTabs extends AppCompatActivity  {
 		params.put("lng",lng);
 		return params;
 	}
-	private Fragment getVisibleFragment() {
-		FragmentManager fragmentManager = DashboardTabs.this.getSupportFragmentManager();
-		List<Fragment> fragments = fragmentManager.getFragments();
-		for (Fragment fragment : fragments) {
-			if (fragment != null && fragment.isVisible())
-				return fragment;
+
+
+
+	@Override
+	public void fabShowing(boolean show) {
+		if(show){
+			floatingActionButton.setVisibility(View.VISIBLE);
+		}else{
+			floatingActionButton.setVisibility(View.GONE);
 		}
-		return null;
 	}
-
-
-
 }

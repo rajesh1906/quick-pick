@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import com.michael.easydialog.EasyDialog;
 import com.quickpick.BuildConfig;
 import com.quickpick.R;
+import com.quickpick.presenter.utils.Common_methods;
 import com.quickpick.views.ui.dashboard.GetCategory_Id;
 
 import java.util.ArrayList;
@@ -146,6 +148,7 @@ public class CustomDialog {
         Button btn_ok = (Button) dialog.findViewById(R.id.btn_ok);
         desc.setText(desc_data);
         txt_title.setText(title);
+
         dialog.show();
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,6 +167,32 @@ public class CustomDialog {
 
     public interface getpaymentType{
         public void getpayment();
+    }
+
+    public void Alternative_note(Context context,getAlternativenote getAlternativenote){
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.alternative_note_dialog);
+        TextView txt_done = (TextView) dialog.findViewById(R.id.txt_done);
+        EditText edt_txt = (EditText) dialog.findViewById(R.id.edt_txt);
+        edt_txt.requestFocus();
+        new Common_methods(context).openKeyboard(edt_txt);
+        dialog.show();
+        txt_done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Common_methods(context).hideKeyboard(edt_txt);
+                getAlternativenote.getnote(edt_txt.getText().toString());
+
+                dialog.dismiss();
+            }
+        });
+    }
+
+    public interface getAlternativenote{
+        void getnote(String note);
+
     }
 
 

@@ -1,15 +1,13 @@
 package com.quickpick.views.ui.restarunt.tabs;
 
-import android.app.ActionBar;
-import android.app.Fragment;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,21 +16,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
-
 
 import com.google.gson.Gson;
 import com.quickpick.R;
 import com.quickpick.model.AllItems_Pojo;
 import com.quickpick.model.ItemsData;
-import com.quickpick.model.Temp;
 import com.quickpick.model.adds.AddsData;
 import com.quickpick.model.menu.menunew.Menu;
 import com.quickpick.model.menu.menunew.Menucategory;
@@ -43,8 +34,11 @@ import com.quickpick.views.adapters.Fetching_items_completed;
 import com.quickpick.views.adapters.Restaurant_menu_Adapter;
 import com.quickpick.views.adapters.Restaurent_menu_tab;
 import com.quickpick.views.ui.customviews.CustomDialog;
+import com.quickpick.views.ui.dashboard.DashboardTabs;
+import com.quickpick.views.ui.dashboard.GetCategory_Id;
+import com.quickpick.views.ui.dashboard.ShowViews;
 import com.quickpick.views.ui.dashboard.tabs.Calling_Fragment;
-import com.quickpick.views.ui.restarunt.RestaruntActivityNew;
+import com.quickpick.views.ui.dashboard.tabs.EatsFragment;
 import com.rey.material.widget.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -60,7 +54,7 @@ import butterknife.ButterKnife;
  * Created by Rajesh Kumar on 20-11-2017.
  */
 
-public class Restaurant_menu_fragment extends Fragment implements Calling_Fragment, Fetching_items_completed {
+public class Restaurant_menu_fragment extends Fragment implements Calling_Fragment, Fetching_items_completed,GetCategory_Id {
     View view;
     @Bind(R.id.recyclerview)
     RecyclerView recyclerview;
@@ -77,7 +71,11 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
     String menu__item_id = "1", category_id = "";
     ArrayList<String> category_items_id = new ArrayList<>();
     private CollapsingToolbarLayout collapsingToolbarLayout = null;
-
+   com.rey.material.widget.FloatingActionButton floatingActionButton;
+    ArrayList<String > header_names;
+    HashMap<String, List<String>> display_data;
+    HashMap<String, ArrayList<HashMap<String ,String >>> additional_data;
+    LinearLayoutManager mLayoutManager;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -93,7 +91,7 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
         name = getArguments().getString("res_name");
         time = getArguments().getString("time");
      ;
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(mLayoutManager);
         fetchData("AllItemsLoading", "show");
         dynamicToolbarColor();
@@ -123,7 +121,29 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
                 }
             }
         });
+
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        ShowViews showViews = (ShowViews) DashboardTabs.instance;
+        showViews.fabShowing(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ShowViews showViews =(ShowViews) DashboardTabs.instance;
+        showViews.fabShowing(true);
     }
 
     private void dynamicToolbarColor() {
@@ -223,8 +243,8 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
 
                         try {
                             AllItems_Pojo items_pojo = new Gson().fromJson(res, AllItems_Pojo.class);
-                            HashMap<String, List<String>> display_data = new HashMap<>();
-                            HashMap<String, ArrayList<HashMap<String ,String >>> additional_data = new HashMap<>();
+                             display_data = new HashMap<>();
+                             additional_data = new HashMap<>();
 
                             if (items_pojo.getStatus().equalsIgnoreCase("successfully")) {
                                 if(items_pojo.getItemsData().size()!=0) {
@@ -328,7 +348,13 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
     }
 
     @Override
-    public void calling(FloatingActionButton floatingActionButton) {
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    public void calling(FloatingActionButton floatingActionButton,String coming_from) {
 
     }
 
@@ -340,5 +366,50 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
     @Override
     public void completed() {
         RetrofitClient.getInstance().hideProgressDialog();
+    }
+
+    public void showMenu(com.rey.material.widget.FloatingActionButton floatingActionButton){
+        this.floatingActionButton = floatingActionButton;
+        Map<String,List<String>> final_list =  new TreeMap<>(display_data);
+        header_names = hashmapKeys(final_list);
+        CustomDialog.getInstance().showTooltip(getActivity(), header_names, floatingActionButton, Restaurant_menu_fragment.this);
+
+    }
+
+    @Override
+    public void getId(int id) {
+
+
+       /* if (id == 1) {
+//            recyclerview.scrollToPosition(0);
+            mLayoutManager.scrollToPosition(0);
+        } else{
+//            recyclerview.scrollToPosition(additional_data.get(header_names.get((id - 1))).size() + 1);
+//            mLayoutManager.scrollToPosition(additional_data.get(header_names.get((id - 1))).size() + 1);
+
+            for(int i=0;i<id;i++){
+                if(i!=0)
+                    lenght = lenght+additional_data.get(header_names.get((i))).size();
+            }
+
+        }*/
+        mLayoutManager.scrollToPositionWithOffset(id, 0);;
+//        Toast.makeText(getActivity(), "Show Restaurent Fragment"+lenght, Toast.LENGTH_SHORT).show();
+
+
+
+    }
+
+    private ArrayList<String > hashmapKeys(Map<String,List<String>> display_data){
+        ArrayList<String > keynames = new ArrayList<>();
+        for ( Map.Entry<String,List<String >> entry : display_data.entrySet()) {
+            String key = entry.getKey();
+//             = entry.getValue();
+            Log.e("keys is ","<><"+key);
+            keynames.add(key);
+            // do something with key and/or tab
+        }
+
+        return keynames;
     }
 }

@@ -1,10 +1,14 @@
 package com.quickpick.views.adapters;
 
 import android.app.Activity;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
@@ -39,6 +43,7 @@ public class ShowRestaurant_Adapter extends RecyclerView.Adapter<RecyclerView.Vi
     private static final Integer[] IMAGES = {R.drawable.img_one, R.drawable.img_two, R.drawable.img_three, R.drawable.img_four};
     SlidingImage_Adapter adapter;
     EatsFragment fragment;
+    Restaurant_menu_fragment restaurant_menu_fragment;
     public ShowRestaurant_Adapter(Context context,ArrayList<RestaurantData> dataList,EatsFragment fragment){
         this.context=context;
         this.dataList = dataList;
@@ -100,13 +105,13 @@ public class ShowRestaurant_Adapter extends RecyclerView.Adapter<RecyclerView.Vi
                 context.startActivity(intent);*/
 
 
-                Restaurant_menu_fragment restaurant_menu_fragment = new Restaurant_menu_fragment();
+                 restaurant_menu_fragment = new Restaurant_menu_fragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("menu_id",dataList.get(position-1).getRes_id());
                 bundle.putString("res_name",dataList.get(position-1).getRes_Name());
                 bundle.putString("time",dataList.get(position-1).getPreparationTimeDuration());
-                android.app.FragmentManager fm = ((Activity)context).getFragmentManager();
-                android.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 restaurant_menu_fragment.setArguments(bundle);
                 fragmentTransaction.add(R.id.container, restaurant_menu_fragment);
                 fragmentTransaction.addToBackStack("bacstack");
@@ -210,6 +215,10 @@ public class ShowRestaurant_Adapter extends RecyclerView.Adapter<RecyclerView.Vi
         });
 
 
+    }
+
+    public void callingResFragment(com.rey.material.widget.FloatingActionButton floatingActionButton){
+        restaurant_menu_fragment.showMenu(floatingActionButton);
     }
 
 

@@ -1,11 +1,8 @@
 package com.quickpick.views.adapters;
 
-import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,12 +11,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.quickpick.R;
 import com.quickpick.model.menu.menunew.Item;
 import com.quickpick.presenter.utils.Image_Fetch;
-import com.quickpick.views.ui.menu_datails.MenuDetailsFragment;
+import com.quickpick.views.ui.menu_datails.MenuDetailsActivity;
 import com.quickpick.views.ui.restarunt.tabs.Restaurant_menu_fragment;
 
 import java.util.ArrayList;
@@ -56,6 +52,8 @@ public class Restaurent_menu_tab extends RecyclerView.Adapter<RecyclerView.ViewH
         this.restaurent_name = restaurent_name;
         this.time = time;
         header_names = hashmapKeys(final_list);
+       /* ShowViews showViews =(ShowViews) DashboardTabs.instance;
+        showViews.fabShowing(false);*/
 
     }
     private class HeaderViewHolder extends RecyclerView.ViewHolder {
@@ -102,12 +100,14 @@ public class Restaurent_menu_tab extends RecyclerView.Adapter<RecyclerView.ViewH
             TextView[] txt_amount = new TextView[final_list.get(header_names.get(position-1)).size()];
             TextView[] txt_description = new TextView[final_list.get(header_names.get(position-1)).size()];
             ImageView[] img_res = new ImageView[final_list.get(header_names.get(position-1)).size()];
+            LinearLayout[] ll_item = new LinearLayout[final_list.get(header_names.get(position-1)).size()];
             for ( i = 0; i < final_list.get(header_names.get(position-1)).size(); i++) {
                 View view = inflater.inflate(R.layout.restaurent_menu_name, null);
                 textView[i] = (TextView)view.findViewById(R.id.txt_item);
                 txt_amount[i] = (TextView)view.findViewById(R.id.txt_amount);
                 txt_description[i] = (TextView)view.findViewById(R.id.txt_description);
                 img_res[i] = (ImageView)view.findViewById(R.id.img_src);
+                ll_item[i] = view.findViewById(R.id.ll_item);
                 textView[i].setText(final_list.get(header_names.get(position-1)).get(i));
                 txt_amount[i].setText("₹"+additional_data.get(header_names.get(position-1)).get(i).get("Amount"));
                 txt_description[i].setText(additional_data.get(header_names.get(position-1)).get(i).get("Description"));
@@ -115,26 +115,32 @@ public class Restaurent_menu_tab extends RecyclerView.Adapter<RecyclerView.ViewH
                 Image_Fetch.getInstance().LoadImage(context,img_res[i],"http://cdn.journaldev.com/wp-content/uploads/2016/11/android-image-picker-project-structure.png");
                 textView[i].setId(i+(position-1));
                 img_res[i].setId(i+(position-1));
+                ll_item[i].setId(i+(position-1));
                 txt_description[i].setId(i+(position-1));
 //                Image_Fetch.getInstance().LoadImage(context,img_res[i],additional_data.get(header_names.get(position-1)).get(i).get("ItemUrl"));
                 holder.ll_view_items.addView(view);
 //            Log.e("item id is ","##"+additional_data.get(header_names.get(position)).get(i).get("Item_Id"));
 
-                textView[i].setOnClickListener(view1 -> {
-                    String  name = ((TextView) view1).getText().toString();
+                ll_item[i].setOnClickListener(view1 -> {
+                    String  name = (textView[view1.getId()]).getText().toString();
+
                     String des = ((TextView)txt_description[view1.getId()]).getText().toString();
+                    String price = ((TextView)txt_amount[view1.getId()]).getText().toString();
                 Log.e("des is ","<><>"+des);
 //                    Toast.makeText(context,name,Toast.LENGTH_SHORT).show();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("Item_name",name);
-                    bundle.putString("description",des);
-                   FragmentManager fm = ((Activity)context).getFragmentManager();
+
+                   /*FragmentManager fm = ((Activity)context).getFragmentManager();
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                    MenuDetailsFragment menuDetailsFragment = new MenuDetailsFragment();
+                    MenuDetailsActivity menuDetailsFragment = new MenuDetailsActivity();
                     menuDetailsFragment.setArguments(bundle);
                     fragmentTransaction.add(R.id.container,menuDetailsFragment );
                     fragmentTransaction.addToBackStack("bacstack");
-                    fragmentTransaction.commit();
+                    fragmentTransaction.commit();*/
+                    Intent intent = new Intent(context,MenuDetailsActivity.class);
+                    intent.putExtra("Item_name",name);
+                    intent.putExtra("description",des);
+                    intent.putExtra("price",price);
+                    context.startActivity(intent);
 
                 });
             }
