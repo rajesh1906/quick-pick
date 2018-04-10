@@ -103,7 +103,7 @@ public class ShowRestaurant_Adapter extends RecyclerView.Adapter<RecyclerView.Vi
 //                    .load("https://s3.amazonaws.com/9round/blog/posts/df518f8dbf5b11de1b1ea047b84977ae.png")
 //                    .into(holder1.img_res);
 //            Picasso.with(context)
-//                    .load("http://www.jklogistics.in/QuikPickApi/Download2?name=Res_adilb.png")
+//                    .load("http://www.jklogistics.in/QuikPickApi/Download2?name=https://pbs.twimg.com/media/DN9OXbRW4AAw0aS.jpg")
 //                    .error(R.drawable.back_btn)
 //                    .into(holder1.img_res);
             Picasso.Builder builder = new Picasso.Builder(context);
@@ -115,7 +115,7 @@ public class ShowRestaurant_Adapter extends RecyclerView.Adapter<RecyclerView.Vi
                     exception.printStackTrace();
                 }
             });
-            builder.build().load("http://www.jklogistics.in/QuikPickApi/Download2?name=Res_adilb.png").into(holder1.img_res);
+            builder.build().load(dataList.get(position-1).getRestaurantnameurl()).into(holder1.img_res);
 //            holder1.img_res.setBackgroundResource(getIMage(getRandomNumber()));
             holder1.txt_time.setText(dataList.get(position-1).getPreparationTimeDuration()+" MIN");
             holder1.rel_parent.setOnClickListener(new View.OnClickListener() {
