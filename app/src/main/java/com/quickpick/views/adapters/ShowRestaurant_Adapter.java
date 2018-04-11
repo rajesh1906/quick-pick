@@ -133,6 +133,7 @@ public class ShowRestaurant_Adapter extends RecyclerView.Adapter<RecyclerView.Vi
                 bundle.putString("menu_id",dataList.get(position-1).getRes_id());
                 bundle.putString("res_name",dataList.get(position-1).getRes_Name());
                 bundle.putString("time",dataList.get(position-1).getPreparationTimeDuration());
+                bundle.putString("img_url",dataList.get(position-1).getRestaurantnameurl());
                 FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 restaurant_menu_fragment.setArguments(bundle);

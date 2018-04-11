@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import com.quickpick.model.menu.menunew.Menucategory;
 import com.quickpick.presenter.services.Network.APIResponse;
 import com.quickpick.presenter.services.Network.APIS;
 import com.quickpick.presenter.services.Network.RetrofitClient;
+import com.quickpick.presenter.utils.Image_Fetch;
 import com.quickpick.views.adapters.Fetching_items_completed;
 import com.quickpick.views.adapters.Restaurant_menu_Adapter;
 import com.quickpick.views.adapters.Restaurent_menu_tab;
@@ -54,28 +56,30 @@ import butterknife.ButterKnife;
  * Created by Rajesh Kumar on 20-11-2017.
  */
 
-public class Restaurant_menu_fragment extends Fragment implements Calling_Fragment, Fetching_items_completed,GetCategory_Id {
+public class Restaurant_menu_fragment extends Fragment implements Calling_Fragment, Fetching_items_completed, GetCategory_Id {
     View view;
     @Bind(R.id.recyclerview)
     RecyclerView recyclerview;
     @Bind(R.id.txt_no_res_pagger)
     TextView txt_no_res;
     @Bind(R.id.img_back)
-        LinearLayout img_back;
+    LinearLayout img_back;
+    @Bind(R.id.img_header)
+    ImageView img_header;
 
 
-
-    String Res_id = "", name = "",time="";
+    String Res_id = "", name = "", time = "", img_url = "";
     ArrayList<String> menu_items = new ArrayList<>();
     ArrayList<String> menu_id = new ArrayList<>();
     String menu__item_id = "1", category_id = "";
     ArrayList<String> category_items_id = new ArrayList<>();
     private CollapsingToolbarLayout collapsingToolbarLayout = null;
-   com.rey.material.widget.FloatingActionButton floatingActionButton;
-    ArrayList<String > header_names;
+    com.rey.material.widget.FloatingActionButton floatingActionButton;
+    ArrayList<String> header_names;
     HashMap<String, List<String>> display_data;
-    HashMap<String, ArrayList<HashMap<String ,String >>> additional_data;
+    HashMap<String, ArrayList<HashMap<String, String>>> additional_data;
     LinearLayoutManager mLayoutManager;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -90,9 +94,11 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
         Res_id = getArguments().getString("menu_id");
         name = getArguments().getString("res_name");
         time = getArguments().getString("time");
-     ;
-         mLayoutManager = new LinearLayoutManager(getActivity());
+        img_url = getArguments().getString("img_url");
+        Image_Fetch.getInstance().LoadImage(getActivity(), img_header, img_url);
+        mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(mLayoutManager);
+
         fetchData("AllItemsLoading", "show");
         dynamicToolbarColor();
         toolbarTextAppernce();
@@ -115,7 +121,7 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
                 if (scrollRange + verticalOffset == 0) {
                     collapsingToolbarLayout.setTitle(name);
                     isShow = true;
-                } else if(isShow) {
+                } else if (isShow) {
                     collapsingToolbarLayout.setTitle(" ");//carefull there should a space between double quote otherwise it wont work
                     isShow = false;
                 }
@@ -142,7 +148,7 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
     @Override
     public void onResume() {
         super.onResume();
-        ShowViews showViews =(ShowViews) DashboardTabs.instance;
+        ShowViews showViews = (ShowViews) DashboardTabs.instance;
         showViews.fabShowing(true);
     }
 
@@ -164,7 +170,6 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
         collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.collapsedappbar);
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.expandedappbar);
     }
-
 
 
     private void fetchData(final String coming_from, String progress_bar) {
@@ -243,11 +248,11 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
 
                         try {
                             AllItems_Pojo items_pojo = new Gson().fromJson(res, AllItems_Pojo.class);
-                             display_data = new HashMap<>();
-                             additional_data = new HashMap<>();
+                            display_data = new HashMap<>();
+                            additional_data = new HashMap<>();
 
                             if (items_pojo.getStatus().equalsIgnoreCase("successfully")) {
-                                if(items_pojo.getItemsData().size()!=0) {
+                                if (items_pojo.getItemsData().size() != 0) {
                                     List<String> itemList = null;
                                     ArrayList<HashMap<String, String>> addidional = null;
                                     for (int i = 0; i < items_pojo.getItemsData().size(); i++) {
@@ -280,14 +285,14 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
                                             additional_data.put(itemsData.getSubMenuName(), addidional);
                                         }
                                     }
-                                    try{
+                                    try {
                                         RetrofitClient.getInstance().showProgressDialog(getActivity());
-                                    }catch (Exception e){
+                                    } catch (Exception e) {
                                         e.printStackTrace();
                                     }
-                                    recyclerview.setAdapter(new Restaurent_menu_tab(getActivity(), display_data,additional_data,name,time,Restaurant_menu_fragment.this));
+                                    recyclerview.setAdapter(new Restaurent_menu_tab(getActivity(), display_data, additional_data, name, time, Restaurant_menu_fragment.this));
                                     recyclerview.setVisibility(View.VISIBLE);
-                                }else{
+                                } else {
                                     txt_no_res.setVisibility(View.VISIBLE);
                                     txt_no_res.setText("No Menu Items found");
 
@@ -354,7 +359,7 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
     }
 
     @Override
-    public void calling(FloatingActionButton floatingActionButton,String coming_from) {
+    public void calling(FloatingActionButton floatingActionButton, String coming_from) {
 
     }
 
@@ -368,9 +373,9 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
         RetrofitClient.getInstance().hideProgressDialog();
     }
 
-    public void showMenu(com.rey.material.widget.FloatingActionButton floatingActionButton){
+    public void showMenu(com.rey.material.widget.FloatingActionButton floatingActionButton) {
         this.floatingActionButton = floatingActionButton;
-        Map<String,List<String>> final_list =  new TreeMap<>(display_data);
+        Map<String, List<String>> final_list = new TreeMap<>(display_data);
         header_names = hashmapKeys(final_list);
         CustomDialog.getInstance().showTooltip(getActivity(), header_names, floatingActionButton, Restaurant_menu_fragment.this);
 
@@ -393,19 +398,19 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
             }
 
         }*/
-        mLayoutManager.scrollToPositionWithOffset(id, 0);;
+        mLayoutManager.scrollToPositionWithOffset(id, 0);
+        ;
 //        Toast.makeText(getActivity(), "Show Restaurent Fragment"+lenght, Toast.LENGTH_SHORT).show();
-
 
 
     }
 
-    private ArrayList<String > hashmapKeys(Map<String,List<String>> display_data){
-        ArrayList<String > keynames = new ArrayList<>();
-        for ( Map.Entry<String,List<String >> entry : display_data.entrySet()) {
+    private ArrayList<String> hashmapKeys(Map<String, List<String>> display_data) {
+        ArrayList<String> keynames = new ArrayList<>();
+        for (Map.Entry<String, List<String>> entry : display_data.entrySet()) {
             String key = entry.getKey();
 //             = entry.getValue();
-            Log.e("keys is ","<><"+key);
+            Log.e("keys is ", "<><" + key);
             keynames.add(key);
             // do something with key and/or tab
         }

@@ -112,30 +112,18 @@ public class Restaurent_menu_tab extends RecyclerView.Adapter<RecyclerView.ViewH
                 txt_amount[i].setText("₹"+additional_data.get(header_names.get(position-1)).get(i).get("Amount"));
                 txt_description[i].setText(additional_data.get(header_names.get(position-1)).get(i).get("Description"));
 
-                Image_Fetch.getInstance().LoadImage(context,img_res[i],"http://cdn.journaldev.com/wp-content/uploads/2016/11/android-image-picker-project-structure.png");
                 textView[i].setId(i+(position-1));
                 img_res[i].setId(i+(position-1));
                 ll_item[i].setId(i+(position-1));
                 txt_description[i].setId(i+(position-1));
-//                Image_Fetch.getInstance().LoadImage(context,img_res[i],additional_data.get(header_names.get(position-1)).get(i).get("ItemUrl"));
                 holder.ll_view_items.addView(view);
-//            Log.e("item id is ","##"+additional_data.get(header_names.get(position)).get(i).get("Item_Id"));
-
                 ll_item[i].setOnClickListener(view1 -> {
                     String  name = (textView[view1.getId()]).getText().toString();
 
                     String des = ((TextView)txt_description[view1.getId()]).getText().toString();
                     String price = ((TextView)txt_amount[view1.getId()]).getText().toString();
                 Log.e("des is ","<><>"+des);
-//                    Toast.makeText(context,name,Toast.LENGTH_SHORT).show();
 
-                   /*FragmentManager fm = ((Activity)context).getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                    MenuDetailsActivity menuDetailsFragment = new MenuDetailsActivity();
-                    menuDetailsFragment.setArguments(bundle);
-                    fragmentTransaction.add(R.id.container,menuDetailsFragment );
-                    fragmentTransaction.addToBackStack("bacstack");
-                    fragmentTransaction.commit();*/
                     Intent intent = new Intent(context,MenuDetailsActivity.class);
                     intent.putExtra("Item_name",name);
                     intent.putExtra("description",des);

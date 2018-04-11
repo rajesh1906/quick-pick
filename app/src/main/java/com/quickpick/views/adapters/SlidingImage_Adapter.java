@@ -59,7 +59,7 @@ public class SlidingImage_Adapter extends PagerAdapter {
 //            Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
             Log.e("url is ","<><><"+addsData.get(position).getFirsturls());
 //            imageView.setImageBitmap(bmp);
-            Image_Fetch.getInstance().LoadImage(context, imageView, "http://cdn.journaldev.com/wp-content/uploads/2016/11/android-image-picker-project-structure.png");
+            Image_Fetch.getInstance().LoadImage(context, imageView, addsData.get(position).getFirsturls());
 //            Picasso.with(context).load(R.mipmap.ic_launcher).into(imageView);
 //            Picasso.with(context)
 //                    .load("http://cdn.journaldev.com/wp-content/uploads/2016/11/android-image-picker-project-structure.png").into(imageView);

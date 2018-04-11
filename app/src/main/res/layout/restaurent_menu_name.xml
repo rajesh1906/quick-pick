@@ -9,7 +9,7 @@
     android:weightSum="2">
     <LinearLayout
         android:id="@+id/ll_item"
-        android:layout_width="250dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
 
         android:layout_marginRight="5dp"
@@ -55,6 +55,7 @@
         android:layout_height="80dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="15dp"
+        android:visibility="gone"
         android:layout_gravity="center_vertical"
         android:layout_centerVertical="true"
       />
