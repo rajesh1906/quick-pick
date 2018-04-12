@@ -118,8 +118,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     private void setUpNavDrawer() {
         if (mToolbar != null) {
             assert getSupportActionBar() != null;
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//            getSupportActionBar().setDisplayShowTitleEnabled(false);
             mToolbar.setNavigationOnClickListener(new View.OnClickListener()
 
             {

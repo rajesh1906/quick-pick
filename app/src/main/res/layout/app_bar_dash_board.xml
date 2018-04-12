@@ -21,12 +21,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+<ImageView
+    android:layout_width="30dp"
+    android:layout_height="30dp"
+    android:id="@+id/img_menu"
+    android:background="@drawable/menu"
+    />
             <TextView
                 android:id="@+id/txt_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17dp"
                 android:typeface="serif"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/img_menu"
                 android:layout_centerVertical="true"
                 android:textColor="@color/black"/>
                 <ImageView

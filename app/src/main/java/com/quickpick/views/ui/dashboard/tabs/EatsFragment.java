@@ -4,11 +4,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +53,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -59,7 +62,6 @@ import io.reactivex.schedulers.Schedulers;
  * Created by Rajesh Kumar on 02-04-2018.
  */
 public class EatsFragment extends Fragment implements Calling_Fragment, GetCategory_Id, View.OnClickListener {
-
 
 
     @Bind(R.id.recyclerview)
@@ -99,7 +101,8 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
     TextView txt_delivery;
     @Bind(R.id.img_cancel)
     ImageView img_cancel;
-
+    @Bind(R.id.img_menu)
+    ImageView img_menu;
 
 
     ArrayList<RestaurantData> dataList = new ArrayList<>();
@@ -147,7 +150,6 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
         fetchData("getCity_Id", "");
 
 
-
         fetchListerns();
 
         list_cities.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -163,7 +165,7 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
             }
         });
 
-//        fetchParllelData();
+//        getdata();
         return view;
     }
 
@@ -189,6 +191,7 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
         img_search.setOnClickListener(this);
         img_back.setOnClickListener(this);
         img_cancel.setOnClickListener(this);
+        img_menu.setOnClickListener(this);
         edt_txt_search.addTextChangedListener(new CustomWatcher(edt_txt_search));
     }
 
@@ -212,7 +215,7 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
                                 loading = false;
                             }
                             if (spage == 1) {
-                                adapter = new ShowRestaurant_Adapter(getActivity(), temp_pojo.getRestaurantData(),EatsFragment.this);
+                                adapter = new ShowRestaurant_Adapter(getActivity(), temp_pojo.getRestaurantData(), EatsFragment.this);
                                 recyclerview.setAdapter(adapter);
                             } else {
                                 adapter.notifyDataSetChanged();
@@ -287,7 +290,7 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
                                 loading = false;
                             }
                             if (spage == 1) {
-                                adapter = new ShowRestaurant_Adapter(getActivity(), temp_pojo.getRestaurantData(),EatsFragment.this);
+                                adapter = new ShowRestaurant_Adapter(getActivity(), temp_pojo.getRestaurantData(), EatsFragment.this);
                                 recyclerview.setAdapter(adapter);
                             } else {
                                 adapter.notifyDataSetChanged();
@@ -326,23 +329,23 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
                         break;
 
                     case "adds":
-                        try{
-                            AddsRoot data = new Gson().fromJson(res,AddsRoot.class);
-                            if(data.getStatus().equalsIgnoreCase("successfully")){
+                        try {
+                            AddsRoot data = new Gson().fromJson(res, AddsRoot.class);
+                            if (data.getStatus().equalsIgnoreCase("successfully")) {
 
                                 addsData = data.getAddsData();
-                                for(int i=0;i<data.getAddsData().size();i++){
-                                    Log.e("first url url is ","<><"+data.getAddsData().get(i).getFirsturls());
-                                    Log.e("second url is ","<><"+data.getAddsData().get(i).getSecondurls());
+                                for (int i = 0; i < data.getAddsData().size(); i++) {
+                                    Log.e("first url url is ", "<><" + data.getAddsData().get(i).getFirsturls());
+                                    Log.e("second url is ", "<><" + data.getAddsData().get(i).getSecondurls());
                                 }
 
 
                             }
                             fetchData("restaurnts", "show_progress");
 
-                        }catch (Exception e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
-                    }
+                        }
 
 
                         break;
@@ -378,6 +381,8 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
                 break;
             case "category":
                 params.put("action", APIS.Category);
+                params.put("InputType", "M");
+
                 break;
             case "category_id":
                 params.put("action", APIS.RestarentsBasedCategory);
@@ -402,12 +407,12 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
     }
 
     @Override
-    public void calling(com.rey.material.widget.FloatingActionButton floatingActionButton,String coming_from) {
+    public void calling(com.rey.material.widget.FloatingActionButton floatingActionButton, String coming_from) {
         Log.e("coming to fragment", "<><>");
-        if(coming_from.equalsIgnoreCase("eats_fragment")) {
+        if (coming_from.equalsIgnoreCase("eats_fragment")) {
             this.floatingActionButton = floatingActionButton;
             fetchData("category", "");
-        }else{
+        } else {
 
             adapter.callingResFragment(floatingActionButton);
 
@@ -529,6 +534,9 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
             case R.id.img_cancel:
                 edt_txt_search.setText("");
                 break;
+            case R.id.img_menu:
+                ((DashboardTabs)getActivity()).handleDrawer();
+                break;
         }
 
     }
@@ -575,49 +583,44 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
         txt_delivery.setTag(t4);
     }
 
-    void fetchParllelData(){
-        Observable.just(RetrofitClient.getInstance().getClient(APIS.BASEURL).create(ApiService.class)).subscribeOn(Schedulers.computation())
-                .flatMap(s -> {
-                    Observable<String> observable[] = new Observable[2];
 
-                    Observable<String> city_observable = s.getData(getParams("getCity_Id").get("action")+"?",getParams("getCity_Id")).subscribeOn(Schedulers.io());
-                    Observable<String> res_observable = s.getData(getParams("restaurnts").get("action")+"?",getParams("restaurnts")).subscribeOn(Schedulers.io());
-                   /* for (int i = 0; i < observable.length; i++) {
-                        if(i==0)
-                        observable[0]
-                                = s.getData(getParams("getCity_Id").get("action")+"?",getParams("getCity_Id")).subscribeOn(Schedulers.io());
-                        if(i==1)
-                        observable[1]
-                                = s.getData(getParams("restaurnts").get("action")+"?",getParams("restaurnts")).subscribeOn(Schedulers.io());
-                    }*/
-
-                    return Observable.concatArray(city_observable,res_observable);
-                })
-                .debounce(500, TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                Log.e("on onSubscribe calling","##");
-            }
-
-            @Override
-            public void onNext(String s) {
-
-                Log.e("on onNext calling","##"+s);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.e("on onError calling","##"+e.getMessage());
-            }
-
-            @Override
-            public void onComplete() {
-                Log.e("on onComplete calling","##");
-            }
-        });
-
-    }
+//    public void getdata() {
+//
+//        Observable.just(RetrofitClient.getInstance().getClient(APIS.BASEURL).create(ApiService.class)).subscribeOn(Schedulers.computation())
+//                .flatMap(s -> {
+//                    Observable<String> restaurantListSingle =
+//                            s.getData(getParams("getCity_Id").get("action") + "?", getParams("getCity_Id")).subscribeOn(Schedulers.io());
+//                    Observable<String> res_observable = s.getData(getParams("adds").get("action")+"?",getParams("adds")).subscribeOn(Schedulers.io());
+//
+//
+//
+//                    return restaurantListSingle.zipWith(res_observable, Pair::new);
+//
+//                }).debounce(500, TimeUnit.MILLISECONDS)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<Pair<String, String>>() {
+//                    @Override
+//                    public void onSubscribe(Disposable d) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(Pair<String, String> stringStringPair) {
+//
+//                        Log.e("string pair is ","<><"+stringStringPair);
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//
+//                    }
+//                });
+//    }
 
 }

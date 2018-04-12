@@ -24,7 +24,7 @@
         android:layout_alignParentRight="true"
         app:fab_backgroundColor="@color/white"
         app:pressedTranslationZ="12dp"
-        app:fab_iconSrc="@drawable/menu"
+        app:fab_iconSrc="@drawable/menu_bar"
         app:useCompatPadding="true"
         android:layout_marginBottom="88dp"
         android:layout_toLeftOf="@+id/fab"/>

@@ -201,7 +201,7 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
                                 menu_items.add(menu_search.getItems().get(i).getItemName());
                                 menu_id.add(menu_search.getItems().get(i).getMenuId());
 
-                                Log.e("menu data is ", "<><>" + menu_search.getItems().get(i).getItemName());
+                                Log.e("menu_bar data is ", "<><>" + menu_search.getItems().get(i).getItemName());
                             }
                             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.search_menu_item, R.id.txt_item, menu_items.toArray(new String[menu_items.size()]));
 //                            list_menu.setAdapter(adapter);

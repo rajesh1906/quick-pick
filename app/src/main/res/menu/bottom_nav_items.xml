@@ -9,7 +9,7 @@
     <item
         android:id="@+id/menu_eats"
         android:title="@string/eats"
-        android:icon="@drawable/menu"
+        android:icon="@drawable/menu_bar"
         />
 
     <item

@@ -114,8 +114,8 @@ public class RestaruntActivityNew extends BaseActivity implements View.OnClickLi
         list_menu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.e("menu name is ", "<>>" + menu_items.get(i));
-                Log.e("menu id is ", "<>>" + menu_id.get(i));
+                Log.e("menu_bar name is ", "<>>" + menu_items.get(i));
+                Log.e("menu_bar id is ", "<>>" + menu_id.get(i));
                 menu__item_id = menu_id.get(i);
                 txt_header.setText(menu_items.get(i));
                 new Common_methods(RestaruntActivityNew.this).hideKeyboard(edt_txt_search);
@@ -217,7 +217,7 @@ public class RestaruntActivityNew extends BaseActivity implements View.OnClickLi
                                 menu_items.add(menu_search.getItems().get(i).getItemName());
                                 menu_id.add(menu_search.getItems().get(i).getMenuId());
 
-                                Log.e("menu data is ", "<><>" + menu_search.getItems().get(i).getItemName());
+                                Log.e("menu_bar data is ", "<><>" + menu_search.getItems().get(i).getItemName());
                             }
                             ArrayAdapter<String> adapter = new ArrayAdapter<String>(RestaruntActivityNew.this, R.layout.search_menu_item, R.id.txt_item, menu_items.toArray(new String[menu_items.size()]));
                             list_menu.setAdapter(adapter);

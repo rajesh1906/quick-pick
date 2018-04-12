@@ -13,14 +13,10 @@ import android.os.Handler;
 
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
-import android.support.design.internal.BottomNavigationItemView;
-import android.support.design.internal.BottomNavigationMenuView;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.view.View;
@@ -33,8 +29,8 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
 import com.quickpick.R;
 import com.quickpick.presenter.utils.GPSTracker;
+import com.quickpick.views.ui.BaseActivity;
 import com.quickpick.views.ui.customviews.CustomDialog;
-import com.quickpick.views.ui.dashboard.tabs.EatsFragment;
 
 import com.quickpick.views.ui.restarunt.tabs.Restaurant_menu_fragment;
 import com.rey.material.widget.FloatingActionButton;
@@ -42,9 +38,8 @@ import com.rey.material.widget.FloatingActionButton;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-public class DashboardTabs extends AppCompatActivity implements ShowViews {
+public class DashboardTabs extends BaseActivity implements ShowViews {
 
 	private Fragment currentFragment;
 	private TabViewPagerAdapter adapter;
@@ -64,7 +59,12 @@ public class DashboardTabs extends AppCompatActivity implements ShowViews {
 	protected Location mLastLocation;
 	public static Activity instance;
 
-	@Override
+    @Override
+    protected int getLayoutResourceId() {
+        return R.layout.activity_home;
+    }
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -73,7 +73,7 @@ public class DashboardTabs extends AppCompatActivity implements ShowViews {
 		boolean enabledTranslucentNavigation = getSharedPreferences("shared", Context.MODE_PRIVATE)
 				.getBoolean("translucentNavigation", false);
 		setTheme(enabledTranslucentNavigation ? R.style.AppTheme_TranslucentNavigation : R.style.AppTheme);
-		setContentView(R.layout.activity_home);
+//		setContentView(R.layout.activity_home);
 		initUI();
 
 //		startIntentService();
@@ -114,18 +114,18 @@ public class DashboardTabs extends AppCompatActivity implements ShowViews {
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
 			AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 		}
-		
+
 		bottomNavigation = findViewById(R.id.bottom_navigation);
 		viewPager = findViewById(R.id.view_pager);
 		floatingActionButton = findViewById(R.id.floating_action_button);
 
 		/*if (useMenuResource) {
 			tabColors = getApplicationContext().getResources().getIntArray(R.array.tab_colors);
-			navigationAdapter = new AHBottomNavigationAdapter(this, R.menu.bottom_nav_items);
+			navigationAdapter = new AHBottomNavigationAdapter(this, R.menu_bar.bottom_nav_items);
 			navigationAdapter.setupWithBottomNavigation(bottomNavigation, tabColors);
 		} else*/ {
 			AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.drinks, R.drawable.drinks, R.color.color_tab_1);
-			AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.eats, R.drawable.menu, R.color.color_tab_2);
+			AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.eats, R.drawable.menu_bar, R.color.color_tab_2);
 			AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.pick, R.drawable.delivery, R.color.color_tab_3);
 			AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.profile, R.drawable.profile, R.color.color_tab_3);
 
@@ -365,6 +365,15 @@ public class DashboardTabs extends AppCompatActivity implements ShowViews {
 			floatingActionButton.setVisibility(View.VISIBLE);
 		}else{
 			floatingActionButton.setVisibility(View.GONE);
+		}
+	}
+
+
+	public void handleDrawer(){
+		if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+			mDrawerLayout.closeDrawer(GravityCompat.START);
+		} else {
+			mDrawerLayout.openDrawer(GravityCompat.START);
 		}
 	}
 }
