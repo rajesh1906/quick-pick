@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -61,7 +62,7 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * Created by Rajesh Kumar on 02-04-2018.
  */
-public class EatsFragment extends Fragment implements Calling_Fragment, GetCategory_Id, View.OnClickListener {
+public class EatsFragment extends Fragment implements Calling_Fragment, GetCategory_Id, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
 
     @Bind(R.id.recyclerview)
@@ -117,6 +118,8 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
     String lat = "16.989065", lng = "82.247465";
     com.rey.material.widget.FloatingActionButton floatingActionButton;
     ArrayList<AddsData> addsData;
+    @Bind(R.id.swipe_refresh_layout)
+     SwipeRefreshLayout swipeRefreshLayout;
 
     public static EatsFragment newInstance(int index) {
         EatsFragment fragment = new EatsFragment();
@@ -139,6 +142,7 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
         view3.setMinimumHeight(ll_category.getMeasuredHeight());
         img_search.setVisibility(View.VISIBLE);
         img_cart.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setOnRefreshListener(this);
         setVolexBG("grey", "grey", "grey", "grey");
         HashMap<String, String> params = ((DashboardTabs) getActivity()).getLatLongs();
 
@@ -146,8 +150,8 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
         lng = params.get("lng");
 
         Log.e("lat is ", "<><>" + params.get("lat") + " lng " + params.get("lng"));
-        fetchData("adds", "");
-        fetchData("getCity_Id", "");
+//        fetchData("adds", "");
+//        fetchData("getCity_Id", "");
 
 
         fetchListerns();
@@ -169,13 +173,15 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
         return view;
     }
 
-
-    /*@Override
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        Log.e("calling set user visible ","###");
-        DashboardTabs.coming_fragment="EatsFragment";
-    }*/
+        if(isVisibleToUser&&!DashboardTabs.refresh_screen){
+            DashboardTabs.refresh_screen = true;
+            fetchData("adds", "show_progress");
+            fetchData("getCity_Id", "");
+        }
+    }
 
     @Override
     public void onStop() {
@@ -235,6 +241,7 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
                         } else {
                             Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
                         }
+                        swipeRefreshLayout.setRefreshing(false);
                         break;
                     case "cities":
                         if (city_items.size() != 0) {
@@ -539,6 +546,13 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
                 break;
         }
 
+    }
+
+    @Override
+    public void onRefresh() {
+        Log.e("on refresh called","<><>");
+        swipeRefreshLayout.setRefreshing(false);
+        fetchData("adds", "");
     }
 
     private class CustomWatcher implements TextWatcher {

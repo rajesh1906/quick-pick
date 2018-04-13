@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -56,7 +57,7 @@ import butterknife.ButterKnife;
  * Created by Rajesh Kumar on 20-11-2017.
  */
 
-public class Restaurant_menu_fragment extends Fragment implements Calling_Fragment, Fetching_items_completed, GetCategory_Id {
+public class Restaurant_menu_fragment extends Fragment implements Calling_Fragment, Fetching_items_completed, GetCategory_Id,SwipeRefreshLayout.OnRefreshListener {
     View view;
     @Bind(R.id.recyclerview)
     RecyclerView recyclerview;
@@ -79,6 +80,8 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
     HashMap<String, List<String>> display_data;
     HashMap<String, ArrayList<HashMap<String, String>>> additional_data;
     LinearLayoutManager mLayoutManager;
+    @Bind(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Nullable
     @Override
@@ -98,7 +101,7 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
         Image_Fetch.getInstance().LoadImage(getActivity(), img_header, img_url);
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(mLayoutManager);
-
+        swipeRefreshLayout.setOnRefreshListener(this);
         fetchData("AllItemsLoading", "show");
         dynamicToolbarColor();
         toolbarTextAppernce();
@@ -299,6 +302,7 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
                                     recyclerview.setVisibility(View.GONE);
                                 }
                             }
+                            swipeRefreshLayout.setRefreshing(false);
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -416,5 +420,10 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
         }
 
         return keynames;
+    }
+
+    @Override
+    public void onRefresh() {
+        fetchData("AllItemsLoading", "show");
     }
 }

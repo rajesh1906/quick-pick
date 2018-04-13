@@ -58,6 +58,7 @@ public class DashboardTabs extends BaseActivity implements ShowViews {
 	String lat="",lng="";
 	protected Location mLastLocation;
 	public static Activity instance;
+	public static boolean refresh_screen;
 
     @Override
     protected int getLayoutResourceId() {
@@ -75,6 +76,7 @@ public class DashboardTabs extends BaseActivity implements ShowViews {
 		setTheme(enabledTranslucentNavigation ? R.style.AppTheme_TranslucentNavigation : R.style.AppTheme);
 //		setContentView(R.layout.activity_home);
 		initUI();
+		DashboardTabs.refresh_screen = false;
 
 //		startIntentService();
 	}
@@ -249,7 +251,7 @@ public class DashboardTabs extends BaseActivity implements ShowViews {
 		});
 		*/
 
-		viewPager.setOffscreenPageLimit(4);
+		viewPager.setOffscreenPageLimit(2);
 		adapter = new TabViewPagerAdapter(getSupportFragmentManager());
 		viewPager.setAdapter(adapter);
 
