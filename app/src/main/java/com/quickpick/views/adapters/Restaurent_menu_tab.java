@@ -111,7 +111,7 @@ public class Restaurent_menu_tab extends RecyclerView.Adapter<RecyclerView.ViewH
                 textView[i].setText(final_list.get(header_names.get(position-1)).get(i));
                 txt_amount[i].setText("₹"+additional_data.get(header_names.get(position-1)).get(i).get("Amount"));
                 txt_description[i].setText(additional_data.get(header_names.get(position-1)).get(i).get("Description"));
-
+                Image_Fetch.getInstance().LoadImage(context, img_res[i], additional_data.get(header_names.get(position-1)).get(i).get("ItemUrl"));
                 textView[i].setId(i+(position-1));
                 img_res[i].setId(i+(position-1));
                 ll_item[i].setId(i+(position-1));
