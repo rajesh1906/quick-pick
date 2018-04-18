@@ -5,12 +5,20 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.quickpick.R;
+import com.quickpick.model.StoredDB;
+import com.quickpick.presenter.services.Network.APIResponse;
+import com.quickpick.presenter.services.Network.APIS;
+import com.quickpick.presenter.services.Network.RetrofitClient;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,6 +46,7 @@ public class CartView extends Fragment implements View.OnClickListener {
         recyclerview.setLayoutManager(layoutManager);
         recyclerview.setAdapter(new CartAdapter());
         fetchListeners();
+        fetchCartData();
         return view;
 
     }
@@ -53,5 +62,30 @@ public class CartView extends Fragment implements View.OnClickListener {
                 getFragmentManager().popBackStack();
                 break;
         }
+    }
+
+
+    private void fetchCartData(){
+        RetrofitClient.getInstance().getEndPoint(getActivity(),"show progressbar").getResult(getparams(), new APIResponse() {
+            @Override
+            public void onSuccess(String res) {
+                Log.e("response ","<><>"+res);
+            }
+
+            @Override
+            public void onFailure(String res) {
+
+            }
+        });
+    }
+
+
+    private Map<String,String> getparams(){
+        Map<String,String> params = new HashMap<>();
+        params.put("action", APIS.CARTDETAILS);
+//        params.put("loginId",(String )StoredDB.getInstance(getActivity()).getStorageValue("id"));
+        params.put("loginId","1");
+
+        return params;
     }
 }

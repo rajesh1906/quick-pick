@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.quickpick.R;
+import com.quickpick.model.StoredDB;
 import com.quickpick.presenter.services.Network.APIResponse;
 import com.quickpick.presenter.services.Network.APIS;
 import com.quickpick.presenter.services.Network.RetrofitClient;
@@ -169,6 +170,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
                     JSONObject jsonObject = new JSONObject(res);
                     String auth = jsonObject.getString("Message");
                     if(!auth.equalsIgnoreCase("Not Matched Successfully")){
+                        StoredDB.getInstance(SignIn.this).StorageValues("id",jsonObject.getString("id"));
                         startActivity(new Intent(SignIn.this, DashboardTabs.class));
                         finish();
                     }else{
