@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -39,6 +40,7 @@ import com.quickpick.presenter.services.Network.ApiService;
 import com.quickpick.presenter.services.Network.RetrofitClient;
 import com.quickpick.presenter.utils.Common_methods;
 import com.quickpick.views.adapters.ShowRestaurant_Adapter;
+import com.quickpick.views.ui.cart.CartView;
 import com.quickpick.views.ui.customviews.CustomDialog;
 import com.quickpick.views.ui.dashboard.DashboardTabs;
 import com.quickpick.views.ui.dashboard.GetCategory_Id;
@@ -198,6 +200,7 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
         img_back.setOnClickListener(this);
         img_cancel.setOnClickListener(this);
         img_menu.setOnClickListener(this);
+        img_cart.setOnClickListener(this);
         edt_txt_search.addTextChangedListener(new CustomWatcher(edt_txt_search));
     }
 
@@ -356,6 +359,8 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
 
 
                         break;
+
+
                 }
 
             }
@@ -543,6 +548,12 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
                 break;
             case R.id.img_menu:
                 ((DashboardTabs)getActivity()).handleDrawer();
+                break;
+            case R.id.img_cart:
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.add(R.id.container,new CartView());
+                ft.addToBackStack("cart");
+                ft.commit();
                 break;
         }
 
