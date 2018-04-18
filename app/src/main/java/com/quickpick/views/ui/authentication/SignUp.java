@@ -1,19 +1,26 @@
 package com.quickpick.views.ui.authentication;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.quickpick.R;
+import com.quickpick.presenter.services.Network.APIResponse;
+import com.quickpick.presenter.services.Network.APIS;
+import com.quickpick.presenter.services.Network.RetrofitClient;
 import com.quickpick.presenter.utils.Common_methods;
 
-import org.w3c.dom.Text;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -56,6 +63,11 @@ public class SignUp extends AppCompatActivity {
     @Bind(R.id.txt_error_confirm_pwd)
     TextView txt_error_confirm_pwd;
 
+    @Bind(R.id.et_address)
+    EditText et_address;
+    @Bind(R.id.et_landmark)
+    EditText et_landmark;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,8 +78,8 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(checkValidation()) {
-                    startActivity(new Intent(SignUp.this, Reference.class));
-                    finish();
+                    fetchData();
+
                 }
             }
         });
@@ -100,11 +112,66 @@ public class SignUp extends AppCompatActivity {
             et_confirm_pwd.requestFocus();
         }else if(!et_pwd.getText().toString().equals(et_confirm_pwd.getText().toString())){
             validation = false;
+            et_pwd.requestFocus();
             et_pwd.setError("password and confirm password must be same");
             et_confirm_pwd.setError("password and confirm password must be same");
+        }else if(et_address.getText().toString().length()<4){
+            et_address.setError("please enter valid Address");
+            et_address.requestFocus();
+            validation = false;
+        }else if(et_landmark.getText().toString().length()<3){
+            et_landmark.setError("Please enter valid Landmark");
+            et_landmark.requestFocus();
+            validation = false;
         }
 
 
         return validation;
+    }
+
+    private void fetchData(){
+        RetrofitClient.getInstance().getEndPoint(SignUp.this,"show prograssbar").getResult(getparams(), new APIResponse() {
+            @Override
+            public void onSuccess(String res) {
+                Log.e("response is","<><>"+res);
+                try{
+                    JSONObject jsonObject = new JSONObject(res);
+                    if(jsonObject.getString("Status").equalsIgnoreCase("successfully")){
+                        startActivity(new Intent(SignUp.this, Reference.class));
+                        finish();
+                        SignIn.activity.finish();
+                    }else{
+                        Toast.makeText(SignUp.this, "Somthing went wrong please try agin", Toast.LENGTH_SHORT).show();
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(String res) {
+
+            }
+        });
+    }
+
+
+
+
+
+
+    private Map<String,String > getparams(){
+        Map<String ,String > params = new HashMap<>();
+
+        params.put("action", APIS.SIGNUP);
+        params.put("username",et_username.getText().toString());
+        params.put("password",et_pwd.getText().toString());
+//        params.put("adress",et_);
+        params.put("mobilenumber",et_mobile.getText().toString());
+        params.put("landmark",et_landmark.getText().toString());
+        params.put("Name","Rajesh");
+
+        return params;
+
     }
 }

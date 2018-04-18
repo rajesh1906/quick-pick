@@ -33,7 +33,7 @@ public class SlidingImage_Adapter extends PagerAdapter {
         this.context = context;
         this.IMAGES=IMAGES;
         this.addsData = addsData;
-        Log.e("data lenght is ","<><>"+addsData.size());
+//        Log.e("data lenght is ","<><>"+addsData.size());
         inflater = LayoutInflater.from(context);
     }
 
@@ -44,7 +44,9 @@ public class SlidingImage_Adapter extends PagerAdapter {
 
     @Override
     public int getCount() {
+        if(addsData!=null)
         return addsData.size();
+        else return IMAGES.length;
     }
 
     @Override
@@ -54,25 +56,20 @@ public class SlidingImage_Adapter extends PagerAdapter {
         assert imageLayout != null;
         final ImageView imageView = (ImageView) imageLayout
                 .findViewById(R.id.image);
-        try {
-//            URL url = new URL(addsData.get(position).getFirsturls());
-//            Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            Log.e("url is ","<><><"+addsData.get(position).getFirsturls());
-//            imageView.setImageBitmap(bmp);
-            Image_Fetch.getInstance().LoadImage(context, imageView, addsData.get(position).getFirsturls());
-//            Picasso.with(context).load(R.mipmap.ic_launcher).into(imageView);
-//            Picasso.with(context)
-//                    .load("http://cdn.journaldev.com/wp-content/uploads/2016/11/android-image-picker-project-structure.png").into(imageView);
-        }catch (Exception e){
-            e.printStackTrace();
+        if(null!=addsData) {
+            try {
+
+                Log.e("url is ", "<><><" + addsData.get(position).getFirsturls());
+
+                Image_Fetch.getInstance().LoadImage(context, imageView, addsData.get(position).getFirsturls());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else{
+           imageView.setBackgroundResource(IMAGES[position]);
         }
 
-
-//        imageView.setImageResource(IMAGES[position]);
-//        Glide.with(context)
-//                .load(addsData.get(position).getFirsturls())
-//                .override(300, 200)
-//                .into(imageView);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

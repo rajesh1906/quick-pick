@@ -2,7 +2,9 @@ package com.quickpick.views.ui.details;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -52,6 +54,7 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
 @Bind(R.id.txt_pay_not)
         TextView txt_pay_not;
     String item_name = "", item_price = "";
+
 //ashok
     @Override
     protected int getLayoutResourceId() {
@@ -185,19 +188,20 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
                 }
                 break;
             case R.id.txt_pay:
-                CustomDialog.getInstance().showCategory_Dialog(this, new CustomDialog.getpaymentType() {
-                    @Override
-                    public void getpayment() {
-//                        Toast.makeText(DetailsActivity.this, "coming to activity", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(DetailsActivity.this, PayPalService.class);
-
-                        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, PaypalImplementation.getInstance().getPPConfigrationInstance());
-
-                        startService(intent);
-
-                        getPayment(txt_price.getText().toString().replaceAll("₹","").trim());
-                    }
-                });
+//                CustomDialog.getInstance().showCategory_Dialog(this, new CustomDialog.getpaymentType() {
+//                    @Override
+//                    public void getpayment() {
+////                        Toast.makeText(DetailsActivity.this, "coming to activity", Toast.LENGTH_SHORT).show();
+//                        Intent intent = new Intent(DetailsActivity.this, PayPalService.class);
+//
+//                        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, PaypalImplementation.getInstance().getPPConfigrationInstance());
+//
+//                        startService(intent);
+//
+//                        getPayment(txt_price.getText().toString().replaceAll("₹","").trim());
+//                    }
+//                });
+                startActivity(new Intent(DetailsActivity.this,Payment.class));
                 break;
 
         }
