@@ -126,6 +126,8 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
         txt_minus.setOnClickListener(this);
         txt_plus.setOnClickListener(this);
         txt_pay.setOnClickListener(this);
+        txt_pay_not.setOnClickListener(this);
+
     }
 
     @Override
@@ -201,7 +203,11 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
 //                        getPayment(txt_price.getText().toString().replaceAll("₹","").trim());
 //                    }
 //                });
+
+                Log.e("payment ready ","<><>");
                 startActivity(new Intent(DetailsActivity.this,Payment.class));
+                break;
+            case R.id.txt_pay_not:
                 break;
 
         }
