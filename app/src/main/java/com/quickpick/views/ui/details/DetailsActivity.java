@@ -119,6 +119,13 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
 
             }
         });
+
+        txt_pay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("payment ready ","<><>");
+            }
+        });
     }
 
 
@@ -189,7 +196,7 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
                     e.printStackTrace();
                 }
                 break;
-            case R.id.txt_pay:
+           /* case R.id.txt_pay:
 //                CustomDialog.getInstance().showCategory_Dialog(this, new CustomDialog.getpaymentType() {
 //                    @Override
 //                    public void getpayment() {
@@ -206,7 +213,7 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
 
                 Log.e("payment ready ","<><>");
                 startActivity(new Intent(DetailsActivity.this,Payment.class));
-                break;
+                break;*/
             case R.id.txt_pay_not:
                 break;
 

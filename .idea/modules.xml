@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Quickpick_updated.iml" filepath="$PROJECT_DIR$/Quickpick_updated.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/quick-pick.iml" filepath="$PROJECT_DIR$/quick-pick.iml" />
-      <module fileurl="file://G:\Quick pick\quick-pick\quick-pick27032018.iml" filepath="G:\Quick pick\quick-pick\quick-pick27032018.iml" />
+      <module fileurl="file://G:/Quick pick/quick-pick/quick-pick27032018.iml" filepath="G:/Quick pick/quick-pick/quick-pick27032018.iml" />
     </modules>
   </component>
 </project>

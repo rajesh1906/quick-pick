@@ -216,7 +216,7 @@ sdfsddfsdfsdf
         android:layout_marginTop="5dp"
         android:background="@color/gray"
         android:gravity="center"
-        android:text="Checkout 1 item for ₹ 500"
+        android:text="Checkout 0 item for ₹ 0"
         android:textColor="@color/black"
         android:textSize="15dp"
         android:textStyle="bold"

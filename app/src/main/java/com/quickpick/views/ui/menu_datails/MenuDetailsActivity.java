@@ -1,12 +1,17 @@
 package com.quickpick.views.ui.menu_datails;
 
-import android.app.Fragment;
+import android.content.ComponentName;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import android.support.customtabs.CustomTabsClient;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.customtabs.CustomTabsServiceConnection;
+import android.support.customtabs.CustomTabsSession;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -14,20 +19,16 @@ import android.support.v7.graphics.Palette;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.quickpick.R;
+import com.quickpick.presenter.services.Network.APIS;
 import com.quickpick.views.ui.customviews.CustomDialog;
 import com.quickpick.views.ui.dashboard.DashboardTabs;
 import com.quickpick.views.ui.dashboard.ShowViews;
-import com.quickpick.views.ui.details.DetailsActivity;
-
-import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 
@@ -70,7 +71,13 @@ public class MenuDetailsActivity extends AppCompatActivity implements View.OnCli
     TextView txt_alternative_note;
     DecimalFormat df = new DecimalFormat();
 
+    final String CUSTOM_TAB_PACKAGE_NAME = "com.android.chrome";
 
+
+    CustomTabsClient mCustomTabsClient;
+    CustomTabsSession mCustomTabsSession;
+    CustomTabsServiceConnection mCustomTabsServiceConnection;
+    CustomTabsIntent mCustomTabsIntent;
 
     @Nullable
     @Override
@@ -111,6 +118,7 @@ public class MenuDetailsActivity extends AppCompatActivity implements View.OnCli
         txt_minus.setOnClickListener(this);
         txt_pluse.setOnClickListener(this);
         img_back.setOnClickListener(this);
+        txt_pay.setOnClickListener(this);
         txt_alternative_note.setOnClickListener(this);
     }
 
@@ -265,6 +273,38 @@ public class MenuDetailsActivity extends AppCompatActivity implements View.OnCli
                 });
                 break;
 
+            case R.id.txt_pay:
+//                startActivity(new Intent(MenuDetailsActivity.this,Payment.class));
+                makePayment();
+                break;
+
         }
+    }
+
+    private void makePayment(){
+        mCustomTabsServiceConnection = new CustomTabsServiceConnection() {
+            @Override
+            public void onCustomTabsServiceConnected(ComponentName componentName, CustomTabsClient customTabsClient) {
+                mCustomTabsClient= customTabsClient;
+                mCustomTabsClient.warmup(0L);
+                mCustomTabsSession = mCustomTabsClient.newSession(null);
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                mCustomTabsClient= null;
+            }
+        };
+
+        CustomTabsClient.bindCustomTabsService(this, CUSTOM_TAB_PACKAGE_NAME, mCustomTabsServiceConnection);
+
+        mCustomTabsIntent = new CustomTabsIntent.Builder(mCustomTabsSession)
+                .setShowTitle(true)
+                .build();
+
+        chromeCustomTabExample();
+    }
+    public void chromeCustomTabExample() {
+        mCustomTabsIntent.launchUrl(this, Uri.parse(APIS.PAYMENT_URL));
     }
 }
