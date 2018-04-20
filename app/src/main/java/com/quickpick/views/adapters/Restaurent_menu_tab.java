@@ -123,11 +123,14 @@ public class Restaurent_menu_tab extends RecyclerView.Adapter<RecyclerView.ViewH
                     String des = ((TextView)txt_description[view1.getId()]).getText().toString();
                     String price = ((TextView)txt_amount[view1.getId()]).getText().toString();
                 Log.e("des is ","<><>"+des);
+                Log.e("item id is ","<>>"+additional_data.get(header_names.get(position-1)).get(view1.getId()).get("Item_Id"));
 
                     Intent intent = new Intent(context,MenuDetailsActivity.class);
                     intent.putExtra("Item_name",name);
                     intent.putExtra("description",des);
                     intent.putExtra("price",price);
+                    intent.putExtra("item_id",additional_data.get(header_names.get(position-1)).get(view1.getId()).get("Item_Id"));
+                    intent.putExtra("qty",additional_data.get(header_names.get(position-1)).get(view1.getId()).get("NumberofQtys"));
                     context.startActivity(intent);
 
                 });

@@ -80,6 +80,7 @@ public class MenuDetailsActivity extends AppCompatActivity implements View.OnCli
     DecimalFormat df = new DecimalFormat();
     @Bind(R.id.txt_addto_cart)
     TextView txt_addto_cart;
+    String item_id="",qty="";
 
     @Nullable
     @Override
@@ -96,6 +97,8 @@ public class MenuDetailsActivity extends AppCompatActivity implements View.OnCli
         String item_name =  getIntent().getExtras().getString("Item_name");
         String item_des =  getIntent().getExtras().getString("description");
         item_price = getIntent().getExtras().getString("price").replace("₹","");
+         item_id = getIntent().getExtras().getString("item_id");
+        qty = getIntent().getExtras().getString("qty");
         txt_item_name.setText(item_name);
         txt_description.setText(item_des);
 
@@ -298,8 +301,8 @@ public class MenuDetailsActivity extends AppCompatActivity implements View.OnCli
         Map<String ,String > params = new HashMap<>();
         params.put("action",APIS.ADDCART);
         params.put("loginid",(String ) StoredDB.getInstance(this).getStorageValue("id"));
-        params.put("itemid","1");
-        params.put("qty","5");
+        params.put("itemid",item_id);
+        params.put("qty",qty);
 
         return params;
     }
