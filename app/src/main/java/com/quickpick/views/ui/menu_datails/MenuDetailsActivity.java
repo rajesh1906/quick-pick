@@ -25,12 +25,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.quickpick.R;
+import com.quickpick.model.StoredDB;
+import com.quickpick.presenter.services.Network.APIResponse;
 import com.quickpick.presenter.services.Network.APIS;
+import com.quickpick.presenter.services.Network.RetrofitClient;
+import com.quickpick.presenter.utils.Common_methods;
 import com.quickpick.views.ui.customviews.CustomDialog;
 import com.quickpick.views.ui.dashboard.DashboardTabs;
 import com.quickpick.views.ui.dashboard.ShowViews;
 
+import org.json.JSONObject;
+
 import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -70,14 +78,8 @@ public class MenuDetailsActivity extends AppCompatActivity implements View.OnCli
     @Bind(R.id.txt_alternative_note)
     TextView txt_alternative_note;
     DecimalFormat df = new DecimalFormat();
-
-    final String CUSTOM_TAB_PACKAGE_NAME = "com.android.chrome";
-
-
-    CustomTabsClient mCustomTabsClient;
-    CustomTabsSession mCustomTabsSession;
-    CustomTabsServiceConnection mCustomTabsServiceConnection;
-    CustomTabsIntent mCustomTabsIntent;
+    @Bind(R.id.txt_addto_cart)
+    TextView txt_addto_cart;
 
     @Nullable
     @Override
@@ -120,6 +122,7 @@ public class MenuDetailsActivity extends AppCompatActivity implements View.OnCli
         img_back.setOnClickListener(this);
         txt_pay.setOnClickListener(this);
         txt_alternative_note.setOnClickListener(this);
+        txt_addto_cart.setOnClickListener(this);
     }
 
     private void prepareChoicItems() {
@@ -180,13 +183,6 @@ public class MenuDetailsActivity extends AppCompatActivity implements View.OnCli
                         if (item > 0) {
                             item--;
                             txt_value.setText("" + item);
-//                            int resultent_price = Integer.parseInt(txt_price.getText().toString().replace("₹",""))-Integer.parseInt(item_price);
-                            /*try {
-                                int resultent_price = (item * Integer.parseInt(item_price));
-                                resultent= ""+resultent_price;
-                            }catch (Exception e){
-                                e.printStackTrace();
-                            }*/
                             try{
                                 float resultent_price = (item * Float.parseFloat(item_price));
                                 resultent=""+df.format(resultent_price);
@@ -225,13 +221,6 @@ public class MenuDetailsActivity extends AppCompatActivity implements View.OnCli
                         if (item >= 0) {
                             item++;
                             txt_value.setText("" + item);
-//                            int resultent_price = Integer.parseInt(txt_price.getText().toString().replace("₹",""))+Integer.parseInt(item_price);
-                           /* try{
-                               int   value = (item * Integer.parseInt(item_price));
-                                resultent_price = ""+value;
-                            }catch (Exception e){
-                                e.printStackTrace();
-                            }*/
                             try{
                                 float   value = (item * Float.parseFloat(item_price));
                                 resultent_price = ""+df.format(value);
@@ -250,8 +239,6 @@ public class MenuDetailsActivity extends AppCompatActivity implements View.OnCli
                                 txt_pay.setText("Checkout " + item + " item for ₹" + resultent_price);
                                 txt_pay_not.setText("Checkout " + item + " item for ₹" + resultent_price);
                             }
-
-//                            txt_price.setText("₹" + resultent_price);
                             txt_pay.setText("Checkout "+item +" item for ₹"+resultent_price);
                         } else {
                             Toast.makeText(MenuDetailsActivity.this, "minus values not accepted", Toast.LENGTH_SHORT).show();
@@ -274,37 +261,46 @@ public class MenuDetailsActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.txt_pay:
-//                startActivity(new Intent(MenuDetailsActivity.this,Payment.class));
-                makePayment();
+               new Common_methods(this). makePayment();
                 break;
-
+            case R.id.txt_addto_cart:
+                fetchData();
+                break;
         }
     }
 
-    private void makePayment(){
-        mCustomTabsServiceConnection = new CustomTabsServiceConnection() {
+    private void fetchData(){
+        RetrofitClient.getInstance().getEndPoint(this,"show progressbar").getResult(getparams(), new APIResponse() {
             @Override
-            public void onCustomTabsServiceConnected(ComponentName componentName, CustomTabsClient customTabsClient) {
-                mCustomTabsClient= customTabsClient;
-                mCustomTabsClient.warmup(0L);
-                mCustomTabsSession = mCustomTabsClient.newSession(null);
+            public void onSuccess(String res) {
+                Log.e("response is ","<><>"+res);
+                try{
+                    JSONObject jsonObject = new JSONObject(res);
+                    if(jsonObject.getString("Status").equalsIgnoreCase("successfully")){
+                        Toast.makeText(MenuDetailsActivity.this, "Item added to Cart Successfully", Toast.LENGTH_LONG).show();
+                        finish();
+                    }else{
+                        Toast.makeText(MenuDetailsActivity.this, "Somthing went wrong, please try again after some time", Toast.LENGTH_LONG).show();
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
 
             @Override
-            public void onServiceDisconnected(ComponentName name) {
-                mCustomTabsClient= null;
+            public void onFailure(String res) {
+
             }
-        };
-
-        CustomTabsClient.bindCustomTabsService(this, CUSTOM_TAB_PACKAGE_NAME, mCustomTabsServiceConnection);
-
-        mCustomTabsIntent = new CustomTabsIntent.Builder(mCustomTabsSession)
-                .setShowTitle(true)
-                .build();
-
-        chromeCustomTabExample();
+        });
     }
-    public void chromeCustomTabExample() {
-        mCustomTabsIntent.launchUrl(this, Uri.parse(APIS.PAYMENT_URL));
+
+    private Map<String ,String > getparams(){
+        Map<String ,String > params = new HashMap<>();
+        params.put("action",APIS.ADDCART);
+        params.put("loginid",(String ) StoredDB.getInstance(this).getStorageValue("id"));
+        params.put("itemid","1");
+        params.put("qty","5");
+
+        return params;
     }
 }

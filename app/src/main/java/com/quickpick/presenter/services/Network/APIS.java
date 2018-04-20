@@ -33,6 +33,7 @@ package com.quickpick.presenter.services.Network;
     public static String SIGNUP = "LoginSave";
     public static String SIGNIN = "LogingGettingData";
     public static String CARTDETAILS = "GettingCartdetailsdata";
+    public static String ADDCART = "Cartdataadding";
     public static String PAYMENT_URL="http://www.jklogistics.in/QuikPickApi/SubmitingItemsthroughpaymentbasedonpaypal?itemsid=1,2&qty=2,1&TypeWay=Pickup&loging=1";
 
 
