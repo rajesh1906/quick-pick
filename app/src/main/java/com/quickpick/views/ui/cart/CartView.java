@@ -136,7 +136,11 @@ public class CartView extends Fragment implements View.OnClickListener,PriceSett
             total = total+values.get(i);
         }
         Log.e("array list total","<><>"+total);
-        adapter.updateResultent(total);
+        try {
+            adapter.updateResultent(total);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return ""+total;
     }
 }
