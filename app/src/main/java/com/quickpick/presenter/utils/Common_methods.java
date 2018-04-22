@@ -2,8 +2,11 @@ package com.quickpick.presenter.utils;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -15,9 +18,15 @@ import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import com.quickpick.R;
+import com.quickpick.model.StoredDB;
 import com.quickpick.presenter.services.Network.APIS;
+import com.quickpick.views.ui.SplashScreen;
+import com.quickpick.views.ui.authentication.SignIn;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -115,30 +124,51 @@ public class Common_methods {
     }
 
 
-    public void makePayment(){
-        mCustomTabsServiceConnection = new CustomTabsServiceConnection() {
-            @Override
-            public void onCustomTabsServiceConnected(ComponentName componentName, CustomTabsClient customTabsClient) {
-                mCustomTabsClient= customTabsClient;
-                mCustomTabsClient.warmup(0L);
-                mCustomTabsSession = mCustomTabsClient.newSession(null);
-            }
+   public void popup(Context context,String coming_from){
+       final Dialog dialog = new Dialog(context);
+       // Include dialog.xml file
+       dialog.setContentView(R.layout.signoutdialog);
+       // Set dialog title
+       TextView alert_text = (TextView)dialog.findViewById(R.id.alert_text);
 
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-                mCustomTabsClient= null;
-            }
-        };
+       Button btn_yes = (Button)dialog.findViewById(R.id.btn_ok);
+       Button btn_cancel = (Button)dialog.findViewById(R.id.btn_cancel);
+       if(coming_from.equalsIgnoreCase("logout")){
+           alert_text.setText("Are you sure want to signout ?");
+       }else{
+           alert_text.setText("Please login for use this feature!");
+       }
 
-        CustomTabsClient.bindCustomTabsService(context, CUSTOM_TAB_PACKAGE_NAME, mCustomTabsServiceConnection);
+       btn_yes.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+//
+               if(coming_from.equalsIgnoreCase("logout")) {
 
-        mCustomTabsIntent = new CustomTabsIntent.Builder(mCustomTabsSession)
-                .setShowTitle(true)
-                .build();
+                   SharedPreferences clearNotificationSP = context.getSharedPreferences("MyPref", 0);
+                   SharedPreferences.Editor editor = clearNotificationSP.edit();
+                   editor.putString("id", "");
+                  // editor.commit();
 
-        chromeCustomTabExample();
-    }
-    public void chromeCustomTabExample() {
-        mCustomTabsIntent.launchUrl((Activity) context, Uri.parse(APIS.PAYMENT_URL));
-    }
+                   editor.remove("id");
+                   editor.commit();
+//                   StoredDB.pref.edit().putString("id", "");
+//                   StoredDB.pref.edit().remove("MyPref").commit();
+                   ((Activity) context).finish();
+//                   SplashScreen.activity.finish();
+
+               }
+               ((Activity) context).startActivity(new Intent(context, SignIn.class));
+
+           }
+       });
+       btn_cancel.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               dialog.dismiss();
+           }
+       });
+
+       dialog.show();
+   }
 }

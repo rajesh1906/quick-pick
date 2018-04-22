@@ -1,5 +1,6 @@
 package com.quickpick.views.ui.dashboard.tabs;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,6 +31,7 @@ import com.google.gson.Gson;
 import com.quickpick.R;
 import com.quickpick.model.Category;
 import com.quickpick.model.Cities;
+import com.quickpick.model.StoredDB;
 import com.quickpick.model.adds.AddsData;
 import com.quickpick.model.adds.AddsRoot;
 import com.quickpick.model.restaurant_category.RestaurantData;
@@ -40,6 +42,8 @@ import com.quickpick.presenter.services.Network.ApiService;
 import com.quickpick.presenter.services.Network.RetrofitClient;
 import com.quickpick.presenter.utils.Common_methods;
 import com.quickpick.views.adapters.ShowRestaurant_Adapter;
+import com.quickpick.views.ui.SplashScreen;
+import com.quickpick.views.ui.authentication.SignIn;
 import com.quickpick.views.ui.cart.CartView;
 import com.quickpick.views.ui.customviews.CustomDialog;
 import com.quickpick.views.ui.dashboard.DashboardTabs;
@@ -550,10 +554,23 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
                 ((DashboardTabs)getActivity()).handleDrawer();
                 break;
             case R.id.img_cart:
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.add(R.id.container,new CartView());
-                ft.addToBackStack("cart");
-                ft.commit();
+                if(null!=((String ) StoredDB.getInstance(getActivity()).getStorageValue("id"))) {
+                    if (((String) StoredDB.getInstance(getActivity()).getStorageValue("id")).length() != 0) {
+//                        startActivity(new Intent(SplashScreen.this, DashboardTabs.class));
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.add(R.id.container,new CartView());
+                        ft.addToBackStack("cart");
+                        ft.commit();
+
+                    } else {
+//                        startActivity(new Intent(SplashScreen.this, SignIn.class));
+                        new Common_methods(getActivity()).popup(getActivity(),"login");
+                    }
+                }else{
+//                    startActivity(new Intent(SplashScreen.this, SignIn.class));
+                    new Common_methods(getActivity()).popup(getActivity(),"login");
+                }
+
                 break;
         }
 

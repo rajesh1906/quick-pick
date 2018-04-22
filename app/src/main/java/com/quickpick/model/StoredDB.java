@@ -10,7 +10,7 @@ import android.content.SharedPreferences;
 public class StoredDB {
 
     public static StoredDB storedDB;
-  private static   SharedPreferences pref;
+  public static   SharedPreferences pref;
     SharedPreferences.Editor editor;
 
     public static StoredDB getInstance(Context context) {

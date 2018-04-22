@@ -1,6 +1,7 @@
 package com.quickpick.views.ui.cart;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -141,7 +142,9 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public void onClick(View view) {
 
-                    new Common_methods(context). makePayment();
+//                    new Common_methods(context). makePayment();
+                    context.startActivity(new Intent(context,PaymentView.class));
+
 
                 }
             });

@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.quickpick.R;
+import com.quickpick.presenter.utils.Common_methods;
 import com.quickpick.presenter.utils.Dashboard_items;
 import com.quickpick.views.adapters.ItemAdapter;
 import com.quickpick.views.customviews.CustomDrawerLayout;
@@ -107,6 +108,9 @@ public abstract class BaseActivity extends AppCompatActivity {
                         break;
                     case 4:
 
+                        break;
+                    case 5:
+                        new Common_methods(BaseActivity.this).popup(BaseActivity.this,"logout");
                         break;
                 }
                 navigationListProcess();

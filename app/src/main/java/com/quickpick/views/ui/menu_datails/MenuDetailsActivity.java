@@ -2,6 +2,7 @@ package com.quickpick.views.ui.menu_datails;
 
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -30,6 +31,7 @@ import com.quickpick.presenter.services.Network.APIResponse;
 import com.quickpick.presenter.services.Network.APIS;
 import com.quickpick.presenter.services.Network.RetrofitClient;
 import com.quickpick.presenter.utils.Common_methods;
+import com.quickpick.views.ui.cart.PaymentView;
 import com.quickpick.views.ui.customviews.CustomDialog;
 import com.quickpick.views.ui.dashboard.DashboardTabs;
 import com.quickpick.views.ui.dashboard.ShowViews;
@@ -264,7 +266,8 @@ public class MenuDetailsActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.txt_pay:
-               new Common_methods(this). makePayment();
+              // new Common_methods(this). makePayment();
+                startActivity(new Intent(MenuDetailsActivity.this, PaymentView.class));
                 break;
             case R.id.txt_addto_cart:
                 fetchData();
