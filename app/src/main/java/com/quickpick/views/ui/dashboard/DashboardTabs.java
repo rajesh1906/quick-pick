@@ -271,6 +271,7 @@ public class DashboardTabs extends BaseActivity implements ShowViews {
 				}
             }
         });
+
 		
 		//bottomNavigation.setDefaultBackgroundResource(R.drawable.bottom_navigation_background);
 	}

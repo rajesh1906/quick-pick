@@ -1,7 +1,6 @@
 package com.quickpick.views.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +13,7 @@ import android.widget.Toast;
 
 import com.quickpick.R;
 import com.quickpick.model.menu.menunew.Item;
-import com.quickpick.views.ui.appetizer.Appetizer_Dashboard;
 import com.quickpick.views.ui.customviews.CustomDialog;
-import com.quickpick.views.ui.details.DetailsActivity;
 
 import java.util.List;
 
@@ -80,10 +77,10 @@ public class Restaurant_menu_Adapter extends RecyclerView.Adapter<Restaurant_men
         holder.rel_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, DetailsActivity.class);
+               /* Intent intent = new Intent(context, DetailsActivity.class);
                 intent.putExtra("item_name",item.get(position).getItemName());
                 intent.putExtra("item_price",item.get(position).getAmount());
-                context.startActivity(intent);
+                context.startActivity(intent);*/
             }
         });
         holder.ll_cart.setOnClickListener(new View.OnClickListener() {

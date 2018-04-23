@@ -384,8 +384,9 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
                 params.put("action", APIS.DefultRestaurantLoading);
                 params.put("CityId", city_id);
                 params.put("FlagSlNo", "0");
-                params.put("latitude", lat);
-                params.put("longitude", lng);
+                params.put("LatLng", lat+","+lng);
+               /* params.put("latitude", lat);
+                params.put("longitude", lng);*/
                 params.put("typeofways", "EatIn");
                 params.put("foodandbeverage", "Food");
                 break;

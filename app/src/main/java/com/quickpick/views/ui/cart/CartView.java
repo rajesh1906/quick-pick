@@ -86,7 +86,7 @@ public class CartView extends Fragment implements View.OnClickListener,PriceSett
                 Log.e("response ","<><>"+res);
                 try{
                     CartDataRoot dataRoot = new Gson().fromJson(res,CartDataRoot.class);
-                    if(dataRoot.getError().equalsIgnoreCase("error")){
+                    if(dataRoot.getError().equalsIgnoreCase("false")){
                         adapter  = new CartAdapter(getActivity(),dataRoot.getCartdetailsData());
                         recyclerview.setAdapter(adapter);
                         for(int i=0;i<dataRoot.getCartdetailsData().size();i++){
@@ -114,8 +114,8 @@ public class CartView extends Fragment implements View.OnClickListener,PriceSett
     private Map<String,String> getparams(){
         Map<String,String> params = new HashMap<>();
         params.put("action", APIS.CARTDETAILS);
-//        params.put("loginId",(String )StoredDB.getInstance(getActivity()).getStorageValue("id"));
-        params.put("loginId","1");
+        params.put("loginId",(String )StoredDB.getInstance(getActivity()).getStorageValue("id"));
+//        params.put("loginId","1");
 
         return params;
     }

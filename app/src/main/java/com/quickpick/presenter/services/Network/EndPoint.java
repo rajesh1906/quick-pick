@@ -32,6 +32,8 @@ public class EndPoint  {
 
     public void getResult(Map<String ,String > params,final APIResponse api_res ){
         params.put("InputType","M");
+        String action = params.get("action");
+        params.remove("action");
         for ( Map.Entry<String, String > entry : params.entrySet()) {
             String key = entry.getKey();
             String tab = entry.getValue();
@@ -39,8 +41,9 @@ public class EndPoint  {
             // do something with key and/or tab
         }
 
+
         if(BaseActivity.haveNetworkConnection(context)){
-            apiService.getApiResultCity(params.get("action")+"?",params).enqueue(new Callback<String>() {
+            apiService.getApiResultCity(action+"?",params).enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
                     if (response.isSuccessful()) {

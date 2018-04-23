@@ -270,7 +270,21 @@ public class MenuDetailsActivity extends AppCompatActivity implements View.OnCli
                 startActivity(new Intent(MenuDetailsActivity.this, PaymentView.class));
                 break;
             case R.id.txt_addto_cart:
-                fetchData();
+
+                if(null!=((String ) StoredDB.getInstance(this).getStorageValue("id"))) {
+                    if (((String) StoredDB.getInstance(this).getStorageValue("id")).length() != 0) {
+
+                        fetchData();
+                    } else {
+
+                        new Common_methods(this).popup(this,"login");
+                    }
+                }else{
+
+                    new Common_methods(this).popup(this,"login");
+                }
+
+
                 break;
         }
     }
