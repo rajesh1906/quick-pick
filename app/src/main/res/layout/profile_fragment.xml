@@ -4,6 +4,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
+
+    <LinearLayout
+        android:id="@+id/ll_header"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="vertical">
+        <include layout="@layout/header_view" />
+    </LinearLayout>
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/profile_image"
@@ -11,7 +19,8 @@
         android:layout_height="56dp"
         android:src="@drawable/profile"
         app:civ_border_width="2dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/ll_header"
         android:layout_marginLeft="20dp"
         app:civ_border_color="#FF000000"/>
 
@@ -20,7 +29,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/profile_image"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/ll_header"
         android:layout_marginLeft="30dp"
         android:orientation="vertical">
     <TextView
@@ -90,4 +100,8 @@
         android:textColor="@color/blue"
         android:text="Track Order"/>
     </LinearLayout>
+    <FrameLayout
+        android:id="@+id/container_fag"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
 </RelativeLayout>

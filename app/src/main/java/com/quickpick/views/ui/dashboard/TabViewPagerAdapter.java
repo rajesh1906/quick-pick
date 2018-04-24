@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.quickpick.views.ui.dashboard.tabs.Calling_Fragment;
 import com.quickpick.views.ui.dashboard.tabs.DrinksFragment;
 import com.quickpick.views.ui.dashboard.tabs.EatsFragment;
+import com.quickpick.views.ui.profile.ProfileFragment;
 import com.quickpick.views.ui.profile.TrackFragment;
 import com.rey.material.widget.FloatingActionButton;
 
@@ -30,7 +31,7 @@ public class TabViewPagerAdapter extends FragmentPagerAdapter {
         fragments.add(DrinksFragment.newInstance(0));
         fragments.add(EatsFragment.newInstance(1));
         fragments.add(DrinksFragment.newInstance(2));
-        fragments.add(TrackFragment.newInstance(3));
+        fragments.add(ProfileFragment.newInstance(3));
         fragments.add(TrackFragment.newInstance(4));
     }
 
