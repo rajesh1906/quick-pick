@@ -131,6 +131,7 @@ public class Restaurent_menu_tab extends RecyclerView.Adapter<RecyclerView.ViewH
                     intent.putExtra("price",price);
                     intent.putExtra("item_id",additional_data.get(header_names.get(position-1)).get(view1.getId()).get("Item_Id"));
                     intent.putExtra("qty",additional_data.get(header_names.get(position-1)).get(view1.getId()).get("NumberofQtys"));
+                    intent.putExtra("RestaurantID",additional_data.get(header_names.get(position-1)).get(view1.getId()).get("RestaurantID"));
                     context.startActivity(intent);
 
                 });

@@ -272,6 +272,7 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
                                             internal.put("Amount", itemsData.getAmount());
                                             internal.put("Description", itemsData.getDescription());
                                             internal.put("ItemUrl", itemsData.getItemUrl());
+                                            internal.put("RestaurantID", itemsData.getRestaurantID());
                                             addidional.add(internal);
                                             additional_data.put(itemsData.getSubMenuName(), addidional);
                                         } else {
@@ -284,6 +285,7 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
                                             internal.put("Amount", itemsData.getAmount());
                                             internal.put("Description", itemsData.getDescription());
                                             internal.put("ItemUrl", itemsData.getItemUrl());
+                                            internal.put("RestaurantID", itemsData.getRestaurantID());
                                             addidional.add(internal);
                                             additional_data.put(itemsData.getSubMenuName(), addidional);
                                         }
