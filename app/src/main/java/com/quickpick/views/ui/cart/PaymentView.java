@@ -3,6 +3,7 @@ package com.quickpick.views.ui.cart;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.webkit.WebSettings;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.quickpick.R;
+import com.quickpick.model.StoredDB;
 import com.quickpick.presenter.helper.HandlingViews;
 import com.quickpick.presenter.services.Network.APIS;
 import com.quickpick.presenter.smoothprogress.SmoothProgressDrawable;
@@ -32,12 +34,26 @@ public class PaymentView extends AppCompatActivity implements HandlingViews {
     ProgressBar progress_download_google;
     @Bind(R.id.ll_back)
     LinearLayout ll_back;
-
+    String res_id,array_value;
+    String url;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.paymentview);
         ButterKnife.bind(this);
+        try {
+             array_value = getIntent().getExtras().getString("json_array");
+             res_id = getIntent().getExtras().getString("res_id");
+//            Log.e("array value is ", "<><>" + array_value+" res_id "+res_id);
+
+             url = APIS.PAYMENT_URL+array_value+"&RestaurantID="+res_id+"&TypeWay=%22eat%22"+
+                    "&loging="+ StoredDB.getInstance(this).getStorageValue("id")+"items="+array_value;
+            Log.e("base url is ","<><><"+APIS.PAYMENT_URL);
+            Log.e("url is ","<><>>"+url);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         loadWebview();
         ll_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +69,7 @@ public class PaymentView extends AppCompatActivity implements HandlingViews {
         progress_download_google.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(this).interpolator(new AccelerateInterpolator()).build());
         progress_download_google.getIndeterminateDrawable().setColorFilter(
                 getResources().getColor(R.color.colorPrimary), android.graphics.PorterDuff.Mode.SRC_IN);
-        new Webview_implementation().startWebView(APIS.PAYMENT_URL, web_payment, PaymentView.this);
+        new Webview_implementation().startWebView(url, web_payment, PaymentView.this);
 
     }
 

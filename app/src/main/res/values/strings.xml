@@ -42,8 +42,8 @@
     <string name="appetizers_error">No Appetizer found</string>
     <string-array name="payment_type">
         <item>Cash on delivery</item>
-        <item>Pay from credit card</item>
-        <item>pay from debit card</item>
+        <item>pay from Paypal</item>
+        <item>pay from Paytm</item>
     </string-array>
 
     <!--Tab names-->

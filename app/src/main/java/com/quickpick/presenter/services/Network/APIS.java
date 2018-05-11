@@ -35,8 +35,10 @@ package com.quickpick.presenter.services.Network;
     public static String CARTDETAILS = "GettingCartdetailsdata2";
     public static String ADDCART = "Cartdataadding";
     //public static String PAYMENT_URL="http://www.jklogistics.in/QuikPickApi/SubmitingItemsthroughpaymentbasedonpaypal?itemsid=1,2&qty=2,1&TypeWay=Pickup&loging=1";
-    public static String PAYMENT_URL="http://www.jklogistics.in/QuikPickApi/SubmitingItemsthroughpaymentbasedonpaypal?items=[{%22itemsid%22:%221%22,%22qty%22:%222%22},{%22itemsid%22:%222%22,%22qty%22:%223%22}]&RestaurantID=1&TypeWay=%22eat%22&loging=1\n" +
-            "items=[{\"itemsid\":\"1\",\"qty\":\"2\"},{\"itemsid\":\"2\",\"qty\":\"3\"}]";
+//    public static String PAYMENT_URL="http://www.jklogistics.in/QuikPickApi/SubmitingItemsthroughpaymentbasedonpaypal?items=[{%22itemsid%22:%221%22,%22qty%22:%222%22},{%22itemsid%22:%222%22,%22qty%22:%223%22}]&RestaurantID=1&TypeWay=%22eat%22&loging=1\n" +
+//            "items=[{\"itemsid\":\"1\",\"qty\":\"2\"},{\"itemsid\":\"2\",\"qty\":\"3\"}]";
+
+    public static String PAYMENT_URL="http://www.jklogistics.in/QuikPickApi/SubmitingItemsthroughpaymentbasedonpaypal?items=";
 
 
 }

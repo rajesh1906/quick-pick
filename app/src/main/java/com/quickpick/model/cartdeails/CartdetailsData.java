@@ -15,6 +15,16 @@ public class CartdetailsData {
 
     private String date;
 
+    public String getRes_Id() {
+        return Res_Id;
+    }
+
+    public void setRes_Id(String res_Id) {
+        Res_Id = res_Id;
+    }
+
+    private String Res_Id;
+
     public String getAmount ()
     {
         return Amount;

@@ -60,6 +60,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
+import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -125,7 +126,7 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
     com.rey.material.widget.FloatingActionButton floatingActionButton;
     ArrayList<AddsData> addsData;
     @Bind(R.id.swipe_refresh_layout)
-     SwipeRefreshLayout swipeRefreshLayout;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public static EatsFragment newInstance(int index) {
         EatsFragment fragment = new EatsFragment();
@@ -158,7 +159,8 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
         Log.e("lat is ", "<><>" + params.get("lat") + " lng " + params.get("lng"));
 //        fetchData("adds", "");
 //        fetchData("getCity_Id", "");
-
+//        getConcurrentData();
+        getdata();
 
         fetchListerns();
 
@@ -182,7 +184,7 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser&&!DashboardTabs.refresh_screen){
+        if (isVisibleToUser && !DashboardTabs.refresh_screen) {
             DashboardTabs.refresh_screen = true;
             fetchData("adds", "show_progress");
             fetchData("getCity_Id", "");
@@ -384,7 +386,7 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
                 params.put("action", APIS.DefultRestaurantLoading);
                 params.put("CityId", city_id);
                 params.put("FlagSlNo", "0");
-                params.put("LatLng", lat+","+lng);
+                params.put("LatLng", lat + "," + lng);
                /* params.put("latitude", lat);
                 params.put("longitude", lng);*/
                 params.put("typeofways", "EatIn");
@@ -552,24 +554,24 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
                 edt_txt_search.setText("");
                 break;
             case R.id.img_menu:
-                ((DashboardTabs)getActivity()).handleDrawer();
+                ((DashboardTabs) getActivity()).handleDrawer();
                 break;
             case R.id.img_cart:
-                if(null!=((String ) StoredDB.getInstance(getActivity()).getStorageValue("id"))) {
+                if (null != ((String) StoredDB.getInstance(getActivity()).getStorageValue("id"))) {
                     if (((String) StoredDB.getInstance(getActivity()).getStorageValue("id")).length() != 0) {
 //                        startActivity(new Intent(SplashScreen.this, DashboardTabs.class));
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
-                        ft.add(R.id.container,new CartView());
+                        ft.add(R.id.container, new CartView());
                         ft.addToBackStack("cart");
                         ft.commit();
 
                     } else {
 //                        startActivity(new Intent(SplashScreen.this, SignIn.class));
-                        new Common_methods(getActivity()).popup(getActivity(),"login");
+                        new Common_methods(getActivity()).popup(getActivity(), "login");
                     }
-                }else{
+                } else {
 //                    startActivity(new Intent(SplashScreen.this, SignIn.class));
-                    new Common_methods(getActivity()).popup(getActivity(),"login");
+                    new Common_methods(getActivity()).popup(getActivity(), "login");
                 }
 
                 break;
@@ -579,7 +581,7 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
 
     @Override
     public void onRefresh() {
-        Log.e("on refresh called","<><>");
+        Log.e("on refresh called", "<><>");
         swipeRefreshLayout.setRefreshing(false);
         fetchData("adds", "");
     }
@@ -627,43 +629,78 @@ public class EatsFragment extends Fragment implements Calling_Fragment, GetCateg
     }
 
 
-//    public void getdata() {
-//
-//        Observable.just(RetrofitClient.getInstance().getClient(APIS.BASEURL).create(ApiService.class)).subscribeOn(Schedulers.computation())
-//                .flatMap(s -> {
-//                    Observable<String> restaurantListSingle =
-//                            s.getData(getParams("getCity_Id").get("action") + "?", getParams("getCity_Id")).subscribeOn(Schedulers.io());
+    public void getConcurrentData() {
+        Observable observable = Observable.just(RetrofitClient.getInstance().getClient(APIS.BASEURL).create(ApiService.class)).subscribeOn(Schedulers.computation())
+                .flatMap(s -> (Observable.just(s.getData(getParams("getCity_Id").get("action") + "?", getParams("getCity_Id")).subscribeOn(Schedulers.io()))));
+
+
+        observable .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Object >() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.e("subcribe is ","<><>"+d.toString());
+                    }
+
+                    @Override
+                    public void onNext(Object  s) {
+                        Log.e("next is ","<><>"+s.toString());
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("error is ","<><>");
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.e("completed ","<><>");
+
+                    }
+                });
+
+
+    }
+
+
+    public void getdata() {
+
+        Observable.just(RetrofitClient.getInstance().getClient(APIS.BASEURL).create(ApiService.class)).subscribeOn(Schedulers.computation())
+                .flatMap(s -> {
+                    Observable<String> restaurantListSingle =
+                            s.getData(getParams("getCity_Id").get("action") + "?", getParams("getCity_Id")).subscribeOn(Schedulers.io());
 //                    Observable<String> res_observable = s.getData(getParams("adds").get("action")+"?",getParams("adds")).subscribeOn(Schedulers.io());
-//
-//
-//
-//                    return restaurantListSingle.zipWith(res_observable, Pair::new);
-//
-//                }).debounce(500, TimeUnit.MILLISECONDS)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Observer<Pair<String, String>>() {
-//                    @Override
-//                    public void onSubscribe(Disposable d) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(Pair<String, String> stringStringPair) {
-//
-//                        Log.e("string pair is ","<><"+stringStringPair);
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onComplete() {
-//
-//                    }
-//                });
-//    }
+
+
+
+                    return Observable.just(restaurantListSingle);
+
+                }).debounce(500, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Observable<String>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.e("onSubscribe is ","<><><");
+                    }
+
+                    @Override
+                    public void onNext(Observable<String> stringObservable) {
+                        Log.e("next is ","<><><"+stringObservable);
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("onError is ","<><><");
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.e("onComplete is ","<><><");
+                    }
+                });
+    }
 
 }

@@ -17,8 +17,14 @@ import com.quickpick.R;
 import com.quickpick.model.cartdeails.CartdetailsData;
 import com.quickpick.presenter.utils.Common_methods;
 import com.quickpick.presenter.utils.Constants;
+import com.quickpick.presenter.utils.PaytmImpl;
 import com.quickpick.views.adapters.Restaurant_menu_Adapter;
 import com.quickpick.views.ui.authentication.SignIn;
+import com.quickpick.views.ui.customviews.CustomDialog;
+import com.quickpick.views.ui.menu_datails.MenuDetailsActivity;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -143,7 +149,39 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 public void onClick(View view) {
 
 //                    new Common_methods(context). makePayment();
-                    context.startActivity(new Intent(context,PaymentView.class));
+
+                    JSONArray jsonArray = new JSONArray();
+                    try {
+                        for (int i = 0; i < dataArrayList.size(); i++) {
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put("itemsid", dataArrayList.get(i).getItemid());
+                            jsonObject.put("qty", dataArrayList.get(i).getQty());
+                            jsonArray.put(jsonObject);
+                        }
+
+                        Log.e("array values is ","<><>"+jsonArray.toString());
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                    CustomDialog.getInstance().showCategory_Dialog(context, (int position) -> {
+                        Log.e("position is ","<><><><>"+position);
+                        switch (position)
+                        {
+
+                            case 2:
+                                Intent intent = new Intent(context,PaymentView.class);
+                                intent.putExtra("json_array",jsonArray.toString());
+                                intent.putExtra("res_id",dataArrayList.get(0).getRes_Id());
+                                context.startActivity(intent);
+                                break;
+                            case 3:
+                                PaytmImpl.getInstance().onStartTransaction(context);
+                                break;
+                        }
+
+                    });
+
 
 
                 }

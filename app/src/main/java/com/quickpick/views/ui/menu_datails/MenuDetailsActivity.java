@@ -31,11 +31,13 @@ import com.quickpick.presenter.services.Network.APIResponse;
 import com.quickpick.presenter.services.Network.APIS;
 import com.quickpick.presenter.services.Network.RetrofitClient;
 import com.quickpick.presenter.utils.Common_methods;
+import com.quickpick.presenter.utils.PaytmImpl;
 import com.quickpick.views.ui.cart.PaymentView;
 import com.quickpick.views.ui.customviews.CustomDialog;
 import com.quickpick.views.ui.dashboard.DashboardTabs;
 import com.quickpick.views.ui.dashboard.ShowViews;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
@@ -259,17 +261,47 @@ public class MenuDetailsActivity extends AppCompatActivity implements View.OnCli
                 }
                 break;
             case R.id.txt_alternative_note:
-                CustomDialog.getInstance().Alternative_note(this, new CustomDialog.getAlternativenote() {
-                    @Override
-                    public void getnote(String note) {
-                        txt_alternative_note.setText(note);
-                    }
-                });
+                CustomDialog.getInstance().Alternative_note(this, note -> txt_alternative_note.setText(note));
                 break;
 
             case R.id.txt_pay:
               // new Common_methods(this). makePayment();
-                startActivity(new Intent(MenuDetailsActivity.this, PaymentView.class));
+
+                JSONArray jsonArray = new JSONArray();
+                try {
+
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("itemsid", item_id);
+                        jsonObject.put("qty", qty);
+                        jsonArray.put(jsonObject);
+
+
+                    Log.e("array values is ","<><>"+jsonArray.toString());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+
+
+
+                CustomDialog.getInstance().showCategory_Dialog(this, (int position) -> {
+                    Log.e("position is ","<><><><>"+position);
+                    switch (position)
+                    {
+
+                        case 2:
+                            Intent intent = new Intent(MenuDetailsActivity.this,PaymentView.class);
+                            intent.putExtra("json_array",jsonArray.toString());
+                            intent.putExtra("res_id",res_id);
+                            startActivity(intent);
+                            break;
+                        case 3:
+                            PaytmImpl.getInstance().onStartTransaction(this);
+                            break;
+                    }
+
+                });
+//
                 break;
             case R.id.txt_addto_cart:
 

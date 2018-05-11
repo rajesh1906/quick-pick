@@ -61,7 +61,7 @@ public class CustomDialog {
 
         for (int i = 0; i < payement_array.length; i++) {
             RadioButton rbn = new RadioButton(activity);
-            rbn.setId(i + 1000);
+            rbn.setId(i + 1);
             rbn.setText(payement_array[i]);
             radio_group.addView(rbn);
         }
@@ -78,7 +78,7 @@ public class CustomDialog {
                     Toast.makeText(activity, "Please select atleast one payment option", Toast.LENGTH_SHORT).show();
                 } else {
                     dialog.dismiss();
-                     getpaymenttype.getpayment();
+                     getpaymenttype.getpayment(radio_group.getCheckedRadioButtonId());
                 }
             }
         });
@@ -166,7 +166,7 @@ public class CustomDialog {
     }
 
     public interface getpaymentType{
-        public void getpayment();
+        public void getpayment(int position);
     }
 
     public void Alternative_note(Context context,getAlternativenote getAlternativenote){
