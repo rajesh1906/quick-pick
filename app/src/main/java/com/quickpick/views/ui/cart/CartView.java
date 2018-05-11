@@ -129,7 +129,7 @@ public class CartView extends Fragment implements View.OnClickListener,PriceSett
     public String getPrice() {
         ArrayList<Integer> values = new ArrayList<>();
         for(Map.Entry entry:total_values.entrySet()){
-            values.add(Integer.parseInt(entry.getValue().toString().replace(Constants.RUPEE,"").replace(".00","")));
+            values.add(Integer.parseInt(entry.getValue().toString().replace(Constants.RUPEE,"").replace(",","").replace(".00","")));
         }
         int total=0;
         for(int i=0;i<values.size();i++){
