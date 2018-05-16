@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.quickpick.R;
+import com.quickpick.model.customizedmenu.MainOuter;
 import com.quickpick.model.menu.menunew.Item;
 import com.quickpick.presenter.utils.Image_Fetch;
 import com.quickpick.views.ui.menu_datails.MenuDetailsActivity;
@@ -42,6 +43,7 @@ public class Restaurent_menu_tab extends RecyclerView.Adapter<RecyclerView.ViewH
     String restaurent_name="",time="";
     Restaurant_menu_fragment fragment;
     int i = 0;
+    MainOuter data;
     public Restaurent_menu_tab(Context context,HashMap<String,List<String>> display_data,HashMap<String, ArrayList<HashMap<String ,String >>> additional_data,String restaurent_name,String time,Restaurant_menu_fragment fragment) {
         this.fragment = fragment;
         this.context = context;
@@ -55,6 +57,12 @@ public class Restaurent_menu_tab extends RecyclerView.Adapter<RecyclerView.ViewH
        /* ShowViews showViews =(ShowViews) DashboardTabs.instance;
         showViews.fabShowing(false);*/
 
+    }
+
+
+    public Restaurent_menu_tab(Context context,MainOuter data){
+        this.context = context;
+        this.data = data;
     }
     private class HeaderViewHolder extends RecyclerView.ViewHolder {
         TextView txt_res_name,txt_time;

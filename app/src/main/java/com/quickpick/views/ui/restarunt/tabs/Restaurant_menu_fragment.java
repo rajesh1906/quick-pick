@@ -23,10 +23,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.quickpick.R;
 import com.quickpick.model.AllItems_Pojo;
 import com.quickpick.model.ItemsData;
 import com.quickpick.model.adds.AddsData;
+import com.quickpick.model.customizedmenu.MainOuter;
 import com.quickpick.model.menu.menunew.Menu;
 import com.quickpick.model.menu.menunew.Menucategory;
 import com.quickpick.presenter.services.Network.APIResponse;
@@ -36,6 +38,7 @@ import com.quickpick.presenter.utils.Image_Fetch;
 import com.quickpick.views.adapters.Fetching_items_completed;
 import com.quickpick.views.adapters.Restaurant_menu_Adapter;
 import com.quickpick.views.adapters.Restaurent_menu_tab;
+import com.quickpick.views.adapters.Restaurent_menu_tab_new;
 import com.quickpick.views.ui.customviews.CustomDialog;
 import com.quickpick.views.ui.dashboard.DashboardTabs;
 import com.quickpick.views.ui.dashboard.GetCategory_Id;
@@ -43,6 +46,9 @@ import com.quickpick.views.ui.dashboard.ShowViews;
 import com.quickpick.views.ui.dashboard.tabs.Calling_Fragment;
 import com.quickpick.views.ui.dashboard.tabs.EatsFragment;
 import com.rey.material.widget.FloatingActionButton;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -290,12 +296,44 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
                                             additional_data.put(itemsData.getSubMenuName(), addidional);
                                         }
                                     }
+
+
+                                    JSONArray jsonArray = new JSONArray();
+                                    Map<String,List<String>> final_list = new TreeMap<>(display_data);
+                                    ArrayList<String > header_names = hashmapKeys(final_list);
+                                    for(int i=0;i< hashmapKeys(display_data).size();i++){
+                                        JSONObject mainObj = new JSONObject();
+                                        mainObj.put("Header",header_names.get(i));
+                                        JSONArray sub_json = new JSONArray();
+                                        for(int j=0;j<final_list.get(header_names.get(i)).size();j++){
+                                            JSONObject jsonObject = new JSONObject();
+                                            jsonObject.put("subItem_name",final_list.get(header_names.get(i)).get(j));
+                                            jsonObject.put("amount",additional_data.get(header_names.get(i)).get(j).get("Amount"));
+                                            jsonObject.put("description",additional_data.get(header_names.get(i)).get(j).get("Description"));
+                                            jsonObject.put("Image",additional_data.get(header_names.get(i)).get(j).get("ItemUrl"));
+
+                                            jsonObject.put("Item_Id",additional_data.get(header_names.get(i)).get(j).get("Item_Id"));
+                                            jsonObject.put("NumberofQtys",additional_data.get(header_names.get(i)).get(j).get("NumberofQtys"));
+                                            jsonObject.put("RestaurantID",additional_data.get(header_names.get(i)).get(j).get("RestaurantID"));
+
+                                            sub_json.put(jsonObject);
+                                        }
+                                        mainObj.put("subItems",sub_json);
+                                        jsonArray.put(mainObj);
+
+                                    }
+                                    Log.e("Json array is ","<><><>"+jsonArray.toString());
+                                    MainOuter data = new Gson().fromJson("{\"items\":"+jsonArray.toString()+"}",MainOuter.class);
+                                    Log.e("pojo valus is ","<><<>"+data.getItems().get(0).getSubItems().get(0).getSubItem_name());
+
+
                                     try {
                                         RetrofitClient.getInstance().showProgressDialog(getActivity());
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
-                                    recyclerview.setAdapter(new Restaurent_menu_tab(getActivity(), display_data, additional_data, name, time, Restaurant_menu_fragment.this));
+//                                    recyclerview.setAdapter(new Restaurent_menu_tab(getActivity(), display_data, additional_data, name, time, Restaurant_menu_fragment.this));
+                                    recyclerview.setAdapter(new Restaurent_menu_tab_new(getActivity(),data, Restaurant_menu_fragment.this));
                                     recyclerview.setVisibility(View.VISIBLE);
                                 } else {
                                     txt_no_res.setVisibility(View.VISIBLE);
@@ -320,6 +358,9 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
             }
         });
     }
+
+
+
 
 
     private Map<String, String> getparams(String coming_from) {
@@ -428,4 +469,7 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
     public void onRefresh() {
         fetchData("AllItemsLoading", "show");
     }
+
+
+
 }

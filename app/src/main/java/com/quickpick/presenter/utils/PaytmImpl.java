@@ -31,7 +31,7 @@ public class PaytmImpl {
 
         // these are mandatory parameters
 
-        paramMap.put("CALLBACK_URL","https://securegw.paytm.in/theia/paytmCallback");
+       /* paramMap.put("CALLBACK_URL","https://securegw.paytm.in/theia/paytmCallback");
         paramMap.put("CHANNEL_ID","WAP");
         paramMap.put("CHECKSUMHASH","yDZks+XoWcQ4YZJ+Iod+f/b/7mi5tcGqqQELPhSLQYjGdUfcUnsegcjlsdW797gnsvy4YrHNV8HSIJmdFN0NgWbNTle8wgKFAnSH14crB3A=");
         paramMap.put("CUST_ID","test111");
@@ -39,18 +39,18 @@ public class PaytmImpl {
         paramMap.put("MID","TECHOP10964184510936");
         paramMap.put("ORDER_ID","1523342168787");
         paramMap.put("TXN_AMOUNT","1");
-        paramMap.put("WEBSITE","TECHweb");
+        paramMap.put("WEBSITE","TECHweb");*/
 
-/*
 
         paramMap.put("MID" , "WorldP64425807474247");
-        paramMap.put("ORDER_ID" , "210lkldfka2a27");
+        paramMap.put("ORDER_ID" , "1");
         paramMap.put("CUST_ID" , "mkjNYC1227");
         paramMap.put("INDUSTRY_TYPE_ID" , "Retail");
         paramMap.put("CHANNEL_ID" , "WAP");
         paramMap.put("TXN_AMOUNT" , "1");
+        paramMap.put("CHECKSUMHASH","yDZks+XoWcQ4YZJ+Iod+f/b/7mi5tcGqqQELPhSLQYjGdUfcUnsegcjlsdW797gnsvy4YrHNV8HSIJmdFN0NgWbNTle8wgKFAnSH14crB3A=");
         paramMap.put("WEBSITE" , "worldpressplg");
-        paramMap.put("CALLBACK_URL" , "https://pguat.paytm.com/paytmchecksum/paytmCheckSumVerify.jsp");*/
+        paramMap.put("CALLBACK_URL" , "https://pguat.paytm.com/paytmchecksum/paytmCheckSumVerify.jsp");
 
 
         PaytmOrder Order = new PaytmOrder(paramMap);
