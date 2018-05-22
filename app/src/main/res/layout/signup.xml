@@ -9,6 +9,7 @@
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         android:background="@color/black_transprient"
         >
         <LinearLayout
@@ -17,6 +18,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="20dp"
+
             android:orientation="vertical"
             >
             <TextView
@@ -183,6 +185,38 @@
                 android:visibility="invisible"
                 android:text="Kindly enter valid password"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Address"
+                android:textColor="@color/white"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/et_address"
+                style="@style/edit_text_pay_req_form"
+                android:inputType="textCapSentences"
+                android:singleLine="true"
+                android:background="@drawable/shape_white"
+                android:textSize="@dimen/ins_txt_size_s" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Land Mark"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/et_landmark"
+                style="@style/edit_text_pay_req_form"
+                android:inputType="textCapSentences"
+                android:singleLine="true"
+
+                android:background="@drawable/shape_white"
+                android:textSize="@dimen/ins_txt_size_s" />
+
             <Button
                 android:id="@+id/btn_signup"
                 android:layout_width="150dp"
@@ -190,7 +224,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:textStyle="bold"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="50dp"
                 android:textColor="@color/white"
                 android:background="@color/green_dark"
                 android:text="SignUp"/>

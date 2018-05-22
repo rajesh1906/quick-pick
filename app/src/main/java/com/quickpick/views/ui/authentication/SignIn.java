@@ -1,20 +1,32 @@
 package com.quickpick.views.ui.authentication;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.quickpick.R;
+import com.quickpick.model.StoredDB;
+import com.quickpick.presenter.services.Network.APIResponse;
+import com.quickpick.presenter.services.Network.APIS;
+import com.quickpick.presenter.services.Network.RetrofitClient;
 import com.quickpick.presenter.utils.Common_methods;
 import com.quickpick.views.ui.dashboard.DashboardTabs;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,6 +50,9 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
     ScrollView scroll_view;
     @Bind(R.id.txt_register)
     TextView txt_register;
+    public static Activity activity;
+//    @Inject
+//    HelloService helloService;
 
 
 
@@ -47,8 +62,13 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.signin);
         ButterKnife.bind(this);
         fetchListeners();
+        activity = this;
+//        AppAplication.component().inject(this);
         btn_login.setOnClickListener(this);
         txt_register.setOnClickListener(this);
+
+//        String injected = helloService.greet("Rajesh");
+//        Log.e("Injected string","<><><>"+injected);
     }
 
     @Override
@@ -56,8 +76,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
         switch (view.getId()){
             case R.id.btn_login:
                 if(checkvalidation()) {
-                    startActivity(new Intent(this, DashboardTabs.class));
-                    finish();
+                    fetchData();
                 }
                 break;
             case R.id.txt_register:
@@ -139,4 +158,46 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
         }
         return validation;
     }
+
+
+
+    public void fetchData(){
+        RetrofitClient.getInstance().getEndPoint(this,"show prograssbar").getResult(getparams(), new APIResponse() {
+            @Override
+            public void onSuccess(String res) {
+                Log.e("response is ","<>><"+res);
+                try{
+                    JSONObject jsonObject = new JSONObject(res);
+                    String auth = jsonObject.getString("Message");
+                    if(!auth.equalsIgnoreCase("Not Matched Successfully")){
+                        StoredDB.getInstance(SignIn.this).StorageValues("id",jsonObject.getString("id"));
+                        startActivity(new Intent(SignIn.this, DashboardTabs.class));
+                        finish();
+                    }else{
+                        Toast.makeText(SignIn.this, "Please enter valid Username/Password", Toast.LENGTH_SHORT).show();
+                    }
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(String res) {
+
+            }
+        });
+    }
+
+
+    private Map<String ,String > getparams(){
+        Map<String,String > params = new HashMap<>();
+        params.put("action", APIS.SIGNIN);
+        params.put("username",et_username.getText().toString());
+        params.put("password",et_pwd.getText().toString());
+        return params;
+
+    }
+
+
 }

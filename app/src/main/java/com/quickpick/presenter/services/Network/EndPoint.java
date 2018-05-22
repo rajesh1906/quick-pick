@@ -47,6 +47,7 @@ public class EndPoint  {
                         try {
 
                             api_res.onSuccess(response.body());
+                            Log.e("response url","url is=="+response.raw().toString());
                         } catch (Exception e) {
                             e.printStackTrace();
                             try {

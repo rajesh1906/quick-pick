@@ -111,7 +111,7 @@ public class Restaurent_menu_tab extends RecyclerView.Adapter<RecyclerView.ViewH
                 textView[i].setText(final_list.get(header_names.get(position-1)).get(i));
                 txt_amount[i].setText("₹"+additional_data.get(header_names.get(position-1)).get(i).get("Amount"));
                 txt_description[i].setText(additional_data.get(header_names.get(position-1)).get(i).get("Description"));
-
+                Image_Fetch.getInstance().LoadImage(context, img_res[i], additional_data.get(header_names.get(position-1)).get(i).get("ItemUrl"));
                 textView[i].setId(i+(position-1));
                 img_res[i].setId(i+(position-1));
                 ll_item[i].setId(i+(position-1));
@@ -123,11 +123,14 @@ public class Restaurent_menu_tab extends RecyclerView.Adapter<RecyclerView.ViewH
                     String des = ((TextView)txt_description[view1.getId()]).getText().toString();
                     String price = ((TextView)txt_amount[view1.getId()]).getText().toString();
                 Log.e("des is ","<><>"+des);
+                Log.e("item id is ","<>>"+additional_data.get(header_names.get(position-1)).get(view1.getId()).get("Item_Id"));
 
                     Intent intent = new Intent(context,MenuDetailsActivity.class);
                     intent.putExtra("Item_name",name);
                     intent.putExtra("description",des);
                     intent.putExtra("price",price);
+                    intent.putExtra("item_id",additional_data.get(header_names.get(position-1)).get(view1.getId()).get("Item_Id"));
+                    intent.putExtra("qty",additional_data.get(header_names.get(position-1)).get(view1.getId()).get("NumberofQtys"));
                     context.startActivity(intent);
 
                 });

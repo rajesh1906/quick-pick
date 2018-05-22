@@ -5,6 +5,7 @@ import java.util.Map;
 import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.QueryMap;
 import retrofit2.http.Url;
 
@@ -26,7 +27,7 @@ public interface ApiService  {
     @GET("/QuikPickApi/displayRestaurantNames?")
     Call<String> getApiResult(@QueryMap Map<String, String> fields);
 
-    @GET
+    @POST
     Call<String> getApiResultCity(@Url String action, @QueryMap Map<String, String> fields);
 
     @GET
