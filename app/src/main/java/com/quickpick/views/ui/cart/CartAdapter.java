@@ -20,6 +20,7 @@ import com.quickpick.presenter.utils.Constants;
 import com.quickpick.presenter.utils.PaytmImpl;
 import com.quickpick.views.adapters.Restaurant_menu_Adapter;
 import com.quickpick.views.ui.authentication.SignIn;
+import com.quickpick.views.ui.brain_tree.BrainTreeDashBoard;
 import com.quickpick.views.ui.customviews.CustomDialog;
 import com.quickpick.views.ui.menu_datails.MenuDetailsActivity;
 
@@ -177,6 +178,9 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 break;
                             case 3:
                                 PaytmImpl.getInstance().onStartTransaction(context);
+                                break;
+                            case 4:
+                                context.startActivity(new Intent( context,BrainTreeDashBoard.class));
                                 break;
                         }
 

@@ -85,7 +85,12 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="${applicationId}.braintree" />
             </intent-filter>
+
         </activity>
+
+        <activity android:name=".views.ui.brain_tree.BrainTreeDashBoard"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|keyboard"/>
 
     </application>
 

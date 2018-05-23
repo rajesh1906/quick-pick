@@ -32,6 +32,7 @@ import com.quickpick.presenter.services.Network.APIS;
 import com.quickpick.presenter.services.Network.RetrofitClient;
 import com.quickpick.presenter.utils.Common_methods;
 import com.quickpick.presenter.utils.PaytmImpl;
+import com.quickpick.views.ui.brain_tree.BrainTreeDashBoard;
 import com.quickpick.views.ui.cart.PaymentView;
 import com.quickpick.views.ui.customviews.CustomDialog;
 import com.quickpick.views.ui.dashboard.DashboardTabs;
@@ -297,6 +298,10 @@ public class MenuDetailsActivity extends AppCompatActivity implements View.OnCli
                             break;
                         case 3:
                             PaytmImpl.getInstance().onStartTransaction(this);
+                            break;
+
+                        case 4:
+                            startActivity(new Intent(MenuDetailsActivity.this,BrainTreeDashBoard.class));
                             break;
                     }
 

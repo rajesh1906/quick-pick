@@ -12,17 +12,18 @@ import com.braintreepayments.api.dropin.DropInActivity;
 import com.braintreepayments.api.dropin.DropInRequest;
 import com.braintreepayments.api.dropin.DropInResult;
 import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.quickpick.R;
 import com.quickpick.views.ui.BaseActivity;
 
-import cz.msebera.android.httpclient.entity.mime.Header;
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by Rajesh Kumar on 23-05-2018.
  */
 public class BrainTreeDashBoard extends BaseActivity {
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = BrainTreeDashBoard.class.getSimpleName();
     private static final String PATH_TO_SERVER = "PATH_TO_SERVER";
     private String clientToken;
     private static final int BRAINTREE_REQUEST_CODE = 4949;
