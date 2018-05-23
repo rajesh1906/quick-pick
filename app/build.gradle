@@ -82,11 +82,16 @@ dependencies {
     implementation 'com.github.vipulasri:timelineview:1.0.6'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.paytm:pgplussdk:1.1.2'
+   /*
     implementation 'com.google.android.gms:play-services-wallet:11.4.0'
     implementation 'com.lukekorth:mailable_log:0.1.6'
-    implementation 'io.card:android-sdk:5.5.1'
+    implementation 'io.card:android-sdk:5.5.1'*/
+    compile 'com.braintreepayments.api:braintree:2.+'
+    compile 'com.braintreepayments.api:drop-in:3.+'
+    compile 'com.intuit.sdp:sdp-android:1.0.3'
+    compile 'com.loopj.android:android-async-http:1.4.9'
 
-    implementation project(':Drop-In')
+
 
     debugImplementation 'com.facebook.stetho:stetho:1.5.0'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.4'
