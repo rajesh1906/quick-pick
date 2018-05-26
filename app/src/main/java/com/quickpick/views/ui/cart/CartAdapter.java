@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.quickpick.R;
 import com.quickpick.model.cartdeails.CartdetailsData;
@@ -171,10 +172,14 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         {
 
                             case 2:
-                                Intent intent = new Intent(context,PaymentView.class);
-                                intent.putExtra("json_array",jsonArray.toString());
-                                intent.putExtra("res_id",dataArrayList.get(0).getRes_Id());
-                                context.startActivity(intent);
+                                if(dataArrayList.size()!=0) {
+                                    Intent intent = new Intent(context, PaymentView.class);
+                                    intent.putExtra("json_array", jsonArray.toString());
+                                    intent.putExtra("res_id", dataArrayList.get(0).getRes_Id());
+                                    context.startActivity(intent);
+                                }else{
+                                    Toast.makeText(context, "Please Add At Least one Item", Toast.LENGTH_SHORT).show();
+                                }
                                 break;
                             case 3:
                                 PaytmImpl.getInstance().onStartTransaction(context);

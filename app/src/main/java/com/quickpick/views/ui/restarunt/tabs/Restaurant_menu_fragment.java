@@ -332,8 +332,8 @@ public class Restaurant_menu_fragment extends Fragment implements Calling_Fragme
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
-//                                    recyclerview.setAdapter(new Restaurent_menu_tab(getActivity(), display_data, additional_data, name, time, Restaurant_menu_fragment.this));
-                                    recyclerview.setAdapter(new Restaurent_menu_tab_new(getActivity(),data, Restaurant_menu_fragment.this));
+                                    recyclerview.setAdapter(new Restaurent_menu_tab(getActivity(), display_data, additional_data, name, time, Restaurant_menu_fragment.this));
+//                                    recyclerview.setAdapter(new Restaurent_menu_tab_new(getActivity(),data, Restaurant_menu_fragment.this));
                                     recyclerview.setVisibility(View.VISIBLE);
                                 } else {
                                     txt_no_res.setVisibility(View.VISIBLE);
