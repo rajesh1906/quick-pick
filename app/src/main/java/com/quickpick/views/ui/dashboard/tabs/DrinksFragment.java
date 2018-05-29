@@ -3,6 +3,8 @@ package com.quickpick.views.ui.dashboard.tabs;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,10 +13,17 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+
 import com.quickpick.R;
+import com.quickpick.views.ui.wifimanager.WifiFragment;
 
 
 import java.util.ArrayList;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Rajesh Kumar on 02-04-2018.
@@ -23,6 +32,7 @@ public class DrinksFragment extends Fragment {
     private FrameLayout fragmentContainer;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
+
 
     public static DrinksFragment newInstance(int index) {
         DrinksFragment fragment = new DrinksFragment();
@@ -36,9 +46,21 @@ public class DrinksFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_demo_list, container, false);
 //        initDemoList(view);
+        ButterKnife.bind(this,view);
         return view;
 
     }
+    @OnClick(R.id.img_wifi)
+    public void checkWifi(){
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        WifiFragment wifiFragment= WifiFragment.newInstance();
+        ft.add(R.id.container_serach,wifiFragment);
+        ft.commit();
+
+    }
+
+
 
 
     /**

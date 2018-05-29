@@ -4,6 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/img_wifi"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/wifi"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_demo_recycler_view"
         android:layout_width="match_parent"
@@ -14,8 +25,17 @@
         android:layout_height="wrap_content"
         android:text="Coming Soon"
         android:textSize="20dp"
-        android:layout_gravity="center"
+        android:layout_centerInParent="true"
         android:textColor="@color/red"
         android:gravity="center"/>
 
+    <FrameLayout
+        android:layout_below="@+id/img_wifi"
+        android:id="@+id/container_serach"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    </FrameLayout>
+    </RelativeLayout>
 </FrameLayout>
