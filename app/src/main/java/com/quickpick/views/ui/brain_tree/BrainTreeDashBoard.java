@@ -79,7 +79,7 @@ public class BrainTreeDashBoard extends BaseActivity {
                 Log.d(TAG, "User cancelled payment");
             }else {
                 Exception error = (Exception)data.getSerializableExtra(DropInActivity.EXTRA_ERROR);
-                Log.d(TAG, " error exception");
+                Log.d(TAG, " error exception"+error.getMessage());
             }
         }
     }
