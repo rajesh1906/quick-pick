@@ -61,6 +61,7 @@ public class WifiFragment extends Fragment {
     WifiScanAdapter wifiScanAdapter;
     private static String TAG="WifiFragment";
     private String password=null;
+    Button btnScan;
     //Option Menu for wifi connection
     public WifiFragment() {
 // Required empty public constructor
@@ -77,7 +78,7 @@ public class WifiFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 //Make instance of Wifi
-        Button btnScan= (Button) getActivity().findViewById(R.id.wifiScan);
+
         wifi = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 //Check wifi enabled or not
         if (wifi.isWifiEnabled() == false)
@@ -95,8 +96,19 @@ public class WifiFragment extends Fragment {
                 Log.d("Wifi","Total Wifi Network"+netCount);
             }
         },new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+
+
+
+    }
+    View view;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+       view= inflater.inflate(R.layout.fragment_wifi, container, false);
+// Inflate the layout for this fragment
+        btnScan= (Button) view.findViewById(R.id.wifiScan);
         wifiScanAdapter=new WifiScanAdapter(values,getContext());
-        recyclerView= (RecyclerView) getActivity().findViewById(R.id.wifiRecyclerView);
+        recyclerView= (RecyclerView) view.findViewById(R.id.wifiRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(wifiScanAdapter);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -123,6 +135,7 @@ public class WifiFragment extends Fragment {
         btnScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(getActivity(),"Clicked",Toast.LENGTH_LONG).show();
                 wifi.startScan();
                 values.clear();
                 try {
@@ -181,14 +194,8 @@ public class WifiFragment extends Fragment {
                 alertDialog.show();
             }
         });
-
         btnScan.callOnClick();
-    }
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-// Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_wifi, container, false);
+        return view;
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
