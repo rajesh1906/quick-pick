@@ -1,5 +1,6 @@
 package com.quickpick.views.ui.dashboard.tabs;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,7 +20,11 @@ import com.quickpick.R;
 import com.quickpick.views.ui.wifimanager.WifiFragment;
 
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,16 +52,35 @@ public class DrinksFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_demo_list, container, false);
 //        initDemoList(view);
         ButterKnife.bind(this,view);
+
+        Timer timer = new Timer();
+        TimerTask delayedThreadStartTask = new TimerTask() {
+            @Override
+            public void run() {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            FragmentManager fm = getActivity().getSupportFragmentManager();
+                            FragmentTransaction ft = fm.beginTransaction();
+                            WifiFragment wifiFragment= WifiFragment.newInstance();
+                            ft.add(R.id.container_serach,wifiFragment);
+                            ft.commit();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+            }
+        };
+        timer.schedule(delayedThreadStartTask, 1000);
+
         return view;
 
     }
     @OnClick(R.id.img_wifi)
     public void checkWifi(){
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        WifiFragment wifiFragment= WifiFragment.newInstance();
-        ft.add(R.id.container_serach,wifiFragment);
-        ft.commit();
+
 
     }
 

@@ -5,15 +5,31 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/wifiRecyclerView"
         android:layout_width="match_parent"
+        android:layout_below="@+id/img_disconnect"
         android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
     <Button
         android:id="@+id/wifiScan"
-        android:layout_alignParentBottom="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
+
+
+
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="50dp"
+
+
+
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+    android:layout_alignParentRight="true"
+        android:background="@drawable/wifi"
         android:visibility="visible"
-        android:text="Refresh"/>
+       />
+
+    <ImageView
+        android:id="@+id/img_disconnect"
+        android:layout_width="50dp"
+        android:background="@drawable/disconnect"
+        android:layout_height="50dp" />
+>>>>>>> 50ad2661c288a3eaf1775c6f9fd05aa2bbc2eddf
 
 </RelativeLayout>
