@@ -11,6 +11,7 @@ import com.quickpick.views.ui.dashboard.tabs.DrinksFragment;
 import com.quickpick.views.ui.dashboard.tabs.EatsFragment;
 import com.quickpick.views.ui.profile.ProfileFragment;
 import com.quickpick.views.ui.profile.TrackFragment;
+import com.quickpick.views.ui.wifimanager.WifiFragment;
 import com.rey.material.widget.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class TabViewPagerAdapter extends FragmentPagerAdapter {
         super(fm);
 
         fragments.clear();
-        fragments.add(DrinksFragment.newInstance(0));
+        fragments.add(WifiFragment.newInstance());
         fragments.add(EatsFragment.newInstance(1));
         fragments.add(DrinksFragment.newInstance(2));
         fragments.add(ProfileFragment.newInstance(3));
